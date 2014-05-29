@@ -1,7 +1,8 @@
 Minesweeper
 ===========
 
-Team "Minesweeper-1" - High-Quality Programming Code
+#### Team "Minesweeper-1" - High-Quality Programming Code
+===========
 
 ### Contributors
 
