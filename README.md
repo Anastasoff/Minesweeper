@@ -7,3 +7,4 @@ Team "Minesweeper-1" - High-Quality Programming Code
 
 #### [Martin Anastasov] (https://github.com/Anastasoff)
 #### [Radoslav Chervenkov] (https://github.com/RadoChervenkov)
+#### [Emil Slavov] (https://github.com/theexar)
