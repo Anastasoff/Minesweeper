@@ -46,7 +46,7 @@
     <Compile Include="Команда.cs" />
     <Compile Include="Програма.cs" />
     <Compile Include="Табло.cs" />
-    <Compile Include="Човек.cs" />
+    <Compile Include="Person.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

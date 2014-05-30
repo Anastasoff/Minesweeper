@@ -6,11 +6,11 @@ namespace Mini
 {
     internal class Табло
     {
-        private List<Човек> participants;
+        private List<Person> participants;
 
         public Табло()
         {
-            participants = new List<Човек>();
+            participants = new List<Person>();
         }
 
         internal int MinInTop5()
@@ -24,8 +24,8 @@ namespace Mini
         {
             Console.Write("Please enter your name for the top scoreboard: ");
             string name = Console.ReadLine();
-            participants.Add(new Човек(name, score));
-            participants.Sort(new Comparison<Човек>((p1, p2) => p2.Score.CompareTo(p1.Score)));
+            participants.Add(new Person(name, score));
+            participants.Sort(new Comparison<Person>((p1, p2) => p2.Score.CompareTo(p1.Score)));
             participants = participants.Take(5).ToList();
         }
 
