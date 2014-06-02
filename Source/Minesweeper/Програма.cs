@@ -11,7 +11,7 @@ namespace Mini
             Табло scoreboard = new Табло();
         ДайНаново:
             bool displayBoard = true;
-            Дъска board = new Дъска();
+            GameBoard board = GameBoard.Board; // calling singleton
             Console.WriteLine("Welcome to the game “Minesweeper”. Try to reveal all cells without mines. Use 'top' to view the scoreboard, 'restart' to start a new game and 'exit' to quit the game.");
             Console.WriteLine();
 
