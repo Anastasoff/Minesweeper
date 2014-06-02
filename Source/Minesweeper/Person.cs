@@ -21,6 +21,10 @@
 
             set
             {
+                if(String.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentNullException("Person name is null or empty string");
+                }
                 this.name = value;
             }
         }
@@ -34,6 +38,10 @@
 
             set
             {
+                if (value < 0)
+                {
+                    throw new ArgumentOutOfRangeException("Score must be non-negative");
+                }
                 this.score = value;
             }
         }
