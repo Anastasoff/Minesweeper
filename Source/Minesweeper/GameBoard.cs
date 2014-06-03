@@ -134,7 +134,7 @@ namespace MineSweeper
             }
         }
 
-        internal void RevealAllBoard(int x, int y)
+        internal void RevealWholeBoard()
         {
             for (int i = 0; i < SizeX; i++)
                 for (int j = 0; j < SizeY; j++)
