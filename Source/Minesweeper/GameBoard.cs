@@ -4,16 +4,16 @@ namespace MineSweeper
 {
     internal class GameBoard
     {
-        private const int SizeX = 5;
-        private const int SizeY = 10;
-        private const int numberOfMines = 15;
+        private static readonly int SizeX = 5;
+        private static readonly int SizeY = 10;
+        private static readonly int numberOfMines = 15;
 
-        private char[,] display;
-        private bool[,] mineMap;
-        private bool[,] revealed;
-        private int[,] numberOfNeighbourMines;
+        private static char[,] display;
+        private static bool[,] mineMap;
+        private static bool[,] revealed;
+        private static int[,] numberOfNeighbourMines;
 
-        private static GameBoard board; // get one and only instance of board
+        private static GameBoard board; // one and only instance of board
 
         internal int RevealedCellsCount { get; set; }
 
@@ -25,6 +25,11 @@ namespace MineSweeper
             numberOfNeighbourMines = new int[SizeX, SizeY];
             InitializeBoardForDisplay();
             PutMines();
+        }
+
+        public static void ResetBoard()
+        {
+            board = new GameBoard();
         }
 
         public static GameBoard GetBoard // property to access singleton instance of board.

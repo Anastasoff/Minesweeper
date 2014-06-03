@@ -4,11 +4,13 @@ using System.Linq;
 
 namespace MineSweeper
 {
-    internal class Табло
+    internal class Scoreboard
     {
         private List<Person> participants;
 
-        public Табло()
+        private static Scoreboard top5;
+
+        public Scoreboard()
         {
             participants = new List<Person>();
         }

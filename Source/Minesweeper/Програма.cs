@@ -6,78 +6,78 @@ namespace MineSweeper
 
     internal class Програма
     {
-        private static void Main()
+        private static void ShowWelcomeMessage()
         {
-            Табло scoreboard = new Табло();
-        ДайНаново:
-            bool displayBoard = true;
-            GameBoard board = GameBoard.GetBoard; // calling singleton
             Console.WriteLine("Welcome to the game “Minesweeper”. Try to reveal all cells without mines. Use 'top' to view the scoreboard, 'restart' to start a new game and 'exit' to quit the game.");
             Console.WriteLine();
+        }
 
+        private static void Main()
+        {
+            Scoreboard scoreboard = new Scoreboard();
+            GameBoard board = GameBoard.GetBoard; // calling singleton
+            ShowWelcomeMessage();
+            board.Display();
             while (true)
             {
-                if (displayBoard)
-                    board.Display();
-                displayBoard = true;
                 Console.Write("Enter row and column: ");
-                Команда.Прочети();
-
-                if (!Команда.NeMojesh)
+                CommandProcessor.ReadCommand();
+                if (CommandProcessor.InvalidMove)
                 {
-                    if (Команда.IsGetStatistic)
-                    {
-                        scoreboard.Покажи();
-                        displayBoard = false;
-                        Команда.Clear();
-                        continue;
-                    }
-                    if (Команда.Izlez)
-                    {
-                        Console.WriteLine("Goodbye!");
-                        Environment.Exit(0);
-                    }
-                    if (Команда.Nanovo)
-                    {//ako iskahs pak skakash neznaino kyde
-                        // ama pyk si bachka
-                        goto ДайНаново;
-                    }
+                    Console.WriteLine("Illegal command!");
+                    continue;
+                }
 
-                    int x = Команда.x;
-                    int y = Команда.y;
-                    if (!board.InBoard(x, y) || board.CellIsRevealed(x, y))
-                    {
-                        Console.WriteLine("Illegal move!");
-                        Console.WriteLine();
-                        displayBoard = false;
-                    }
-                    else
-                    {
-                        if (board.HasMine(x, y))
-                        {
-                            board.RevealAllBoard(x, y);
-                            board.Display();
-                            Console.WriteLine("Booooom! You were killed by a mine. You revealed " + board.RevealedCellsCount + " cells without mines.");
-                            Console.WriteLine();
-                            if (board.RevealedCellsCount > scoreboard.MinInTop5() || scoreboard.Count() < 5)
-                            {
-                                scoreboard.Dobavi(board.RevealedCellsCount);
-                            }
-                            scoreboard.Покажи();
-                            goto ДайНаново;
-                        }
-                        else
-                            board.RevealBlock(x, y);
-                    }
+                if (CommandProcessor.GetStatistic)
+                {
+                    scoreboard.Покажи();
+                    CommandProcessor.Clear();
+                    continue;
+                }
+                if (CommandProcessor.Exit)
+                {
+                    Console.WriteLine("Goodbye!");
+                    Environment.Exit(0);
+                }
+                if (CommandProcessor.Restart)
+                    GameBoard.ResetBoard();
+                    ShowWelcomeMessage();
+                    board.Display();
+                    continue;
+                }
+
+                int x = CommandProcessor.x;
+                int y = CommandProcessor.y;
+                if (!board.InBoard(x, y) || board.CellIsRevealed(x, y))
+                {
+                    Console.WriteLine("Illegal move!");
+                    Console.WriteLine();
                 }
                 else
                 {
-                    Console.WriteLine("Illegal command!");
-                    displayBoard = false;
+                    if (board.HasMine(x, y))
+                    {
+                        board.RevealAllBoard(x, y);
+                        board.Display();
+                        Console.WriteLine("Booooom! You were killed by a mine. You revealed " + board.RevealedCellsCount + " cells without mines.");
+                        Console.WriteLine();
+                        if (board.RevealedCellsCount > scoreboard.MinInTop5() || scoreboard.Count() < 5)
+                        {
+                            scoreboard.Dobavi(board.RevealedCellsCount);
+                        }
+                        scoreboard.Покажи();
+                        GameBoard.ResetBoard();
+                        ShowWelcomeMessage();
+                        board.Display();
+                    }
+                    else
+                    {
+                        board.RevealBlock(x, y);
+                        board.Display();
+                    }
                 }
             }
         }
-
         //ai na bas che ne mojehs da napishesh pove4e kod v edin metod!
     }
 }
