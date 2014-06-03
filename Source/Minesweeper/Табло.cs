@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Mini
+namespace MineSweeper
 {
     internal class Табло
     {

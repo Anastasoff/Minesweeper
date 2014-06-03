@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Mini
+namespace MineSweeper
 {
-    // Аз съм българче и пиша на БЪЛГАРСКИ!
+    // Аз съм българче but everrything in code (icluding comments) must be in english.
 
     internal class Програма
     {
@@ -11,7 +11,7 @@ namespace Mini
             Табло scoreboard = new Табло();
         ДайНаново:
             bool displayBoard = true;
-            GameBoard board = GameBoard.Board; // calling singleton
+            GameBoard board = GameBoard.GetBoard; // calling singleton
             Console.WriteLine("Welcome to the game “Minesweeper”. Try to reveal all cells without mines. Use 'top' to view the scoreboard, 'restart' to start a new game and 'exit' to quit the game.");
             Console.WriteLine();
 
@@ -45,7 +45,7 @@ namespace Mini
 
                     int x = Команда.x;
                     int y = Команда.y;
-                    if (!board.proverka(x, y) || board.proverka2(x, y))
+                    if (!board.InBoard(x, y) || board.CellIsRevealed(x, y))
                     {
                         Console.WriteLine("Illegal move!");
                         Console.WriteLine();
@@ -53,15 +53,15 @@ namespace Mini
                     }
                     else
                     {
-                        if (board.proverka3(x, y))
+                        if (board.HasMine(x, y))
                         {
-                            board.Край(x, y);
+                            board.RevealAllBoard(x, y);
                             board.Display();
-                            Console.WriteLine("Booooom! You were killed by a mine. You revealed " + board.RevealedCells + " cells without mines.");
+                            Console.WriteLine("Booooom! You were killed by a mine. You revealed " + board.RevealedCellsCount + " cells without mines.");
                             Console.WriteLine();
-                            if (board.RevealedCells > scoreboard.MinInTop5() || scoreboard.Count() < 5)
+                            if (board.RevealedCellsCount > scoreboard.MinInTop5() || scoreboard.Count() < 5)
                             {
-                                scoreboard.Dobavi(board.RevealedCells);
+                                scoreboard.Dobavi(board.RevealedCellsCount);
                             }
                             scoreboard.Покажи();
                             goto ДайНаново;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mini
+namespace MineSweeper
 {
     internal class GameBoard
     {
@@ -9,38 +9,36 @@ namespace Mini
         private const int numberOfMines = 15;
 
         private char[,] display;
-        private bool[,] hasMine;
-        private bool[,] shown;
+        private bool[,] mineMap;
+        private bool[,] revealed;
         private int[,] numberOfNeighbourMines;
 
         private static GameBoard board; // get one and only instance of board
 
-        internal int RevealedCells { get; set; }
+        internal int RevealedCellsCount { get; set; }
 
         private GameBoard() // private constructor
         {
             display = new char[SizeX, SizeY];
-            hasMine = new bool[SizeX, SizeY];
-            shown = new bool[SizeX, SizeY];
+            mineMap = new bool[SizeX, SizeY];
+            revealed = new bool[SizeX, SizeY];
             numberOfNeighbourMines = new int[SizeX, SizeY];
             InitializeBoardForDisplay();
             PutMines();
         }
 
-        public static GameBoard Board // property to access singleton instance of board.
+        public static GameBoard GetBoard // property to access singleton instance of board.
         {
             get
             {
                 if (board == null)
                 {
-                    return new GameBoard();
+                    board = new GameBoard();
                 }
-                else
-                {
-                    return Board;
-                }
+                return board;
             }
         }
+
         private void PutMines()
         {
             Random generator = new Random();
@@ -53,25 +51,26 @@ namespace Mini
             }
         }
 
-        internal bool proverka(int x, int y)
+        internal bool InBoard(int x, int y)
         {
             return 0 <= x && x < SizeX && 0 <= y && y < SizeY;
         }
 
         private bool PlaceMine(int x, int y)
         {
-            if (proverka(x, y) && !hasMine[x, y])
+            if (!InBoard(x, y) || mineMap[x, y])
             {
-                hasMine[x, y] = true;
-                for (int xx = -1; xx <= 1; xx++)
-                    for (int yy = -1; yy <= 1; yy++)
-                    {
-                        if (((xx != 0) || (yy != 0)) && proverka(x + xx, y + yy))
-                            numberOfNeighbourMines[x + xx, y + yy]++;
-                    }
-                return true;
+                return false;
             }
-            return false;
+
+            mineMap[x, y] = true;
+            for (int xx = -1; xx <= 1; xx++)
+                for (int yy = -1; yy <= 1; yy++)
+                {
+                    if (((xx != 0) || (yy != 0)) && InBoard(x + xx, y + yy))
+                        numberOfNeighbourMines[x + xx, y + yy]++;
+                }
+            return true;
         }
 
         private void InitializeBoardForDisplay()
@@ -107,16 +106,16 @@ namespace Mini
             Console.WriteLine();
         }
 
-        internal bool proverka3(int x, int y)
+        internal bool HasMine(int x, int y)
         {
-            return hasMine[x, y];
+            return mineMap[x, y];
         }
 
         internal void RevealBlock(int x, int y)
         {
             display[x, y] = Convert.ToChar(numberOfNeighbourMines[x, y].ToString());
-            RevealedCells++;
-            shown[x, y] = true;
+            RevealedCellsCount++;
+            revealed[x, y] = true;
             if (display[x, y] == '0')
             {
                 for (int xx = -1; xx <= 1; xx++)
@@ -124,27 +123,27 @@ namespace Mini
                     {
                         int newX = x + xx;
                         int newY = y + yy;
-                        if (proverka(newX, newY) && shown[newX, newY] == false)
+                        if (InBoard(newX, newY) && revealed[newX, newY] == false)
                             RevealBlock(newX, newY);
                     }
             }
         }
 
-        internal void Край(int x, int y)
+        internal void RevealAllBoard(int x, int y)
         {
             for (int i = 0; i < SizeX; i++)
                 for (int j = 0; j < SizeY; j++)
                 {
-                    if (!shown[i, j])
+                    if (!revealed[i, j])
                         display[i, j] = '-';
-                    if (hasMine[i, j])
+                    if (mineMap[i, j])
                         display[i, j] = '*';
                 }
         }
 
-        internal bool proverka2(int x, int y)
+        internal bool CellIsRevealed(int x, int y)
         {
-            return shown[x, y];
+            return revealed[x, y];
         }
     }
 }

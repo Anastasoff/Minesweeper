@@ -1,4 +1,4 @@
-﻿namespace Mini
+﻿namespace MineSweeper
 {
     using System;
     internal class Person

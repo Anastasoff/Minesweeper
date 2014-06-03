@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mini
+namespace MineSweeper
 {
     internal static class Команда
     {
