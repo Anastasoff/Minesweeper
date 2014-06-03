@@ -6,15 +6,26 @@ namespace MineSweeper
 {
     internal class Scoreboard
     {
-        private List<Person> participants;
+        private static List<Person> participants;
 
-        private static Scoreboard top5;
+        private static Scoreboard top5 = null;
 
-        public Scoreboard()
+        private Scoreboard()
         {
             participants = new List<Person>();
         }
 
+        public static Scoreboard GetTop5
+        {
+            get
+            {
+                if (top5 == null)
+                {
+                    top5 = new Scoreboard();
+                }
+                return top5;
+            }
+        }
         internal int MinInTop5()
         {
             if (participants.Count > 0)

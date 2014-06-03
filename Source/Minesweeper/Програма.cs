@@ -24,7 +24,7 @@ namespace MineSweeper
         }
         private static void Main()
         {
-            Scoreboard scoreboard = new Scoreboard();
+            Scoreboard scoreboard = Scoreboard.GetTop5;
             GameBoard board = GameBoard.GetBoard; // calling singleton
             ShowWelcomeMessage();
             board.Display();

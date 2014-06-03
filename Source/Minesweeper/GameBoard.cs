@@ -13,7 +13,7 @@ namespace MineSweeper
         private static bool[,] revealed;
         private static int[,] numberOfNeighbourMines;
 
-        private static GameBoard board; // one and only instance of board
+        private static GameBoard board = null; // one and only instance of board
 
         internal int RevealedCellsCount { get; set; }
 
