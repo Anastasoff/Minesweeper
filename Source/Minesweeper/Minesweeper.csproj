@@ -45,7 +45,7 @@
     <Compile Include="GameBoard.cs" />
     <Compile Include="CommandProcessor.cs" />
     <Compile Include="Програма.cs" />
-    <Compile Include="Табло.cs" />
+    <Compile Include="ScoreBoard.cs" />
     <Compile Include="Person.cs" />
   </ItemGroup>
   <ItemGroup>

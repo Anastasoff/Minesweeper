@@ -19,7 +19,7 @@ namespace MineSweeper
             Console.WriteLine();
             if (board.RevealedCellsCount > scoreboard.MinInTop5() || scoreboard.Count() < 5)
             {
-                scoreboard.Dobavi(board.RevealedCellsCount);
+                scoreboard.AddPlayer(board.RevealedCellsCount);
             }
         }
         private static void Main()
@@ -40,7 +40,7 @@ namespace MineSweeper
 
                 if (CommandProcessor.GetStatistic)
                 {
-                    scoreboard.Покажи();
+                    scoreboard.ShowHighScores();
                     CommandProcessor.Clear();
                     continue;
                 }
@@ -71,7 +71,7 @@ namespace MineSweeper
                     if (board.HasMine(x, y))
                     {
                         ShowEndGameMessage(board, scoreboard);
-                        scoreboard.Покажи();
+                        scoreboard.ShowHighScores();
                         GameBoard.ResetBoard();
                         ShowWelcomeMessage();
                         board.Display();
