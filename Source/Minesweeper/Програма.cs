@@ -41,40 +41,39 @@ namespace MineSweeper
                 }
                 if (CommandProcessor.Restart)
                     GameBoard.ResetBoard();
+                ShowWelcomeMessage();
+                board.Display();
+                continue;
+            }
+
+            int x = CommandProcessor.x;
+            int y = CommandProcessor.y;
+            if (!board.InBoard(x, y) || board.CellIsRevealed(x, y))
+            {
+                Console.WriteLine("Illegal move!");
+                Console.WriteLine();
+            }
+            else
+            {
+                if (board.HasMine(x, y))
+                {
+                    board.RevealAllBoard(x, y);
+                    board.Display();
+                    Console.WriteLine("Booooom! You were killed by a mine. You revealed " + board.RevealedCellsCount + " cells without mines.");
+                    Console.WriteLine();
+                    if (board.RevealedCellsCount > scoreboard.MinInTop5() || scoreboard.Count() < 5)
+                    {
+                        scoreboard.Dobavi(board.RevealedCellsCount);
+                    }
+                    scoreboard.Покажи();
+                    GameBoard.ResetBoard();
                     ShowWelcomeMessage();
                     board.Display();
-                    continue;
-                }
-
-                int x = CommandProcessor.x;
-                int y = CommandProcessor.y;
-                if (!board.InBoard(x, y) || board.CellIsRevealed(x, y))
-                {
-                    Console.WriteLine("Illegal move!");
-                    Console.WriteLine();
                 }
                 else
                 {
-                    if (board.HasMine(x, y))
-                    {
-                        board.RevealAllBoard(x, y);
-                        board.Display();
-                        Console.WriteLine("Booooom! You were killed by a mine. You revealed " + board.RevealedCellsCount + " cells without mines.");
-                        Console.WriteLine();
-                        if (board.RevealedCellsCount > scoreboard.MinInTop5() || scoreboard.Count() < 5)
-                        {
-                            scoreboard.Dobavi(board.RevealedCellsCount);
-                        }
-                        scoreboard.Покажи();
-                        GameBoard.ResetBoard();
-                        ShowWelcomeMessage();
-                        board.Display();
-                    }
-                    else
-                    {
-                        board.RevealBlock(x, y);
-                        board.Display();
-                    }
+                    board.RevealBlock(x, y);
+                    board.Display();
                 }
             }
         }

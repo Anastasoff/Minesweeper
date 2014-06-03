@@ -27,7 +27,7 @@ namespace MineSweeper
             PutMines();
         }
 
-        public static void ResetBoard()
+        public static void ResetBoard() // I dont think that it's a best implementation. If any have better idea ...
         {
             board = new GameBoard();
         }
