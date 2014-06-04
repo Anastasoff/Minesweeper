@@ -1,6 +1,7 @@
-﻿namespace MineSweeper
+﻿namespace Minesweeper
 {
     using System;
+
     internal class Person
     {
         private string name;
@@ -21,7 +22,7 @@
 
             set
             {
-                if(String.IsNullOrWhiteSpace(value))
+                if (String.IsNullOrWhiteSpace(value))
                 {
                     throw new ArgumentNullException("Person name is null or empty string");
                 }

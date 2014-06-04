@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace MineSweeper
+﻿namespace Minesweeper
 {
+    using System;
+
     internal class GameBoard
     {
         private static readonly int SizeX = 5;

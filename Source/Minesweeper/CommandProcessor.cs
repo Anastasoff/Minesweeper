@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace MineSweeper
+﻿namespace Minesweeper
 {
+    using System;
+
     internal static class CommandProcessor
     {
         internal static int x { get; set; }
@@ -56,7 +56,7 @@ namespace MineSweeper
         {
             x = 0;
             y = 0;
-            Exit= false;
+            Exit = false;
             GetStatistic = false;
             InvalidMove = false;
             Restart = false;

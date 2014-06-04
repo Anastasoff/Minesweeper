@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace MineSweeper
+﻿namespace Minesweeper
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     internal class Scoreboard
     {
         private static List<Person> participants;
@@ -26,6 +26,7 @@ namespace MineSweeper
                 return top5;
             }
         }
+
         internal int MinInTop5()
         {
             if (participants.Count > 0)

@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace MineSweeper
+﻿namespace Minesweeper
 {
+    using System;
+
     // Аз съм българче but everrything in code (icluding comments) must be in english.
 
     internal class Програма
@@ -11,6 +11,7 @@ namespace MineSweeper
             Console.WriteLine("Welcome to the game “Minesweeper”. Try to reveal all cells without mines. Use 'top' to view the scoreboard, 'restart' to start a new game and 'exit' to quit the game.");
             Console.WriteLine();
         }
+
         private static void ShowEndGameMessage(GameBoard board, Scoreboard scoreboard)
         {
             board.RevealWholeBoard();
@@ -22,6 +23,7 @@ namespace MineSweeper
                 scoreboard.AddPlayer(board.RevealedCellsCount);
             }
         }
+
         private static void Main()
         {
             Scoreboard scoreboard = Scoreboard.GetTop5;
