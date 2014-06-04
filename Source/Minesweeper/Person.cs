@@ -24,9 +24,12 @@
             {
                 if (String.IsNullOrWhiteSpace(value))
                 {
-                    throw new ArgumentNullException("Person name is null or empty string");
+                    this.name = "Unnamed player";
                 }
-                this.name = value;
+                else
+                {
+                    this.name = value;
+                }
             }
         }
 
