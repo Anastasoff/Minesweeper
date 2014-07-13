@@ -1,10 +1,8 @@
 ﻿namespace Minesweeper
 {
     using System;
-
-    // Аз съм българче but everrything in code (icluding comments) must be in english.
-
-    internal class Програма
+    
+    internal class Minesweeper
     {
         private static void Main()
         {
