@@ -8,46 +8,45 @@
 
         internal static int y { get; set; }
 
-        internal static bool Exit;
-
-        internal static bool GetStatistic;
-        internal static bool InvalidMove;
-        internal static bool Restart;
+        internal static Commands command;
 
         internal static void ReadCommand()
         {
             Clear();
-            string command = Console.ReadLine();
-            command = command.Trim();
-            if (command == "exit")
-            {
-                Exit = true;
-                return;
-            }
-            if (command == "top")
-            {
-                GetStatistic = true;
-                return;
-            }
-            if (command == "restart")
-            {
-                Restart = true;
-                return;
-            }
+            string commandRead = Console.ReadLine();
+            commandRead = commandRead.Trim();
 
-            string[] point = command.Split(' ');
+            switch (commandRead)
+            {
+                case "exit": command = Commands.Exit;
+                    break;
+                case "top": command = Commands.Top;
+                    break;
+                case "restart": command = Commands.Restart;
+                    break;
+                default: SetCoordinates(commandRead);
+                    break;
+            }
+        }
+
+        public static void SetCoordinates(string commandRead)
+        {
+            string[] point = commandRead.Split(' ');
             if (point.Length != 2)
-                InvalidMove = true;
+            {
+                command = Commands.InvalidMove;
+            }
             else
             {
                 try
                 {
                     x = Convert.ToInt32(point[0]);
                     y = Convert.ToInt32(point[1]);
+                    command = Commands.ValidMove;
                 }
                 catch (FormatException)
                 {
-                    InvalidMove = true;
+                    command = Commands.InvalidMove;
                 }
             }
         }
@@ -56,10 +55,6 @@
         {
             x = 0;
             y = 0;
-            Exit = false;
-            GetStatistic = false;
-            InvalidMove = false;
-            Restart = false;
         }
     }
 }

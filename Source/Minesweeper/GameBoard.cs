@@ -2,7 +2,7 @@
 {
     using System;
 
-    internal class GameBoard
+    public class GameBoard // changed to public
     {
         private static readonly int SizeX = 5;
         private static readonly int SizeY = 10;
@@ -17,7 +17,7 @@
 
         internal int RevealedCellsCount { get; set; }
 
-        private GameBoard() // private constructor
+        public GameBoard() // private constructor
         {
             display = new char[SizeX, SizeY];
             mineMap = new bool[SizeX, SizeY];

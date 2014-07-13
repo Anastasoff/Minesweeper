@@ -4,13 +4,13 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    internal class Scoreboard
+    public class Scoreboard //changed to public
     {
         private static List<Person> participants;
 
         private static Scoreboard top5 = null;
 
-        private Scoreboard()
+        public Scoreboard()
         {
             participants = new List<Person>();
         }
