@@ -38,13 +38,13 @@
             }
         }
 
-        public void ShowWelcomeMessage() //transfered from the main class
+        private void ShowWelcomeMessage() //transfered from the main class
         {
             Console.WriteLine("Welcome to the game “Minesweeper”. Try to reveal all cells without mines. Use 'top' to view the scoreboard, 'restart' to start a new game and 'exit' to quit the game.");
             Console.WriteLine();
         }
 
-        public void ShowEndGameMessage(GameBoard board, Scoreboard scoreboard) //transfered from the main class
+        private void ShowEndGameMessage(GameBoard board, Scoreboard scoreboard) //transfered from the main class
         {
             board.RevealWholeBoard();
             board.Display();
