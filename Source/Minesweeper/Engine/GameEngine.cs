@@ -1,32 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Minesweeper.Engine
+﻿namespace Minesweeper.Engine
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     public class GameEngine
     {
-        private GameBoard board;
+        private GameBoard gameboard;
         private Scoreboard scoreboard;
 
-        public GameEngine(GameBoard board, Scoreboard score)// changed both classes' access to internal
+        public GameEngine(GameBoard gameboard, Scoreboard scoreboard)// changed both classes' access to internal
         {
-            this.board = board;
-            this.scoreboard = score;
+            this.gameboard = gameboard;
+            this.scoreboard = scoreboard;
         }
 
         public void Play()
         {
             ShowWelcomeMessage();
-            board.Display();
+            gameboard.Display();
 
             while (true)
             {
@@ -93,7 +83,7 @@ namespace Minesweeper.Engine
         {
             GameBoard.ResetBoard();
             ShowWelcomeMessage();
-            board.Display();
+            gameboard.Display();
         }
 
         private void ProcessCoordinates() // new function to reduce the mess in the while(true) loop
@@ -101,25 +91,25 @@ namespace Minesweeper.Engine
             int x = CommandProcessor.x;
             int y = CommandProcessor.y;
 
-            if (!board.InBoard(x, y) || board.CellIsRevealed(x, y))
+            if (!gameboard.InBoard(x, y) || gameboard.CellIsRevealed(x, y))
             {
                 Console.WriteLine("Illegal move!");
                 Console.WriteLine();
             }
             else
             {
-                if (board.HasMine(x, y))
+                if (gameboard.HasMine(x, y))
                 {
-                    ShowEndGameMessage(board, scoreboard);
+                    ShowEndGameMessage(gameboard, scoreboard);
                     scoreboard.ShowHighScores();
                     GameBoard.ResetBoard();
                     ShowWelcomeMessage();
-                    board.Display();
+                    gameboard.Display();
                 }
                 else
                 {
-                    board.RevealBlock(x, y);
-                    board.Display();
+                    gameboard.RevealBlock(x, y);
+                    gameboard.Display();
                 }
             }
         }
