@@ -2,13 +2,13 @@
 {
     using System;
 
-    internal class Person
+    internal class Player
     {
         private const int MAX_NAME_LENGTH = 10;
         private string name;
         private int score;
 
-        public Person(string name, int score)
+        public Player(string name, int score)
         {
             this.Name = name;
             this.Score = score;
