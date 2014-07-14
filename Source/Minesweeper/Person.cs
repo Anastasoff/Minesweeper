@@ -4,6 +4,7 @@
 
     internal class Person
     {
+        private const int MAX_NAME_LENGTH = 10;
         private string name;
         private int score;
 
@@ -22,13 +23,22 @@
 
             set
             {
-                if (String.IsNullOrWhiteSpace(value))
+                if (value.Length <= MAX_NAME_LENGTH)
                 {
-                    this.name = "Unnamed player";
+                    if (String.IsNullOrWhiteSpace(value))
+                    {
+                        this.name = "Unnamed player";
+                    }
+                    else
+                    {
+                        this.name = value;
+                    }
                 }
                 else
                 {
-                    this.name = value;
+                    string message = string.Format("Name must be no longer than {0} cahracters.",
+                                                    MAX_NAME_LENGTH);
+                    throw new ArgumentOutOfRangeException(message);
                 }
             }
         }
@@ -46,6 +56,7 @@
                 {
                     throw new ArgumentOutOfRangeException("Score must be non-negative");
                 }
+
                 this.score = value;
             }
         }
