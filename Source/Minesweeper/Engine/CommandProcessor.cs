@@ -7,11 +7,9 @@
 
         public GameBoard gameboard; // TODO: encapsulate
         private Scoreboard scoreboard;
-        internal static int x { get; set; }
+        //internal static int x { get; set; }
 
-        internal static int y { get; set; }
-
-        internal static Command command;
+        //internal static int y { get; set; }
 
         public CommandProcessor(GameBoard gameboard, Scoreboard scoreboard)
         {
@@ -41,7 +39,7 @@
                     break;
                 case Command.Restart: ProcessRestartCommand();
                     break;
-                default: ProcessCoordinates();
+                default: ProcessCoordinates(input);
                     break;
             }
         }
@@ -65,7 +63,7 @@
         private void ProcessTopCommand()
         {
             scoreboard.ShowHighScores();
-            CommandProcessor.Clear();
+            //CommandProcessor.Clear();
         }
 
         private void ProcessExitCommand()
@@ -81,32 +79,35 @@
             gameboard.Display();
         }
 
-        private static void SetCoordinates(string commandRead) // to private // ************NEW
+        private int[] SetCoordinates(string commandRead)
         {
+            int[] coordinates = new int[2];
             string[] point = commandRead.Split(' ');
             if (point.Length != 2)
             {
-                command = Command.InvalidMove;
+                throw new ArgumentException("Invalid coordinates.");
             }
             else
             {
                 try
                 {
-                    x = Convert.ToInt32(point[0]);
-                    y = Convert.ToInt32(point[1]);
-                    command = Command.ValidMove;
+                    coordinates[0] = Convert.ToInt32(point[0]);
+                    coordinates[1] = Convert.ToInt32(point[1]);
                 }
                 catch (FormatException)
                 {
-                    command = Command.InvalidMove;
+                    throw new ArgumentException("Invalid format.");
                 }
             }
+
+            return coordinates;
         }
 
-        private void ProcessCoordinates() // new function to reduce the mess in the while(true) loop
+        private void ProcessCoordinates(string input)
         {
-            int x = CommandProcessor.x;
-            int y = CommandProcessor.y;
+            var coords = SetCoordinates(input);
+            int x = coords[0];
+            int y = coords[1];
 
             if (!gameboard.InBoard(x, y) || gameboard.CellIsRevealed(x, y))
             {
@@ -131,11 +132,11 @@
             }
         }
 
-        internal static void Clear()
-        {
-            x = 0;
-            y = 0;
-        }
+        //internal static void Clear()
+        //{
+        //    x = 0;
+        //    y = 0;
+        //}
 
         public void ShowWelcomeMessage() //transfered from the main class
         {
