@@ -6,13 +6,13 @@
 
     public class Scoreboard //changed to public
     {
-        private static List<Person> participants;
+        private static List<Player> participants;
 
         private static Scoreboard top5 = null;
 
         public Scoreboard()
         {
-            participants = new List<Person>();
+            participants = new List<Player>();
         }
 
         public static Scoreboard GetTop5
@@ -38,8 +38,8 @@
         {
             Console.Write("Please enter your name for the top scoreboard: ");
             string name = Console.ReadLine();
-            participants.Add(new Person(name, score));
-            participants.Sort(new Comparison<Person>((p1, p2) => p2.Score.CompareTo(p1.Score)));
+            participants.Add(new Player(name, score));
+            participants.Sort(new Comparison<Player>((p1, p2) => p2.Score.CompareTo(p1.Score)));
             participants = participants.Take(5).ToList();
         }
 
