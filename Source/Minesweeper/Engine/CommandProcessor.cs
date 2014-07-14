@@ -8,7 +8,7 @@
 
         internal static int y { get; set; }
 
-        internal static Commands command;
+        internal static Command command;
 
         internal static void ReadCommand()
         {
@@ -18,11 +18,11 @@
 
             switch (commandRead)
             {
-                case "exit": command = Commands.Exit;
+                case "exit": command = Command.Exit;
                     break;
-                case "top": command = Commands.Top;
+                case "top": command = Command.Top;
                     break;
-                case "restart": command = Commands.Restart;
+                case "restart": command = Command.Restart;
                     break;
                 default: SetCoordinates(commandRead);
                     break;
@@ -34,7 +34,7 @@
             string[] point = commandRead.Split(' ');
             if (point.Length != 2)
             {
-                command = Commands.InvalidMove;
+                command = Command.InvalidMove;
             }
             else
             {
@@ -42,11 +42,11 @@
                 {
                     x = Convert.ToInt32(point[0]);
                     y = Convert.ToInt32(point[1]);
-                    command = Commands.ValidMove;
+                    command = Command.ValidMove;
                 }
                 catch (FormatException)
                 {
-                    command = Commands.InvalidMove;
+                    command = Command.InvalidMove;
                 }
             }
         }

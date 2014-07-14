@@ -31,16 +31,16 @@ namespace Minesweeper.Engine
             while (true)
             {
                 ReadCommand();
-                Commands command = CommandProcessor.command; //removed the numerous if-statements and replaced them with switch-statement
+                Command command = CommandProcessor.command; //removed the numerous if-statements and replaced them with switch-statement
                 switch (command)
                 {
-                    case Commands.InvalidMove: ProcessInvalidMove();
+                    case Command.InvalidMove: ProcessInvalidMove();
                         break;
-                    case Commands.Exit: ProcessExitCommand();
+                    case Command.Exit: ProcessExitCommand();
                         break;
-                    case Commands.Top: ProcessTopCommand();
+                    case Command.Top: ProcessTopCommand();
                         break;
-                    case Commands.Restart: ProcessRestartCommand();
+                    case Command.Restart: ProcessRestartCommand();
                         break;
                     default: ProcessCoordinates();
                         break;
