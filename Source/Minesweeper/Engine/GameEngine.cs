@@ -6,9 +6,9 @@
     {
         private CommandProcessor commandProcessor;
 
-        public GameEngine(GameBoard gameboard, Scoreboard scoreboard)// changed both classes' access to internal
+        public GameEngine(GameBoard gameboard, Scoreboard scoreboard)
         {           
-            this.commandProcessor = new CommandProcessor(gameboard, scoreboard); // ************NEW
+            this.commandProcessor = new CommandProcessor(gameboard, scoreboard);
         }
 
         public void Play()

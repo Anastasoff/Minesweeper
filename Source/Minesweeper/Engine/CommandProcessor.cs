@@ -7,9 +7,6 @@
 
         public GameBoard gameboard; // TODO: encapsulate
         private Scoreboard scoreboard;
-        //internal static int x { get; set; }
-
-        //internal static int y { get; set; }
 
         public CommandProcessor(GameBoard gameboard, Scoreboard scoreboard)
         {
@@ -63,7 +60,6 @@
         private void ProcessTopCommand()
         {
             scoreboard.ShowHighScores();
-            //CommandProcessor.Clear();
         }
 
         private void ProcessExitCommand()
@@ -132,19 +128,13 @@
             }
         }
 
-        //internal static void Clear()
-        //{
-        //    x = 0;
-        //    y = 0;
-        //}
-
-        public void ShowWelcomeMessage() //transfered from the main class
+        public void ShowWelcomeMessage()
         {
             Console.WriteLine("Welcome to the game “Minesweeper”. Try to reveal all cells without mines. Use 'top' to view the scoreboard, 'restart' to start a new game and 'exit' to quit the game.");
             Console.WriteLine();
         }
 
-        public void ShowEndGameMessage(GameBoard board, Scoreboard scoreboard) //transfered from the main class
+        public void ShowEndGameMessage(GameBoard board, Scoreboard scoreboard)
         {
             board.RevealWholeBoard();
             board.Display();
