@@ -41,17 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands.cs" />
-    <Compile Include="GameEngine.cs" />
+    <Compile Include="Engine\Commands.cs" />
+    <Compile Include="Engine\GameEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GameBoard.cs" />
-    <Compile Include="CommandProcessor.cs" />
+    <Compile Include="Engine\CommandProcessor.cs" />
     <Compile Include="Minesweeper.cs" />
     <Compile Include="ScoreBoard.cs" />
     <Compile Include="Person.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

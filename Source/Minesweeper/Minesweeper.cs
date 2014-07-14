@@ -1,6 +1,7 @@
 ﻿namespace Minesweeper
 {
     using System;
+    using Engine;
     
     internal class Minesweeper
     {

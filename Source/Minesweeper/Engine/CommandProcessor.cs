@@ -1,4 +1,4 @@
-﻿namespace Minesweeper
+﻿namespace Minesweeper.Engine
 {
     using System;
 
