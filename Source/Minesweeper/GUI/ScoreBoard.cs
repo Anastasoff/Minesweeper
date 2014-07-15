@@ -1,4 +1,4 @@
-﻿namespace Minesweeper
+﻿namespace Minesweeper.GUI
 {
     using System;
     using System.Collections.Generic;

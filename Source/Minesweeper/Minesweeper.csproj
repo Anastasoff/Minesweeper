@@ -47,7 +47,7 @@
     <Compile Include="GUI\GameBoard.cs" />
     <Compile Include="Engine\CommandProcessor.cs" />
     <Compile Include="Minesweeper.cs" />
-    <Compile Include="ScoreBoard.cs" />
+    <Compile Include="GUI\ScoreBoard.cs" />
     <Compile Include="Player.cs" />
   </ItemGroup>
   <ItemGroup />
