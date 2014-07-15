@@ -6,9 +6,10 @@
     {
         private int revealedCellsCount;
 
-        private static readonly int SizeX = 5;
-        private static readonly int SizeY = 10;
+        private static readonly int Rows = 5;
+        private static readonly int Cols = 10;
         private static readonly int NumberOfMines = 15;
+        private static readonly char UnrevealedCellChar = '?';
 
         private static char[,] display;
         private static bool[,] mineMap;
@@ -19,10 +20,10 @@
 
         private GameBoard() // private constructor
         {
-            display = new char[SizeX, SizeY];
-            mineMap = new bool[SizeX, SizeY];
-            revealed = new bool[SizeX, SizeY];
-            numberOfNeighbourMines = new int[SizeX, SizeY];
+            display = new char[Rows, Cols];
+            mineMap = new bool[Rows, Cols];
+            revealed = new bool[Rows, Cols];
+            numberOfNeighbourMines = new int[Rows, Cols];
             InitializeBoardForDisplay();
             PutMines();
         }
@@ -65,34 +66,36 @@
             int actualNumberOfMines = 0;
             while (actualNumberOfMines < NumberOfMines)
             {
-                if (PlaceMine(generator.Next(SizeX), generator.Next(SizeY)))
+                if (PlaceMine(generator.Next(Rows), generator.Next(Cols)))
                 {
                     actualNumberOfMines++;
                 }
             }
         }
 
-        public bool InBoard(int x, int y)
+        public bool InBoard(int row, int col)
         {
-            return 0 <= x && x < SizeX && 0 <= y && y < SizeY;
+            return 0 <= row && row < Rows && 0 <= col && col < Cols;
         }
 
-        private bool PlaceMine(int x, int y)
+        private bool PlaceMine(int row, int col)
         {
-            if (!InBoard(x, y) || mineMap[x, y])
+            if (!InBoard(row, col) || mineMap[row, col])
             {
                 return false;
             }
 
             // TODO: simplify it
-            mineMap[x, y] = true;
-            for (int xx = -1; xx <= 1; xx++)
+            mineMap[row, col] = true;
+            for (int previousRow = -1; previousRow <= 1; previousRow++)
             {
-                for (int yy = -1; yy <= 1; yy++)
+                for (int previousCol = -1; previousCol <= 1; previousCol++)
                 {
-                    if (((xx != 0) || (yy != 0)) && InBoard(x + xx, y + yy))
+                    int newRow = row + previousRow;
+                    int newCol = col + previousCol;
+                    if (((previousRow != 0) || (previousCol != 0)) && InBoard(newRow, newCol))
                     {
-                        numberOfNeighbourMines[x + xx, y + yy]++;
+                        numberOfNeighbourMines[newRow, newCol]++;
                     }
                 }
             }
@@ -102,83 +105,90 @@
 
         private void InitializeBoardForDisplay()
         {
-            for (int i = 0; i < SizeX; i++)
+            for (int i = 0; i < Rows; i++)
             {
-                for (int j = 0; j < SizeY; j++)
+                for (int j = 0; j < Cols; j++)
                 {
-                    display[i, j] = '?'; // TODO: extract '?' in constant
+                    display[i, j] = UnrevealedCellChar; // TODO: extract '?' in constant
                 }
             }
         }
 
-        public void Display()
+        // I've extracted the logic from the Display() into several methods
+        private void PrintIndentationOnTheLeft()
         {
-            for (int i = 0; i < 4; i++)
-            {
-                Console.Write(" ");
-            }
-            for (int i = 0; i < SizeY; i++)
+            Console.Write(new string(' ', 4));
+        }
+
+        private void PrintFieldTopAndBottomBorder()
+        {
+            Console.WriteLine(new string('-', 2 * Cols));
+        }
+
+        private void PrintFieldsNumberOfColumns()
+        {
+            for (int i = 0; i < Cols; i++)
             {
                 Console.Write(i + " ");
             }
 
             Console.WriteLine();
-            for (int i = 0; i < 4; i++)
-            {
-                Console.Write(" ");
-            }
+        }
 
-            for (int i = 0; i < 2 * SizeY; i++)
-            {
-                Console.Write('-');
-            }
-
-            Console.WriteLine();
-            for (int i = 0; i < SizeX; i++)
+        private void PrintGameField()
+        {
+            for (int i = 0; i < Rows; i++)
             {
                 Console.Write(i + " | ");
-                for (int j = 0; j < SizeY; j++)
+                for (int j = 0; j < Cols; j++)
                 {
                     Console.Write(display[i, j] + " ");
                 }
 
                 Console.WriteLine("|");
             }
-
-            for (int i = 0; i < 4; i++)
-            {
-                Console.Write(" ");
-            }
-
-            for (int i = 0; i < 2 * SizeY; i++)
-            {
-                Console.Write("-");
-            }
-
-            Console.WriteLine();
         }
 
-        public bool HasMine(int x, int y)
+        // now the Display() calls on the private methods to display the gameBoard
+        public void Display()
         {
-            return mineMap[x, y];
+            // print first row
+            PrintIndentationOnTheLeft();
+            PrintFieldsNumberOfColumns();
+
+            // print second row
+            PrintIndentationOnTheLeft();
+            PrintFieldTopAndBottomBorder();
+
+            PrintGameField();
+
+            // print last row
+            PrintIndentationOnTheLeft();
+            PrintFieldTopAndBottomBorder();
         }
 
-        public void RevealBlock(int x, int y)
+        public bool HasMine(int row, int col)
         {
-            display[x, y] = Convert.ToChar(numberOfNeighbourMines[x, y].ToString());
+            return mineMap[row, col];
+        }
+
+        public void RevealBlock(int row, int col)
+        {
+            string numOfNeighbouringMinesToStr = numberOfNeighbourMines[row, col].ToString();
+            display[row, col] = Convert.ToChar(numOfNeighbouringMinesToStr);
             RevealedCellsCount++;
-            revealed[x, y] = true;
-            if (display[x, y] == '0')
+            revealed[row, col] = true;
+            if (display[row, col] == '0')
             {
-                for (int xx = -1; xx <= 1; xx++)
+                for (int previousRow = -1; previousRow <= 1; previousRow++)
                 {
-                    for (int yy = -1; yy <= 1; yy++)
+                    for (int previousCol = -1; previousCol <= 1; previousCol++)
                     {
-                        int newX = x + xx;
-                        int newY = y + yy;
-                        if (InBoard(newX, newY) && revealed[newX, newY] == false)
+                        int newRow = row + previousRow;
+                        int newCol = col + previousCol;
+                        if (InBoard(newRow, newCol) && revealed[newRow, newCol] == false)
                         {
-                            RevealBlock(newX, newY);
+                            RevealBlock(newRow, newCol);
                         }
                     }
                 }
@@ -187,9 +197,9 @@
 
         public void RevealWholeBoard()
         {
-            for (int i = 0; i < SizeX; i++)
+            for (int i = 0; i < Rows; i++)
             {
-                for (int j = 0; j < SizeY; j++)
+                for (int j = 0; j < Cols; j++)
                 {
                     // TODO: extract symbols in constants
                     if (!revealed[i, j])
@@ -205,9 +215,9 @@
             }
         }
 
-        public bool CellIsRevealed(int x, int y)
+        public bool CellIsRevealed(int row, int col)
         {
-            return revealed[x, y];
+            return revealed[row, col];
         }
     }
 }
