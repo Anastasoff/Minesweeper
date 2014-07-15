@@ -1,6 +1,7 @@
 ﻿namespace Minesweeper.GUI
 {
     using System;
+    using Interfaces;
 
     public class GameBoard
     {
@@ -10,6 +11,8 @@
         private static readonly int Cols = 10;
         private static readonly int NumberOfMines = 15;
         private static readonly char UnrevealedCellChar = '?';
+        private static readonly char empryCell = '-';
+        private static readonly char mine = '*';
 
         private static char[,] display;
         private static bool[,] mineMap;
@@ -25,7 +28,7 @@
             revealed = new bool[Rows, Cols];
             numberOfNeighbourMines = new int[Rows, Cols];
             InitializeBoardForDisplay();
-            PutMines();
+            AllocateMines();
         }
 
         public static void ResetBoard() // I don't think that it's a best implementation. If any have better idea ...
@@ -59,48 +62,58 @@
             }
         }
 
-        private void PutMines()
+        private void AllocateMines()// renamed method - it was easy to mistake it for PlaceMine
         {
             Random generator = new Random();
 
             int actualNumberOfMines = 0;
             while (actualNumberOfMines < NumberOfMines)
             {
-                if (PlaceMine(generator.Next(Rows), generator.Next(Cols)))
+                int currentRow = generator.Next(Rows);// a few new variables for easier reading
+                int currentCol = generator.Next(Cols);
+                bool validPlaceForMine = CheckIfMineCanBePlaced(currentRow, currentCol);
+                if (validPlaceForMine)
                 {
+                    PlaceMine(currentRow, currentCol);
                     actualNumberOfMines++;
                 }
             }
         }
 
-        public bool InBoard(int row, int col)
-        {
-            return 0 <= row && row < Rows && 0 <= col && col < Cols;
-        }
-
-        private bool PlaceMine(int row, int col)
+        public bool CheckIfMineCanBePlaced(int row, int col)// a separate method checking for valid placement of the mine
         {
             if (!InBoard(row, col) || mineMap[row, col])
             {
                 return false;
             }
-
-            // TODO: simplify it
-            mineMap[row, col] = true;
-            for (int previousRow = -1; previousRow <= 1; previousRow++)
+            else
             {
-                for (int previousCol = -1; previousCol <= 1; previousCol++)
+                return true;
+            }
+        }
+
+        public bool InBoard(int row, int col)
+        {
+            bool isInHorizontalLimits = 0 <= row && row < Rows;
+            bool isInVerticalLimits = 0 <= col && col < Cols;
+            bool isInField = isInHorizontalLimits && isInVerticalLimits;
+
+            return isInField;
+        }
+
+        private void PlaceMine(int row, int col)
+        {
+            mineMap[row, col] = true;
+            for (int neighbouringRow = row - 1; neighbouringRow <= row + 1; neighbouringRow++)
+            {
+                for (int neighbouringCol = col - 1; neighbouringCol <= col + 1; neighbouringCol++)
                 {
-                    int newRow = row + previousRow;
-                    int newCol = col + previousCol;
-                    if (((previousRow != 0) || (previousCol != 0)) && InBoard(newRow, newCol))
+                    if (InBoard(neighbouringRow, neighbouringCol) && !(HasMine(neighbouringRow, neighbouringCol)))
                     {
-                        numberOfNeighbourMines[newRow, newCol]++;
+                        numberOfNeighbourMines[neighbouringRow, neighbouringCol]++;
                     }
                 }
             }
-
-            return true;
         }
 
         private void InitializeBoardForDisplay()
@@ -204,12 +217,12 @@
                     // TODO: extract symbols in constants
                     if (!revealed[i, j])
                     {
-                        display[i, j] = '-';
+                        display[i, j] = empryCell;
                     }
 
                     if (mineMap[i, j])
                     {
-                        display[i, j] = '*';
+                        display[i, j] = mine;
                     }
                 }
             }
