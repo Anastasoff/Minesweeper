@@ -2,10 +2,10 @@
 {
     using System;
     using Engine;
-    
-    internal class Minesweeper
+
+    public class Minesweeper
     {
-        private static void Main()
+        public static void Main()
         {
             Scoreboard scoreboard = Scoreboard.GetTop5;
             GameBoard board = GameBoard.GetBoard; // calling singleton

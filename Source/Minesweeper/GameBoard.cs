@@ -15,7 +15,7 @@
 
         private static GameBoard board = null; // one and only instance of board
 
-        internal int RevealedCellsCount { get; set; }
+        public int RevealedCellsCount { get; set; }
 
         public GameBoard() // private constructor
         {
@@ -56,7 +56,7 @@
             }
         }
 
-        internal bool InBoard(int x, int y)
+        public bool InBoard(int x, int y)
         {
             return 0 <= x && x < SizeX && 0 <= y && y < SizeY;
         }
@@ -85,7 +85,7 @@
                     display[i, j] = '?';
         }
 
-        internal void Display()
+        public void Display()
         {
             for (int i = 0; i < 4; i++)
                 Console.Write(" ");
@@ -111,12 +111,12 @@
             Console.WriteLine();
         }
 
-        internal bool HasMine(int x, int y)
+        public bool HasMine(int x, int y)
         {
             return mineMap[x, y];
         }
 
-        internal void RevealBlock(int x, int y)
+        public void RevealBlock(int x, int y)
         {
             display[x, y] = Convert.ToChar(numberOfNeighbourMines[x, y].ToString());
             RevealedCellsCount++;
@@ -134,7 +134,7 @@
             }
         }
 
-        internal void RevealWholeBoard()
+        public void RevealWholeBoard()
         {
             for (int i = 0; i < SizeX; i++)
                 for (int j = 0; j < SizeY; j++)
@@ -146,7 +146,7 @@
                 }
         }
 
-        internal bool CellIsRevealed(int x, int y)
+        public bool CellIsRevealed(int x, int y)
         {
             return revealed[x, y];
         }

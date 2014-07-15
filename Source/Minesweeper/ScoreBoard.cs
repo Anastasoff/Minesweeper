@@ -23,18 +23,22 @@
                 {
                     top5 = new Scoreboard();
                 }
+
                 return top5;
             }
         }
 
-        internal int MinInTop5()
+        public int MinInTop5()
         {
             if (participants.Count > 0)
+            {
                 return participants.Last().Score;
+            }
+
             return -1;
         }
 
-        internal void AddPlayer(int score)
+        public void AddPlayer(int score)
         {
             Console.Write("Please enter your name for the top scoreboard: ");
             string name = Console.ReadLine();
@@ -43,17 +47,18 @@
             participants = participants.Take(5).ToList();
         }
 
-        internal void ShowHighScores()
+        public void ShowHighScores()
         {
             Console.WriteLine("Scoreboard:");
             foreach (var p in participants)
             {
                 Console.WriteLine(participants.IndexOf(p) + 1 + ". " + p.Name + " --> " + p.Score + " cells");
             }
+
             Console.WriteLine();
         }
 
-        internal int Count()
+        public int Count()
         {
             return participants.Count();
         }

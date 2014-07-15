@@ -1,6 +1,6 @@
 ﻿namespace Minesweeper.Engine
 {
-    public enum Command // inumeration for better identification of commands
+    public enum Command // enumeration for better identification of commands
     {
         InvalidMove,
         Exit,

@@ -2,9 +2,9 @@
 {
     using System;
 
-    internal class Player
+    public class Player
     {
-        private const int MAX_NAME_LENGTH = 10;
+        private const int MaxNameLength = 10;
         private string name;
         private int score;
 
@@ -23,9 +23,9 @@
 
             set
             {
-                if (value.Length <= MAX_NAME_LENGTH)
+                if (value.Length <= MaxNameLength)
                 {
-                    if (String.IsNullOrWhiteSpace(value))
+                    if (string.IsNullOrWhiteSpace(value))
                     {
                         this.name = "Unnamed player";
                     }
@@ -37,7 +37,7 @@
                 else
                 {
                     string message = string.Format("Name must be no longer than {0} cahracters.",
-                                                    MAX_NAME_LENGTH);
+                                                    MaxNameLength);
                     throw new ArgumentOutOfRangeException(message);
                 }
             }
@@ -54,7 +54,7 @@
             {
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException("Score must be non-negative");
+                    throw new ArgumentOutOfRangeException("Score must be non-negative integer.");
                 }
 
                 this.score = value;
