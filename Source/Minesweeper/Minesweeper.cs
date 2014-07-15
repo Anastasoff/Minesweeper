@@ -1,7 +1,7 @@
 ﻿namespace Minesweeper
 {
-    using System;
     using Engine;
+    using GUI;
 
     public class Minesweeper
     {

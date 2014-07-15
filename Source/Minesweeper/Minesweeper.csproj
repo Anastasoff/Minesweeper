@@ -44,12 +44,13 @@
     <Compile Include="Engine\Command.cs" />
     <Compile Include="Engine\GameEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="GameBoard.cs" />
+    <Compile Include="GUI\GameBoard.cs" />
     <Compile Include="Engine\CommandProcessor.cs" />
     <Compile Include="Minesweeper.cs" />
     <Compile Include="ScoreBoard.cs" />
     <Compile Include="Player.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

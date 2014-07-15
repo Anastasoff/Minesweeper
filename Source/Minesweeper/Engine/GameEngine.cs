@@ -1,13 +1,14 @@
 ﻿namespace Minesweeper.Engine
 {
     using System;
+    using GUI;
 
     public class GameEngine
     {
         private CommandProcessor commandProcessor;
 
         public GameEngine(GameBoard gameboard, Scoreboard scoreboard)
-        {           
+        {
             this.commandProcessor = new CommandProcessor(gameboard, scoreboard);
         }
 
@@ -19,7 +20,7 @@
             while (true)
             {
                 string input = ReadInput();
-                commandProcessor.ExecuteCommand(input);                
+                commandProcessor.ExecuteCommand(input);
             }
         }
 
@@ -29,6 +30,6 @@
             string commandRead = Console.ReadLine();
             commandRead = commandRead.Trim();
             return commandRead;
-        }                
+        }
     }
 }

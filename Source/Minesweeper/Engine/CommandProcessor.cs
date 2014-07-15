@@ -1,6 +1,7 @@
 ﻿namespace Minesweeper.Engine
 {
     using System;
+    using GUI;
 
     internal class CommandProcessor
     {

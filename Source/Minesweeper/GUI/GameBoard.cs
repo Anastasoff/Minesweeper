@@ -1,8 +1,8 @@
-﻿namespace Minesweeper
+﻿namespace Minesweeper.GUI
 {
     using System;
 
-    public class GameBoard // changed to public
+    public class GameBoard
     {
         private static readonly int SizeX = 5;
         private static readonly int SizeY = 10;
