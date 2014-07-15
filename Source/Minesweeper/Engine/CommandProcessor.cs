@@ -131,7 +131,8 @@
 
         public void ShowWelcomeMessage()
         {
-            Console.WriteLine("Welcome to the game “Minesweeper”. Try to reveal all cells without mines. Use 'top' to view the scoreboard, 'restart' to start a new game and 'exit' to quit the game.");
+            Console.WriteLine("Welcome to the game “Minesweeper”. Try to reveal all cells without mines.");
+            Console.WriteLine("Use 'top' to view the scoreboard, 'restart' to start a new game and 'exit' to quit the game.");
             Console.WriteLine();
         }
 
@@ -139,12 +140,14 @@
         {
             board.RevealWholeBoard();
             board.Display();
+
             Console.WriteLine("Booooom! You were killed by a mine. You revealed " + board.RevealedCellsCount + " cells without mines.");
             Console.WriteLine();
+
             if (board.RevealedCellsCount > scoreboard.MinInTop5() || scoreboard.Count() < 5)
             {
                 scoreboard.AddPlayer(board.RevealedCellsCount);
             }
-        }       
+        }
     }
 }
