@@ -34,9 +34,11 @@
                         this.name = value;
                     }
                 }
-
-                string message = string.Format("Name must be no longer than {0} characters.", MaxNameLength);
-                throw new ArgumentOutOfRangeException(message);
+                else
+                {
+                    string message = string.Format("Name must be no longer than {0} characters.", MaxNameLength);
+                    throw new ArgumentOutOfRangeException(message);
+                }
             }
         }
 
