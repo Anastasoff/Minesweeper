@@ -1,7 +1,5 @@
-﻿namespace Minesweeper.GUI
+﻿namespace Minesweeper.GameObjects
 {
-    using System;
-
     public struct Position
     {
         public int row;

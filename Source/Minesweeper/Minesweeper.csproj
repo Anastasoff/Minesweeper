@@ -45,8 +45,7 @@
     <Compile Include="Engine\Command.cs" />
     <Compile Include="Engine\GameEngine.cs" />
     <Compile Include="GameObjects\Mine.cs" />
-    <Compile Include="GUI\Mine.cs" />
-    <Compile Include="GUI\Position.cs" />
+    <Compile Include="GameObjects\Position.cs" />
     <Compile Include="Interfaces\IGameBoard.cs" />
     <Compile Include="Interfaces\IMine.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
@@ -58,7 +57,9 @@
     <Compile Include="GUI\ScoreBoard.cs" />
     <Compile Include="Player.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="_ClassDiagram.cd" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

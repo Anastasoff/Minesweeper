@@ -2,8 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
-    using Interfaces;
+
     using Common;
+    using GameObjects;
+    using Interfaces;
 
     public class GameBoard
     {
@@ -17,8 +19,10 @@
         private const char mine = '*';
 
         private char[,] display; // TODO: FIX CLEARING BOARD ON RESET
-    //    private bool[,] mineMap;
+
+        //    private bool[,] mineMap;
         private bool[,] revealed;
+
         private int[,] numberOfNeighbourMines;
 
         private static GameBoard board = null; // one and only instance of board
@@ -28,7 +32,7 @@
         private GameBoard() // private constructor
         {
             display = new char[Rows, Cols];
-          //  mineMap = new bool[Rows, Cols];
+            //  mineMap = new bool[Rows, Cols];
             this.mineMap = new List<IMine>();
             revealed = new bool[Rows, Cols];
             numberOfNeighbourMines = new int[Rows, Cols];
@@ -97,7 +101,6 @@
 
         public bool InBoard(int row, int col)
         {
-
             bool isInHorizontalLimits = 0 <= row && row < Rows;
             bool isInVerticalLimits = 0 <= col && col < Cols;
             bool isInField = isInHorizontalLimits && isInVerticalLimits;
@@ -107,7 +110,7 @@
 
         private void PlaceMine(int row, int col)
         {
-          //  mineMap[row, col] = true;
+            //  mineMap[row, col] = true;
             this.mineMap.Add(new Mine(row, col)); // TODO: SOLID
             for (int neighbouringRow = row - 1; neighbouringRow <= row + 1; neighbouringRow++)
             {
@@ -200,7 +203,7 @@
             }
 
             return false;
-            
+
             //return mineMap[row, col];
         }
 

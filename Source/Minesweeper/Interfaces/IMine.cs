@@ -1,7 +1,6 @@
 ﻿namespace Minesweeper.Interfaces
 {
-    using System;
-    using GUI;
+    using GameObjects;
 
     public interface IMine
     {
