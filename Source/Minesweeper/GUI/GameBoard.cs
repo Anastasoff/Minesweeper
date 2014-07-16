@@ -7,16 +7,16 @@
     using GameObjects;
     using Interfaces;
 
-    public class GameBoard
+    public class GameBoard:IGameBoard
     {
         private int revealedCellsCount;
 
-        private const int Rows = 5;
-        private const int Cols = 10;
-        private const int NumberOfMines = 15;
-        private const char UnrevealedCellChar = '?';
-        private const char empryCell = '-';
-        private const char mine = '*';
+        private const int ROWS = 5;
+        private const int COLS = 10;
+        private const int NUMBER_OF_MINES = 15;
+        private const char UNREVEALED_CELL_CHAR = '?';
+        private const char EMPTY_CELL = '-';
+        private const char MINE = '*';
 
         private char[,] display; // TODO: FIX CLEARING BOARD ON RESET
 
@@ -31,11 +31,11 @@
 
         private GameBoard() // private constructor
         {
-            display = new char[Rows, Cols];
+            display = new char[ROWS, COLS];
             //  mineMap = new bool[Rows, Cols];
             this.mineMap = new List<IMine>();
-            revealed = new bool[Rows, Cols];
-            numberOfNeighbourMines = new int[Rows, Cols];
+            revealed = new bool[ROWS, COLS];
+            numberOfNeighbourMines = new int[ROWS, COLS];
             InitializeBoardForDisplay();
             AllocateMines(RandomGenerator.GetInstance);
         }
@@ -74,10 +74,10 @@
         private void AllocateMines(Random generator)// renamed method - it was easy to mistake it for PlaceMine
         {
             int actualNumberOfMines = 0;
-            while (actualNumberOfMines < NumberOfMines)
+            while (actualNumberOfMines < NUMBER_OF_MINES)
             {
-                int currentRow = generator.Next(Rows);// a few new variables for easier reading
-                int currentCol = generator.Next(Cols);
+                int currentRow = generator.Next(ROWS);// a few new variables for easier reading
+                int currentCol = generator.Next(COLS);
                 bool validPlaceForMine = CheckIfMineCanBePlaced(currentRow, currentCol);
                 if (validPlaceForMine)
                 {
@@ -101,8 +101,8 @@
 
         public bool InBoard(int row, int col)
         {
-            bool isInHorizontalLimits = 0 <= row && row < Rows;
-            bool isInVerticalLimits = 0 <= col && col < Cols;
+            bool isInHorizontalLimits = 0 <= row && row < ROWS;
+            bool isInVerticalLimits = 0 <= col && col < COLS;
             bool isInField = isInHorizontalLimits && isInVerticalLimits;
 
             return isInField;
@@ -126,11 +126,11 @@
 
         private void InitializeBoardForDisplay()
         {
-            for (int i = 0; i < Rows; i++)
+            for (int i = 0; i < ROWS; i++)
             {
-                for (int j = 0; j < Cols; j++)
+                for (int j = 0; j < COLS; j++)
                 {
-                    display[i, j] = UnrevealedCellChar;
+                    display[i, j] = UNREVEALED_CELL_CHAR;
                 }
             }
         }
@@ -143,12 +143,12 @@
 
         private void PrintFieldTopAndBottomBorder()
         {
-            Console.WriteLine(new string('-', 2 * Cols));
+            Console.WriteLine(new string('-', 2 * COLS));
         }
 
         private void PrintFieldsNumberOfColumns()
         {
-            for (int i = 0; i < Cols; i++)
+            for (int i = 0; i < COLS; i++)
             {
                 Console.Write(i + " ");
             }
@@ -158,10 +158,10 @@
 
         private void PrintGameField()
         {
-            for (int i = 0; i < Rows; i++)
+            for (int i = 0; i < ROWS; i++)
             {
                 Console.Write(i + " | ");
-                for (int j = 0; j < Cols; j++)
+                for (int j = 0; j < COLS; j++)
                 {
                     Console.Write(display[i, j] + " ");
                 }
@@ -232,18 +232,18 @@
 
         public void RevealWholeBoard()
         {
-            for (int i = 0; i < Rows; i++)
+            for (int i = 0; i < ROWS; i++)
             {
-                for (int j = 0; j < Cols; j++)
+                for (int j = 0; j < COLS; j++)
                 {
                     if (!revealed[i, j])
                     {
-                        display[i, j] = empryCell;
+                        display[i, j] = EMPTY_CELL;
                     }
 
                     if (CheckIfHasMine(i, j))
                     {
-                        display[i, j] = mine;
+                        display[i, j] = MINE;
                     }
                 }
             }
