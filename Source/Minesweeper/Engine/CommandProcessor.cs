@@ -113,7 +113,7 @@
             }
             else
             {
-                if (gameboard.HasMine(x, y))
+                if (gameboard.CheckIfHasMine(x, y))
                 {
                     ShowEndGameMessage(gameboard, scoreboard);
                     scoreboard.ShowHighScores();

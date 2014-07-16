@@ -1,6 +1,7 @@
 ﻿namespace Minesweeper.GUI
 {
     using System;
+    using System.Collections.Generic;
     using Interfaces;
     using Common;
 
@@ -16,20 +17,23 @@
         private const char mine = '*';
 
         private char[,] display; // TODO: FIX CLEARING BOARD ON RESET
-        private bool[,] mineMap;
+    //    private bool[,] mineMap;
         private bool[,] revealed;
         private int[,] numberOfNeighbourMines;
 
         private static GameBoard board = null; // one and only instance of board
 
+        private IList<IMine> mineMap;
+
         private GameBoard() // private constructor
         {
             display = new char[Rows, Cols];
-            mineMap = new bool[Rows, Cols];
+          //  mineMap = new bool[Rows, Cols];
+            this.mineMap = new List<IMine>();
             revealed = new bool[Rows, Cols];
             numberOfNeighbourMines = new int[Rows, Cols];
             InitializeBoardForDisplay();
-            AllocateMines();
+            AllocateMines(RandomGenerator.GetInstance);
         }
 
         public static void ResetBoard() // I don't think that it's a best implementation. If any have better idea ...
@@ -63,10 +67,8 @@
             }
         }
 
-        private void AllocateMines()// renamed method - it was easy to mistake it for PlaceMine
+        private void AllocateMines(Random generator)// renamed method - it was easy to mistake it for PlaceMine
         {
-            Random generator = RandomGenerator.GetInstance;
-
             int actualNumberOfMines = 0;
             while (actualNumberOfMines < NumberOfMines)
             {
@@ -83,7 +85,7 @@
 
         public bool CheckIfMineCanBePlaced(int row, int col)// a separate method checking for valid placement of the mine
         {
-            if (!InBoard(row, col) || mineMap[row, col])
+            if (!InBoard(row, col) || CheckIfHasMine(row, col))
             {
                 return false;
             }
@@ -95,6 +97,7 @@
 
         public bool InBoard(int row, int col)
         {
+
             bool isInHorizontalLimits = 0 <= row && row < Rows;
             bool isInVerticalLimits = 0 <= col && col < Cols;
             bool isInField = isInHorizontalLimits && isInVerticalLimits;
@@ -104,12 +107,13 @@
 
         private void PlaceMine(int row, int col)
         {
-            mineMap[row, col] = true;
+          //  mineMap[row, col] = true;
+            this.mineMap.Add(new Mine(row, col)); // TODO: SOLID
             for (int neighbouringRow = row - 1; neighbouringRow <= row + 1; neighbouringRow++)
             {
                 for (int neighbouringCol = col - 1; neighbouringCol <= col + 1; neighbouringCol++)
                 {
-                    if (InBoard(neighbouringRow, neighbouringCol) && !(HasMine(neighbouringRow, neighbouringCol)))
+                    if (InBoard(neighbouringRow, neighbouringCol) && !(CheckIfHasMine(neighbouringRow, neighbouringCol)))
                     {
                         numberOfNeighbourMines[neighbouringRow, neighbouringCol]++;
                     }
@@ -181,9 +185,23 @@
             PrintFieldTopAndBottomBorder();
         }
 
-        public bool HasMine(int row, int col)
+        public bool CheckIfHasMine(int row, int col)
         {
-            return mineMap[row, col];
+            for (int i = 0; i < this.mineMap.Count; i++)
+            {
+                Mine currentMine = mineMap[i] as Mine;
+                int minePositionX = currentMine.Coordinates.row;
+                int minePositionY = currentMine.Coordinates.col;
+
+                if (minePositionX == row && minePositionY == col)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+            
+            //return mineMap[row, col];
         }
 
         public void RevealBlock(int row, int col)
@@ -220,7 +238,7 @@
                         display[i, j] = empryCell;
                     }
 
-                    if (mineMap[i, j])
+                    if (CheckIfHasMine(i, j))
                     {
                         display[i, j] = mine;
                     }
