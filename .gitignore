@@ -109,6 +109,7 @@ csx
 AppPackages/
 
 # Others
+*.StyleCop
 sql/
 *.Cache
 ClientBin/
