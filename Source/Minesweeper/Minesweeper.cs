@@ -12,7 +12,8 @@
         {
             Scoreboard scoreboard = Scoreboard.GetInstance;
             GameBoard board = GameBoard.GetInstance; // calling singleton
-            GameEngine engine = new GameEngine(board, scoreboard);
+            CommandProcessor commandProcessor = new CommandProcessor(board, scoreboard);
+            GameEngine engine = new GameEngine(commandProcessor);
             engine.Play();
         }
     }

@@ -3,16 +3,42 @@
     using System;
     using GUI;
 
-    internal class CommandProcessor
+    public class CommandProcessor
     {
 
-        public GameBoard gameboard; // TODO: encapsulate
+        private GameBoard gameboard; 
         private Scoreboard scoreboard;
 
         public CommandProcessor(GameBoard gameboard, Scoreboard scoreboard)
         {
-            this.gameboard = gameboard;
-            this.scoreboard = scoreboard;
+            this.Gamefield = gameboard;
+            this.Score = scoreboard;
+        }
+
+        public GameBoard Gamefield 
+        { 
+            get
+            {
+                return this.gameboard;
+            }
+
+            set 
+            {
+                this.gameboard = value;
+            }
+        }
+
+        public Scoreboard Score
+        {
+            get
+            {
+                return this.scoreboard;
+            }
+
+            set
+            {
+                this.scoreboard = value;
+            }
         }
 
         public void ExecuteCommand(string input)

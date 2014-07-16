@@ -7,15 +7,15 @@
     {
         private CommandProcessor commandProcessor;
 
-        public GameEngine(GameBoard gameboard, Scoreboard scoreboard)
+        public GameEngine(CommandProcessor processor)
         {
-            this.commandProcessor = new CommandProcessor(gameboard, scoreboard);
+            this.commandProcessor = processor;
         }
 
         public void Play()
         {
             this.commandProcessor.ShowWelcomeMessage();
-            this.commandProcessor.gameboard.Display();
+            this.commandProcessor.Gamefield.Display();
 
             while (true)
             {
