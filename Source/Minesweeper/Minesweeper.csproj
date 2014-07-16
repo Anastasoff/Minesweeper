@@ -45,7 +45,10 @@
     <Compile Include="Engine\Command.cs" />
     <Compile Include="Engine\GameEngine.cs" />
     <Compile Include="GameObjects\Mine.cs" />
+    <Compile Include="GUI\Mine.cs" />
+    <Compile Include="GUI\Position.cs" />
     <Compile Include="Interfaces\IGameBoard.cs" />
+    <Compile Include="Interfaces\IMine.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Interfaces\IScoreBoard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
