@@ -2,6 +2,7 @@
 {
     using System;
     using Interfaces;
+    using Common;
 
     public class GameBoard
     {
@@ -64,7 +65,7 @@
 
         private void AllocateMines()// renamed method - it was easy to mistake it for PlaceMine
         {
-            Random generator = new Random();
+            Random generator = RandomGenerator.GetInstance;
 
             int actualNumberOfMines = 0;
             while (actualNumberOfMines < NumberOfMines)
