@@ -3,36 +3,36 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Interfaces;
 
-    public class Scoreboard //changed to public
+    public class Scoreboard : IScoreBoard
     {
-        private List<Player> participants;
-
-        private static Scoreboard top5;
+        private ICollection<IPlayer> allPlayers;
+        private static Scoreboard instance;
 
         private Scoreboard()
         {
-            participants = new List<Player>();
+            allPlayers = new List<IPlayer>();
         }
 
-        public static Scoreboard GetTop5
+        public static Scoreboard GetInstance
         {
             get
             {
-                if (top5 == null)
+                if (instance == null)
                 {
-                    top5 = new Scoreboard();
+                    instance = new Scoreboard();
                 }
 
-                return top5;
+                return instance;
             }
         }
 
         public int MinInTop5()
         {
-            if (participants.Count > 0)
+            if (allPlayers.Count > 0)
             {
-                return participants.Last().Score;
+                return allPlayers.Last().Score;
             }
 
             return -1;
@@ -42,17 +42,29 @@
         {
             Console.Write("Please enter your name for the top scoreboard: ");
             string name = Console.ReadLine();
-            participants.Add(new Player(name, score));
-            participants.Sort(new Comparison<Player>((p1, p2) => p2.Score.CompareTo(p1.Score)));
-            participants = participants.Take(5).ToList();
+            allPlayers.Add(new Player(name, score));
+        }
+
+        private ICollection<IPlayer> SortPlayersDescendingByScore(ICollection<IPlayer> allPlayers)
+        {
+            var sortedPlayers = allPlayers.OrderByDescending(p => p.Score).ToList();
+            return sortedPlayers;
+        }
+
+        private ICollection<IPlayer> GetTop5Results()
+        {
+            return this.allPlayers.Take(5).ToList();
         }
 
         public void ShowHighScores()
         {
+            int counter = 1;
+            var sortedPlayers = SortPlayersDescendingByScore(this.allPlayers);
             Console.WriteLine("Scoreboard:");
-            foreach (var p in participants)
+            foreach (var player in sortedPlayers)
             {
-                Console.WriteLine(participants.IndexOf(p) + 1 + ". " + p.Name + " --> " + p.Score + " cells");
+                Console.WriteLine(counter + ". " + player.Name + " --> " + player.Score + " cells");
+                counter++;
             }
 
             Console.WriteLine();
@@ -60,7 +72,7 @@
 
         public int Count()
         {
-            return participants.Count();
+            return allPlayers.Count();
         }
     }
 }

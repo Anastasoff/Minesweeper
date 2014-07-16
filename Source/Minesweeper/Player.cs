@@ -1,8 +1,9 @@
 ﻿namespace Minesweeper
 {
     using System;
+    using Interfaces;
 
-    public class Player
+    public class Player : IPlayer
     {
         private const int MaxNameLength = 10;
         private string name;

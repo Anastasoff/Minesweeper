@@ -15,12 +15,12 @@
         private const char empryCell = '-';
         private const char mine = '*';
 
-        private char[,] display;
+        private char[,] display; // TODO: FIX CLEARING BOARD ON RESET
         private bool[,] mineMap;
         private bool[,] revealed;
         private int[,] numberOfNeighbourMines;
 
-        private static GameBoard board; // one and only instance of board
+        private static GameBoard board = null; // one and only instance of board
 
         private GameBoard() // private constructor
         {

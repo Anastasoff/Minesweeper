@@ -10,7 +10,7 @@
         /// </summary>
         public static void Main()
         {
-            Scoreboard scoreboard = Scoreboard.GetTop5;
+            Scoreboard scoreboard = Scoreboard.GetInstance;
             GameBoard board = GameBoard.GetInstance; // calling singleton
             GameEngine engine = new GameEngine(board, scoreboard);
             engine.Play();
