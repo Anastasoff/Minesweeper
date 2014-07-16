@@ -6,11 +6,11 @@
 
     public class Scoreboard //changed to public
     {
-        private static List<Player> participants;
+        private List<Player> participants;
 
-        private static Scoreboard top5 = null;
+        private static Scoreboard top5;
 
-        public Scoreboard()
+        private Scoreboard()
         {
             participants = new List<Player>();
         }

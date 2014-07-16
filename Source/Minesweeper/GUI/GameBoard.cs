@@ -7,19 +7,19 @@
     {
         private int revealedCellsCount;
 
-        private static readonly int Rows = 5;
-        private static readonly int Cols = 10;
-        private static readonly int NumberOfMines = 15;
-        private static readonly char UnrevealedCellChar = '?';
-        private static readonly char empryCell = '-';
-        private static readonly char mine = '*';
+        private const int Rows = 5;
+        private const int Cols = 10;
+        private const int NumberOfMines = 15;
+        private const char UnrevealedCellChar = '?';
+        private const char empryCell = '-';
+        private const char mine = '*';
 
-        private static char[,] display;
-        private static bool[,] mineMap;
-        private static bool[,] revealed;
-        private static int[,] numberOfNeighbourMines;
+        private char[,] display;
+        private bool[,] mineMap;
+        private bool[,] revealed;
+        private int[,] numberOfNeighbourMines;
 
-        private static GameBoard board = null; // one and only instance of board
+        private static GameBoard board; // one and only instance of board
 
         private GameBoard() // private constructor
         {
@@ -122,7 +122,7 @@
             {
                 for (int j = 0; j < Cols; j++)
                 {
-                    display[i, j] = UnrevealedCellChar; // TODO: extract '?' in constant
+                    display[i, j] = UnrevealedCellChar;
                 }
             }
         }
@@ -214,7 +214,6 @@
             {
                 for (int j = 0; j < Cols; j++)
                 {
-                    // TODO: extract symbols in constants
                     if (!revealed[i, j])
                     {
                         display[i, j] = empryCell;
