@@ -6,6 +6,8 @@
         Exit,
         Restart,
         Top,
-        ValidMove
+        ValidMove,
+        InvalidInput,
+        Flag
     }
 }

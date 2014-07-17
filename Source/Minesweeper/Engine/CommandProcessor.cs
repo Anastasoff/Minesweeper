@@ -1,11 +1,12 @@
 ﻿namespace Minesweeper.Engine
 {
-    using System;
+    using GameObjects;
     using GUI;
+    using System;
+    using System.Linq;
 
     public class CommandProcessor
     {
-
         private GameBoard gameboard; 
         private Scoreboard scoreboard;
 
@@ -41,18 +42,59 @@
             }
         }
 
+        private bool CheckIfValidInputCommand(string inputCommand)
+        {
+            string[] validCommands = new string[] { "exit", "restart", "top", "flag" };
+            for (int i = 0; i < validCommands.Length; i++)
+            {
+                string currentCommand = validCommands[i];
+                if (currentCommand == inputCommand.ToLower())
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private string[] ConvertInputStringToStringArray(string input)
+        {
+            string[] inputToArr = input.Split(' ');
+
+            return inputToArr;
+        }
+        private Command ExtractCommand(string[] inputCommands)
+        {
+            Command command = Command.ValidMove;
+
+            if (inputCommands.Length == 1 || inputCommands.Length == 3)
+            {
+                string inputCommand = inputCommands[0];
+                if (CheckIfValidInputCommand(inputCommand))
+                {
+                    command = GetCommandFromInput(inputCommand);
+                }
+                else
+                {
+                    command = Command.InvalidInput;
+                }
+            }
+
+            return command;
+        }
+
         public void ExecuteCommand(string input)
         {
-            // exit top restart
-            Command command;
-            try
-            {
-                command = ParseInput(input);
-            }
-            catch (ArgumentException)
-            {
-                command = Command.ValidMove;
-            }
+            string[] commandsArr = ConvertInputStringToStringArray(input);
+            Command command = ExtractCommand(commandsArr);
+            //    try
+            //    {
+            //        command = ParseInputString(input); //GetCommandFromInput(input);
+            //    }
+            //    catch (ArgumentException)
+            //    {
+            //        command = Command.ValidMove;
+            //    }
             switch (command)
             {
                 case Command.InvalidMove: ProcessInvalidMove();
@@ -63,20 +105,49 @@
                     break;
                 case Command.Restart: ProcessRestartCommand();
                     break;
-                default: ProcessCoordinates(input);
+                case Command.Flag: ProcessFlagCommand(commandsArr);
+                    break;
+                case Command.InvalidInput: ProcessInvalidInputCommand();
+                    break;
+                default: ProcessCoordinates(commandsArr);
                     break;
             }
         }
 
-        private Command ParseInput(string input)
+        private Command GetCommandFromInput(string input)
         {
             switch (input)
             {
                 case "exit": return Command.Exit;
                 case "top": return Command.Top;
                 case "restart": return Command.Restart;
+                case "flag": return Command.Flag;
                 default: throw new ArgumentException("Input not a valid command");
             }
+        }
+
+        private void ProcessFlagCommand(string[] commandsArr)
+        {
+            string[] coordsArr = commandsArr.Skip(1).ToArray();
+            int[] coordinates = ParseInputCoordinates(coordsArr);
+            int row = coordinates[0];
+            int col = coordinates[1];
+
+            if (CheckIfValidCoordinates(row, col))
+            {
+                Console.WriteLine("Illegal move!"); // to be put in the Renderer
+                Console.WriteLine();
+            }
+            else
+            {
+                gameboard.PlaceFlag(row, col);
+                gameboard.Display();
+            }
+        }
+
+        private void ProcessInvalidInputCommand()
+        {
+            Console.WriteLine("Invalid input! Please try again!");
         }
 
         private void ProcessInvalidMove()
@@ -102,11 +173,10 @@
             gameboard.Display();
         }
 
-        private int[] SetCoordinates(string commandRead)
+        private int[] ParseInputCoordinates(string[] inputCoordinates)
         {
             int[] coordinates = new int[2];
-            string[] point = commandRead.Split(' ');
-            if (point.Length != 2)
+            if (inputCoordinates.Length != 2)
             {
                 throw new ArgumentException("Invalid coordinates.");
             }
@@ -114,8 +184,8 @@
             {
                 try
                 {
-                    coordinates[0] = Convert.ToInt32(point[0]);
-                    coordinates[1] = Convert.ToInt32(point[1]);
+                    coordinates[0] = Convert.ToInt32(inputCoordinates[0]);
+                    coordinates[1] = Convert.ToInt32(inputCoordinates[1]);
                 }
                 catch (FormatException)
                 {
@@ -126,30 +196,37 @@
             return coordinates;
         }
 
-        private void ProcessCoordinates(string input)
+        private bool CheckIfValidCoordinates(int row, int col)
         {
-            var coords = SetCoordinates(input);
-            int x = coords[0];
-            int y = coords[1];
+            bool isInsideBoard = !gameboard.InBoard(row, col);
+            bool isCellRevealed = gameboard.CellIsRevealed(row, col);
+            return isInsideBoard || isCellRevealed;
+        }
 
-            if (!gameboard.InBoard(x, y) || gameboard.CellIsRevealed(x, y))
+        private void ProcessCoordinates(string[] inputCoordinates)
+        {
+            var coords = ParseInputCoordinates(inputCoordinates);
+            int row = coords[0];
+            int col = coords[1];
+
+            if (CheckIfValidCoordinates(row, col))
             {
-                Console.WriteLine("Illegal move!");
+                Console.WriteLine("Illegal move!"); // to be put in the Renderer
                 Console.WriteLine();
             }
             else
             {
-                if (gameboard.CheckIfHasMine(x, y))
+                if (gameboard.CheckIfHasMine(row, col))
                 {
                     ShowEndGameMessage(gameboard, scoreboard);
                     scoreboard.ShowHighScores();
-                    GameBoard.ResetBoard();
+                    GameBoard.ResetBoard(); // should call on the ClearBoard() from the RenderingEngine
                     ShowWelcomeMessage();
                     gameboard.Display();
                 }
                 else
                 {
-                    gameboard.RevealBlock(x, y);
+                    gameboard.RevealBlock(row, col);
                     gameboard.Display();
                 }
             }

@@ -28,12 +28,14 @@
         private static GameBoard board = null; // one and only instance of board
 
         private IList<IGameObject> mineMap;
+        private IList<IGameObject> flagMap;
 
         private GameBoard() // private constructor
         {
             display = new char[ROWS, COLS];
             //  mineMap = new bool[Rows, Cols];
             this.mineMap = new List<IGameObject>();
+            this.flagMap = new List<IGameObject>();
             revealed = new bool[ROWS, COLS];
             numberOfNeighbourMines = new int[ROWS, COLS];
             InitializeBoardForDisplay();
@@ -252,6 +254,12 @@
         public bool CellIsRevealed(int row, int col)
         {
             return revealed[row, col];
+        }
+
+        public void PlaceFlag(int row, int col)
+        {
+            // flagMap.Add(new Flag(row, col));
+            display[row, col] = 'F';
         }
     }
 }
