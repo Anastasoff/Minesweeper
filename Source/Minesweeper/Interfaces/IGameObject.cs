@@ -2,7 +2,7 @@
 {
     using GameObjects;
 
-    public interface IMine
+    public interface IGameObject
     {
         char Symbol { get; }
 

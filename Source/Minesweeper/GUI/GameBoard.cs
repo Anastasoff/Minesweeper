@@ -27,13 +27,13 @@
 
         private static GameBoard board = null; // one and only instance of board
 
-        private IList<IMine> mineMap;
+        private IList<IGameObject> mineMap;
 
         private GameBoard() // private constructor
         {
             display = new char[ROWS, COLS];
             //  mineMap = new bool[Rows, Cols];
-            this.mineMap = new List<IMine>();
+            this.mineMap = new List<IGameObject>();
             revealed = new bool[ROWS, COLS];
             numberOfNeighbourMines = new int[ROWS, COLS];
             InitializeBoardForDisplay();

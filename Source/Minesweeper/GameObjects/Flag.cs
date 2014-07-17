@@ -1,15 +1,16 @@
 ﻿namespace Minesweeper.GameObjects
 {
     using Interfaces;
+    using System;
 
-    public class Mine : IGameObject
+    public class Flag : IGameObject
     {
-        private const char defaultSymbol = '*';
+        private const char defaultSymbol = 'F';
 
         private char symbol;
         private Position coordinates;
 
-        public Mine(int row, int col)
+        public Flag(int row, int col)
         {
             this.Symbol = defaultSymbol;
             this.Coordinates = new Position(row, col);
