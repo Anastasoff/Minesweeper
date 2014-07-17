@@ -10,6 +10,7 @@
         /// </summary>
         public static void Main()
         {
+            // TODO: Add instance of the GameRenderingEngine and call that instance when creating the game engine
             Scoreboard scoreboard = Scoreboard.GetInstance;
             GameBoard board = GameBoard.GetInstance; // calling singleton
             CommandProcessor commandProcessor = new CommandProcessor(board, scoreboard);

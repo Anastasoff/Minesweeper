@@ -1,6 +1,7 @@
 ﻿namespace Minesweeper.GameObjects
 {
     using Interfaces;
+    using System;
 
     public class Mine : IGameObject
     {

@@ -1,11 +1,10 @@
 ﻿namespace Minesweeper.GUI
 {
-    using System;
-    using System.Collections.Generic;
-
     using Common;
     using GameObjects;
     using Interfaces;
+    using System;
+    using System.Collections.Generic;
 
     public class GameBoard:IGameBoard
     {

@@ -1,7 +1,11 @@
 ﻿namespace Minesweeper.Interfaces
 {
-    interface IGameBoard
+    public interface IGameBoard
     {
+        int RevealedCellsCount { get; }
 
+        void InitializeBoardForDisplay();
+
+        void AllocateMines(Random generator);
     }
 }
