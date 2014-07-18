@@ -158,61 +158,6 @@
             }
         }
 
-/*
-
-        // I've extracted the logic from the Display() into several methods
-        private void PrintIndentationOnTheLeft()
-        {
-            Console.Write(new string(' ', 4));
-        }
-
-        private void PrintFieldTopAndBottomBorder()
-        {
-            Console.WriteLine(new string('-', 2 * COLS));
-        }
-
-        private void PrintFieldsNumberOfColumns()
-        {
-            for (int i = 0; i < COLS; i++)
-            {
-                Console.Write(i + " ");
-            }
-
-            Console.WriteLine();
-        }
-
-        private void PrintGameField()
-        {
-            for (int i = 0; i < ROWS; i++)
-            {
-                Console.Write(i + " | ");
-                for (int j = 0; j < COLS; j++)
-                {
-                    Console.Write(display[i, j] + " ");
-                }
-
-                Console.WriteLine("|");
-            }
-        }
-
-        // now the Display() calls on the private methods to display the gameBoard
-        public void Display()
-        {
-            // print first row
-            PrintIndentationOnTheLeft();
-            PrintFieldsNumberOfColumns();
-
-            // print second row
-            PrintIndentationOnTheLeft();
-            PrintFieldTopAndBottomBorder();
-
-            PrintGameField();
-
-            // print last row
-            PrintIndentationOnTheLeft();
-            PrintFieldTopAndBottomBorder();
-        } */
-
         public bool CheckIfHasMine(int row, int col)
         {
             for (int i = 0; i < this.mineMap.Count; i++)
