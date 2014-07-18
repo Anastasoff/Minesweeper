@@ -19,10 +19,10 @@
              this.Score = score;
              this.userIteractor = userIteractor;
 
-             commands.Add("exit", Command.Exit);
-             commands.Add("top", Command.Top);
-             commands.Add("restart", Command.Restart);
-             commands.Add("flag", Command.Flag);
+             this.commands.Add("exit", Command.Exit);
+             this.commands.Add("top", Command.Top);
+             this.commands.Add("restart", Command.Restart);
+             this.commands.Add("flag", Command.Flag);
 
          }
 
@@ -59,10 +59,9 @@
 
          private string[] ConvertInputStringToStringArray(string input)
          {
-             string[] inputToArr = input.Split(' ');
-
-             return inputToArr;
+             return input.Split(' ');
          }
+
          private Command ExtractCommand(string[] inputCommands)
          {
              Command command = Command.ValidMove;
@@ -98,10 +97,10 @@
              switch (command)
              {
                  case Command.InvalidMove:
-                     userIteractor.showMessage("Illegal command!");
+                     userIteractor.ShowMessage("Illegal command!");
                      break;
                  case Command.Exit:
-                     userIteractor.showMessage("Goodbye!");
+                     userIteractor.ShowMessage("Goodbye!");
                      Environment.Exit(0);
                      break;
                  case Command.Top: ProcessTopCommand();
@@ -111,7 +110,7 @@
                  case Command.Flag: ProcessFlagCommand(commandsArr);
                      break;
                  case Command.InvalidInput:
-                     userIteractor.showMessage("Invalid input! Please try again!");
+                     userIteractor.ShowMessage("Invalid input! Please try again!");
                      break;
                  default: ProcessCoordinates(commandsArr);
                      break;
@@ -139,13 +138,13 @@
 
              if (CheckIfValidCoordinates(row, col))
              {
-                 userIteractor.showMessage("Illegal move!");
-                 userIteractor.showMessage();
+                 userIteractor.ShowMessage("Illegal move!");
+                 userIteractor.ShowMessage();
              }
              else
              {
                  gameBoard.PlaceFlag(row, col);
-                 gameBoard.Display();
+                 userIteractor.DrawBoard(gameBoard.Board);
              }
          }
 
@@ -173,9 +172,9 @@
          private void ProcessRestartCommand()
          {
              gameBoard.ResetBoard();
-             userIteractor.showWelcomeScreen();
-             gameBoard.Display();
-         }
+             userIteractor.ShowWelcomeScreen();
+             userIteractor.DrawBoard(gameBoard.Board);
+        }
 
          private int[] ParseInputCoordinates(string[] inputCoordinates)
          {
@@ -239,14 +238,13 @@
                      ShowEndGameMessage(gameBoard, scoreBoard);
                      scoreBoard.ShowHighScores();
                      gameBoard.ResetBoard(); // should call on the ClearBoard() from the RenderingEngine
-                     userIteractor.showWelcomeScreen();
-                     gameBoard.Display();
+                     userIteractor.ShowWelcomeScreen();
                  }
                  else
                  {
                      gameBoard.RevealBlock(row, col);
-                     gameBoard.Display();
                  }
+                 userIteractor.DrawBoard(gameBoard.Board);
              }
 
              if (gameBoard.CheckIfGameIsWon())
@@ -255,10 +253,10 @@
              }
          }
 
-         public void ShowEndGameMessage(GameBoard board, Scoreboard scoreboard)
+         public void ShowEndGameMessage(GameBoard board, Scoreboard scoreboard) // this parameters may not be needed
          {
              board.RevealWholeBoard();
-             board.Display();
+             userIteractor.DrawBoard(gameBoard.Board);
 
              Console.WriteLine("Booooom! You were killed by a mine. You revealed " + board.RevealedCellsCount + " cells without mines.");
              Console.WriteLine();
@@ -269,10 +267,10 @@
              }
          }
 
-         public void ShowGameWonMessage(GameBoard board, Scoreboard scoreboard)
+         public void ShowGameWonMessage(GameBoard board, Scoreboard scoreboard) // this parameters may not be needed
          {
              board.RevealWholeBoard();
-             board.Display();
+             userIteractor.DrawBoard(gameBoard.Board);
 
              Console.WriteLine("Congratulations! You have escaped all the mines and WON the game!");
              Console.WriteLine();

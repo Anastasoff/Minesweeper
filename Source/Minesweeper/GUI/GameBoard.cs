@@ -6,7 +6,7 @@
     using System;
     using System.Collections.Generic;
 
-    public class GameBoard : IGameBoard
+    public class GameBoard
     {
         private int revealedCellsCount;
 
@@ -18,7 +18,7 @@
         private const char EMPTY_CELL = '-';
         private const char MINE = '*';
 
-        private char[,] display; // TODO: FIX CLEARING BOARD ON RESET
+        private char[,] display;
         private int[,] numberOfNeighbourMines;
 
         private static GameBoard board = null; // one and only instance of board
@@ -56,6 +56,14 @@
             AllocateMines(RandomGenerator.GetInstance);
         }
 
+        public char[,] Board
+        {
+            get 
+            { 
+                return display; 
+            }
+            
+        }
         public static GameBoard GetInstance // property to access singleton instance of board. Instance
         {
             get
@@ -121,9 +129,7 @@
         {
             bool isInHorizontalLimits = 0 <= row && row < ROWS;
             bool isInVerticalLimits = 0 <= col && col < COLS;
-            bool isInField = isInHorizontalLimits && isInVerticalLimits;
-
-            return isInField;
+            return isInHorizontalLimits && isInVerticalLimits;
         }
 
         private void PlaceMine(int row, int col)
@@ -151,6 +157,8 @@
                 }
             }
         }
+
+/*
 
         // I've extracted the logic from the Display() into several methods
         private void PrintIndentationOnTheLeft()
@@ -203,7 +211,7 @@
             // print last row
             PrintIndentationOnTheLeft();
             PrintFieldTopAndBottomBorder();
-        }
+        } */
 
         public bool CheckIfHasMine(int row, int col)
         {
