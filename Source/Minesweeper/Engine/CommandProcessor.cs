@@ -7,7 +7,7 @@
 
     public class CommandProcessor
     {
-        private GameBoard gameboard; 
+        private GameBoard gameboard;
         private Scoreboard scoreboard;
 
         public CommandProcessor(GameBoard gameboard, Scoreboard scoreboard)
@@ -16,14 +16,14 @@
             this.Score = scoreboard;
         }
 
-        public GameBoard Gamefield 
-        { 
+        public GameBoard Gamefield
+        {
             get
             {
                 return this.gameboard;
             }
 
-            set 
+            set
             {
                 this.gameboard = value;
             }
@@ -198,9 +198,23 @@
 
         private bool CheckIfValidCoordinates(int row, int col)
         {
-            bool isInsideBoard = !gameboard.IsInsideBoard(row, col);
-            bool isCellRevealed = gameboard.IsCellRevealed(row, col);
-            return isInsideBoard || isCellRevealed;
+            // bullshit
+            //bool isInsideBoard = !gameboard.IsInsideBoard(row, col);
+            //bool isCellRevealed = gameboard.IsCellRevealed(row, col);
+            //return isInsideBoard || isCellRevealed;
+
+            // mother of all bullshits
+            //if (!gameboard.IsInsideBoard(row, col)) 
+            //{
+            //    return false;
+            //}
+            //if (gameboard.IsCellRevealed(row, col))
+            //{
+            //    return false;                
+            //}
+            //return true;
+
+            return !gameboard.IsInsideBoard(row, col) || gameboard.IsCellRevealed(row, col);
         }
 
         private void ProcessCoordinates(string[] inputCoordinates)

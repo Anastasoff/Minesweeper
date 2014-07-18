@@ -6,7 +6,7 @@
     using System;
     using System.Collections.Generic;
 
-    public class GameBoard :IGameBoard
+    public class GameBoard : IGameBoard
     {
         private int revealedCellsCount;
 
@@ -46,7 +46,7 @@
             ResetBoard();
         }
 
-        public  void ResetBoard() // I don't think that it's a best implementation. If any have better idea ...
+        public void ResetBoard()
         {
             display = new char[ROWS, COLS];
             this.mineMap = new List<IGameObject>();
@@ -55,7 +55,7 @@
             InitializeBoardForDisplay();
             AllocateMines(RandomGenerator.GetInstance);
         }
-        
+
         public static GameBoard GetInstance // property to access singleton instance of board. Instance
         {
             get
@@ -98,17 +98,25 @@
             }
         }
 
-        public bool CheckIfMineCanBePlaced(int row, int col)// a separate method checking for valid placement of the mine
+        
+        // Излагаме се ... кой го написа това? 10 лицеви опори веднага! :)
+        //public bool CheckIfMineCanBePlaced(int row, int col)// a separate method checking for valid placement of the mine
+        //{
+        //    if (!IsInsideBoard(row, col) || CheckIfHasMine(row, col))
+        //    {
+        //        return false;
+        //    }
+        //    else
+        //    {
+        //        return true;
+        //    }
+        //}
+
+        public bool CheckIfMineCanBePlaced(int row, int col)
         {
-            if (!IsInsideBoard(row, col) || CheckIfHasMine(row, col))
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return IsInsideBoard(row, col) && !CheckIfHasMine(row, col);
         }
+
 
         public bool IsInsideBoard(int row, int col)
         {
