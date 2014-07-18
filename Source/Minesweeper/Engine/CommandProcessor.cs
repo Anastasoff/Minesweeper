@@ -168,7 +168,7 @@
 
         private void ProcessRestartCommand()
         {
-            GameBoard.ResetBoard();
+            gameboard.ResetBoard();
             ShowWelcomeMessage();
             gameboard.Display();
         }
@@ -220,7 +220,7 @@
                 {
                     ShowEndGameMessage(gameboard, scoreboard);
                     scoreboard.ShowHighScores();
-                    GameBoard.ResetBoard(); // should call on the ClearBoard() from the RenderingEngine
+                    gameboard.ResetBoard(); // should call on the ClearBoard() from the RenderingEngine
                     ShowWelcomeMessage();
                     gameboard.Display();
                 }

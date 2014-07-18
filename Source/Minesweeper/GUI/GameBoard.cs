@@ -26,7 +26,27 @@
         private IList<IGameObject> mineMap;
         private IList<IGameObject> flagMap;
 
+        //private GameBoard() // private constructor
+        //{
+        //    display = new char[ROWS, COLS];
+        //    this.mineMap = new List<IGameObject>();
+        //    this.flagMap = new List<IGameObject>();
+        //    numberOfNeighbourMines = new int[ROWS, COLS];
+        //    InitializeBoardForDisplay();
+        //    AllocateMines(RandomGenerator.GetInstance);
+        //}
+
+        //public static void ResetBoard() // I don't think that it's a best implementation. If any have better idea ...
+        //{
+        //    board = new GameBoard();
+        //}
+
         private GameBoard() // private constructor
+        {
+            ResetBoard();
+        }
+
+        public  void ResetBoard() // I don't think that it's a best implementation. If any have better idea ...
         {
             display = new char[ROWS, COLS];
             this.mineMap = new List<IGameObject>();
@@ -35,12 +55,7 @@
             InitializeBoardForDisplay();
             AllocateMines(RandomGenerator.GetInstance);
         }
-
-        public static void ResetBoard() // I don't think that it's a best implementation. If any have better idea ...
-        {
-            board = new GameBoard();
-        }
-
+        
         public static GameBoard GetInstance // property to access singleton instance of board. Instance
         {
             get
