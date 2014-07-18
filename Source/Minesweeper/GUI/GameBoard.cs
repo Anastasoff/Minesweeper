@@ -12,6 +12,7 @@
 
         private const int ROWS = 5;
         private const int COLS = 10;
+        private const int TOTAL_NUMBER_OF_CELLS = ROWS * COLS;
         private const int NUMBER_OF_MINES = 15;
         private const char UNREVEALED_CELL_CHAR = '?';
         private const char EMPTY_CELL = '-';
@@ -84,7 +85,7 @@
 
         public bool CheckIfMineCanBePlaced(int row, int col)// a separate method checking for valid placement of the mine
         {
-            if (!InsideBoard(row, col) || CheckIfHasMine(row, col))
+            if (!IsInsideBoard(row, col) || CheckIfHasMine(row, col))
             {
                 return false;
             }
@@ -94,7 +95,7 @@
             }
         }
 
-        public bool InsideBoard(int row, int col)
+        public bool IsInsideBoard(int row, int col)
         {
             bool isInHorizontalLimits = 0 <= row && row < ROWS;
             bool isInVerticalLimits = 0 <= col && col < COLS;
@@ -110,7 +111,7 @@
             {
                 for (int neighbouringCol = col - 1; neighbouringCol <= col + 1; neighbouringCol++)
                 {
-                    if (InsideBoard(neighbouringRow, neighbouringCol) && !(CheckIfHasMine(neighbouringRow, neighbouringCol)))
+                    if (IsInsideBoard(neighbouringRow, neighbouringCol) && !(CheckIfHasMine(neighbouringRow, neighbouringCol)))
                     {
                         numberOfNeighbourMines[neighbouringRow, neighbouringCol]++;
                     }
@@ -212,7 +213,7 @@
                     {
                         int newRow = row + previousRow;
                         int newCol = col + previousCol;
-                        if (InsideBoard(newRow, newCol) && IsCellRevealed(newRow, newCol) == false)
+                        if (IsInsideBoard(newRow, newCol) && IsCellRevealed(newRow, newCol) == false)
                         {
                             RevealBlock(newRow, newCol);
                         }
@@ -255,6 +256,18 @@
         {
             // flagMap.Add(new Flag(row, col));
             display[row, col] = 'F';
+        }
+
+        public bool CheckIfGameIsWon()
+        {
+            int numberOfCellsLeft = TOTAL_NUMBER_OF_CELLS - revealedCellsCount;
+
+            if (numberOfCellsLeft == NUMBER_OF_MINES)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

@@ -198,7 +198,7 @@
 
         private bool CheckIfValidCoordinates(int row, int col)
         {
-            bool isInsideBoard = !gameboard.InsideBoard(row, col);
+            bool isInsideBoard = !gameboard.IsInsideBoard(row, col);
             bool isCellRevealed = gameboard.IsCellRevealed(row, col);
             return isInsideBoard || isCellRevealed;
         }
@@ -230,6 +230,11 @@
                     gameboard.Display();
                 }
             }
+
+            if (gameboard.CheckIfGameIsWon())
+            {
+                ShowGameWonMessage(gameboard, scoreboard);
+            }
         }
 
         public void ShowWelcomeMessage()
@@ -251,6 +256,17 @@
             {
                 scoreboard.AddPlayer(board.RevealedCellsCount);
             }
+        }
+
+        public void ShowGameWonMessage(GameBoard board, Scoreboard scoreboard)
+        {
+            board.RevealWholeBoard();
+            board.Display();
+
+            Console.WriteLine("Congratulations! You have escaped all the mines and WON the game!");
+            Console.WriteLine();
+
+            scoreboard.AddPlayer(board.RevealedCellsCount);
         }
     }
 }
