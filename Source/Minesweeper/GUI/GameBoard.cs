@@ -6,7 +6,7 @@
     using System;
     using System.Collections.Generic;
 
-    public class GameBoard:IGameBoard
+    public class GameBoard :IGameBoard
     {
         private int revealedCellsCount;
 
@@ -18,10 +18,6 @@
         private const char MINE = '*';
 
         private char[,] display; // TODO: FIX CLEARING BOARD ON RESET
-
-        //    private bool[,] mineMap;
-        private bool[,] revealed;
-
         private int[,] numberOfNeighbourMines;
 
         private static GameBoard board = null; // one and only instance of board
@@ -32,10 +28,8 @@
         private GameBoard() // private constructor
         {
             display = new char[ROWS, COLS];
-            //  mineMap = new bool[Rows, Cols];
             this.mineMap = new List<IGameObject>();
             this.flagMap = new List<IGameObject>();
-            revealed = new bool[ROWS, COLS];
             numberOfNeighbourMines = new int[ROWS, COLS];
             InitializeBoardForDisplay();
             AllocateMines(RandomGenerator.GetInstance);
@@ -90,7 +84,7 @@
 
         public bool CheckIfMineCanBePlaced(int row, int col)// a separate method checking for valid placement of the mine
         {
-            if (!InBoard(row, col) || CheckIfHasMine(row, col))
+            if (!InsideBoard(row, col) || CheckIfHasMine(row, col))
             {
                 return false;
             }
@@ -100,7 +94,7 @@
             }
         }
 
-        public bool InBoard(int row, int col)
+        public bool InsideBoard(int row, int col)
         {
             bool isInHorizontalLimits = 0 <= row && row < ROWS;
             bool isInVerticalLimits = 0 <= col && col < COLS;
@@ -111,13 +105,12 @@
 
         private void PlaceMine(int row, int col)
         {
-            //  mineMap[row, col] = true;
             this.mineMap.Add(new Mine(row, col)); // TODO: SOLID
             for (int neighbouringRow = row - 1; neighbouringRow <= row + 1; neighbouringRow++)
             {
                 for (int neighbouringCol = col - 1; neighbouringCol <= col + 1; neighbouringCol++)
                 {
-                    if (InBoard(neighbouringRow, neighbouringCol) && !(CheckIfHasMine(neighbouringRow, neighbouringCol)))
+                    if (InsideBoard(neighbouringRow, neighbouringCol) && !(CheckIfHasMine(neighbouringRow, neighbouringCol)))
                     {
                         numberOfNeighbourMines[neighbouringRow, neighbouringCol]++;
                     }
@@ -127,11 +120,11 @@
 
         private void InitializeBoardForDisplay()
         {
-            for (int i = 0; i < ROWS; i++)
+            for (int row = 0; row < ROWS; row++)
             {
-                for (int j = 0; j < COLS; j++)
+                for (int col = 0; col < COLS; col++)
                 {
-                    display[i, j] = UNREVEALED_CELL_CHAR;
+                    display[row, col] = UNREVEALED_CELL_CHAR;
                 }
             }
         }
@@ -204,8 +197,6 @@
             }
 
             return false;
-
-            //return mineMap[row, col];
         }
 
         public void RevealBlock(int row, int col)
@@ -213,7 +204,6 @@
             string numOfNeighbouringMinesToStr = numberOfNeighbourMines[row, col].ToString();
             display[row, col] = Convert.ToChar(numOfNeighbouringMinesToStr);
             RevealedCellsCount++;
-            revealed[row, col] = true;
             if (display[row, col] == '0')
             {
                 for (int previousRow = -1; previousRow <= 1; previousRow++)
@@ -222,7 +212,7 @@
                     {
                         int newRow = row + previousRow;
                         int newCol = col + previousCol;
-                        if (InBoard(newRow, newCol) && revealed[newRow, newCol] == false)
+                        if (InsideBoard(newRow, newCol) && IsCellRevealed(newRow, newCol) == false)
                         {
                             RevealBlock(newRow, newCol);
                         }
@@ -233,26 +223,32 @@
 
         public void RevealWholeBoard()
         {
-            for (int i = 0; i < ROWS; i++)
+            for (int row = 0; row < ROWS; row++)
             {
-                for (int j = 0; j < COLS; j++)
+                for (int col = 0; col < COLS; col++)
                 {
-                    if (!revealed[i, j])
+                    if (!IsCellRevealed(row, col))
                     {
-                        display[i, j] = EMPTY_CELL;
+                        display[row, col] = EMPTY_CELL;
                     }
 
-                    if (CheckIfHasMine(i, j))
+                    if (CheckIfHasMine(row, col))
                     {
-                        display[i, j] = MINE;
+                        display[row, col] = MINE;
                     }
                 }
             }
         }
 
-        public bool CellIsRevealed(int row, int col)
+        public bool IsCellRevealed(int row, int col)
         {
-            return revealed[row, col];
+            var cellToCheck = display[row, col];
+            if (cellToCheck == UNREVEALED_CELL_CHAR)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public void PlaceFlag(int row, int col)

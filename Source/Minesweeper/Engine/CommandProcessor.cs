@@ -198,8 +198,8 @@
 
         private bool CheckIfValidCoordinates(int row, int col)
         {
-            bool isInsideBoard = !gameboard.InBoard(row, col);
-            bool isCellRevealed = gameboard.CellIsRevealed(row, col);
+            bool isInsideBoard = !gameboard.InsideBoard(row, col);
+            bool isCellRevealed = gameboard.IsCellRevealed(row, col);
             return isInsideBoard || isCellRevealed;
         }
 
