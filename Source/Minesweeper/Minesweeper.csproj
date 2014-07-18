@@ -47,8 +47,10 @@
     <Compile Include="GameObjects\Flag.cs" />
     <Compile Include="GameObjects\Mine.cs" />
     <Compile Include="GameObjects\Position.cs" />
+    <Compile Include="GUI\ConsoleInterface.cs" />
     <Compile Include="Interfaces\IGameBoard.cs" />
     <Compile Include="Interfaces\IGameObject.cs" />
+    <Compile Include="Interfaces\IOInterface.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Interfaces\IRenderer.cs" />
     <Compile Include="Interfaces\IScoreBoard.cs" />

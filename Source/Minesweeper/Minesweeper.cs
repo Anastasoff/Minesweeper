@@ -2,6 +2,7 @@
 {
     using Engine;
     using GUI;
+    using Interfaces;
 
     public class Minesweeper
     {
@@ -12,9 +13,10 @@
         {
             // TODO: Add instance of the GameRenderingEngine and call that instance when creating the game engine
             Scoreboard scoreboard = Scoreboard.GetInstance;
-            GameBoard board = GameBoard.GetInstance; // calling singleton
-            CommandProcessor commandProcessor = new CommandProcessor(board, scoreboard);
-            GameEngine engine = new GameEngine(commandProcessor);
+            GameBoard gameBoard = GameBoard.GetInstance;
+            IOInterface userInterractor = new ConsoleInterface();
+            CommandProcessor commandProcessor = new CommandProcessor(gameBoard, scoreboard,userInterractor);
+            GameEngine engine = new GameEngine(commandProcessor,userInterractor);
             engine.Play();
         }
     }

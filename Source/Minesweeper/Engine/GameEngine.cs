@@ -2,34 +2,28 @@
 {
     using GUI;
     using System;
+    using Interfaces;
 
     public class GameEngine
     {
         private CommandProcessor commandProcessor;
+        private IOInterface userIterractor;
 
-        public GameEngine(CommandProcessor processor)
+        public GameEngine(CommandProcessor processor, IOInterface iterractor)
         {
             this.commandProcessor = processor;
+            this.userIterractor = iterractor;
         }
 
         public void Play()
         {
-            this.commandProcessor.ShowWelcomeMessage();
-            this.commandProcessor.Gamefield.Display();
-
+            userIterractor.showWelcomeScreen();
+            this.commandProcessor.GameBoard.Display();
             while (true)
             {
-                string input = ReadInput();
+                string input = userIterractor.getUserInput("Enter row and column: ");
                 commandProcessor.ExecuteCommand(input);
             }
-        }
-
-        private string ReadInput() // new function to reduce the mess in the while(true) loop
-        {
-            Console.Write("Enter row and column: "); // TODO: "or another command"
-            string commandRead = Console.ReadLine();
-            commandRead = commandRead.Trim();
-            return commandRead;
         }
     }
 }
