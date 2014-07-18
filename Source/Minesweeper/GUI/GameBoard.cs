@@ -52,6 +52,7 @@
             this.mineMap = new List<IGameObject>();
             this.flagMap = new List<IGameObject>();
             numberOfNeighbourMines = new int[ROWS, COLS];
+            this.RevealedCellsCount = 0;
             InitializeBoardForDisplay();
             AllocateMines(RandomGenerator.GetInstance);
         }
@@ -283,7 +284,7 @@
 
         public bool CheckIfGameIsWon()
         {
-            int numberOfCellsLeft = TOTAL_NUMBER_OF_CELLS - revealedCellsCount;
+            int numberOfCellsLeft = TOTAL_NUMBER_OF_CELLS - this.RevealedCellsCount;
 
             if (numberOfCellsLeft == NUMBER_OF_MINES)
             {
