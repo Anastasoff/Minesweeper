@@ -48,10 +48,10 @@
 
         public void ResetBoard()
         {
-            display = new char[ROWS, COLS];
+            this.display = new char[ROWS, COLS];
             this.mineMap = new List<IGameObject>();
             this.flagMap = new List<IGameObject>();
-            numberOfNeighbourMines = new int[ROWS, COLS];
+            this.numberOfNeighbourMines = new int[ROWS, COLS];
             InitializeBoardForDisplay();
             AllocateMines(RandomGenerator.GetInstance);
         }
@@ -218,13 +218,16 @@
 
         public bool IsCellRevealed(int row, int col)
         {
-            var cellToCheck = display[row, col];
-            if (cellToCheck == UNREVEALED_CELL_CHAR)
-            {
-                return false;
-            }
+            //var cellToCheck = display[row, col];
+            //if (cellToCheck == UNREVEALED_CELL_CHAR)
+            //{
+            //    return false;
+            //}
 
-            return true;
+            //return true;
+
+            return display[row, col] != UNREVEALED_CELL_CHAR;
+        
         }
 
         public void PlaceFlag(int row, int col)
@@ -237,12 +240,13 @@
         {
             int numberOfCellsLeft = TOTAL_NUMBER_OF_CELLS - revealedCellsCount;
 
-            if (numberOfCellsLeft == NUMBER_OF_MINES)
-            {
-                return true;
-            }
+            //if (numberOfCellsLeft == NUMBER_OF_MINES)
+            //{
+            //    return true;
+            //}
 
-            return false;
+            //return false;
+            return numberOfCellsLeft == NUMBER_OF_MINES;
         }
     }
 }
