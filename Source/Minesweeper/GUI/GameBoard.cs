@@ -1,10 +1,11 @@
 ﻿namespace Minesweeper.GUI
 {
+    using System;
+    using System.Collections.Generic;
+
     using Common;
     using GameObjects;
     using Interfaces;
-    using System;
-    using System.Collections.Generic;
 
     public class GameBoard
     {
@@ -14,17 +15,18 @@
         private const int COLS = 10;
         private const int TOTAL_NUMBER_OF_CELLS = ROWS * COLS;
         private const int NUMBER_OF_MINES = 15;
-        private const char UNREVEALED_CELL_CHAR = '?';
-        private const char EMPTY_CELL = '-';
-        private const char MINE = '*';
 
-        private char[,] display;
-        private int[,] numberOfNeighbourMines;
+        private Cell[,] cellsMap;
 
         private static GameBoard board = null; // one and only instance of board
 
-        private IList<IGameObject> mineMap;
-        private IList<IGameObject> flagMap;
+        private IList<Position> minePositions;
+        private Dictionary<Position, int> numbersPositions;
+
+        private IVisitor neighbouringMinesVisitor;
+        private IVisitor flagVisitor;
+        private IVisitor symbolVisitor;
+        private IVisitor endGameVisitor;
 
         //private GameBoard() // private constructor
         //{
@@ -48,19 +50,19 @@
 
         public void ResetBoard()
         {
-            this.display = new char[ROWS, COLS];
-            this.mineMap = new List<IGameObject>();
-            this.flagMap = new List<IGameObject>();
-            this.numberOfNeighbourMines = new int[ROWS, COLS];
-            InitializeBoardForDisplay();
+            this.minePositions = new List<Position>();
+            this.numbersPositions = new Dictionary<Position, int>();
+            this.cellsMap = new Cell[ROWS, COLS];
+            this.RevealedCellsCount = 0;
             AllocateMines(RandomGenerator.GetInstance);
+            InitializeBoardForDisplay();
         }
 
-        public char[,] Board
+        public Cell[,] Board
         {
             get 
             { 
-                return display; 
+                return cellsMap; 
             }
             
         }
@@ -89,23 +91,6 @@
                 this.revealedCellsCount = value;
             }
         }
-
-        private void AllocateMines(Random generator)// renamed method - it was easy to mistake it for PlaceMine
-        {
-            int actualNumberOfMines = 0;
-            while (actualNumberOfMines < NUMBER_OF_MINES)
-            {
-                int currentRow = generator.Next(ROWS);// a few new variables for easier reading
-                int currentCol = generator.Next(COLS);
-                bool validPlaceForMine = CheckIfMineCanBePlaced(currentRow, currentCol);
-                if (validPlaceForMine)
-                {
-                    PlaceMine(currentRow, currentCol);
-                    actualNumberOfMines++;
-                }
-            }
-        }
-
         
         // Излагаме се ... кой го написа това? 10 лицеви опори веднага! :)
         //public bool CheckIfMineCanBePlaced(int row, int col)// a separate method checking for valid placement of the mine
@@ -132,39 +117,13 @@
             return isInHorizontalLimits && isInVerticalLimits;
         }
 
-        private void PlaceMine(int row, int col)
-        {
-            this.mineMap.Add(new Mine(row, col)); // TODO: SOLID
-            for (int neighbouringRow = row - 1; neighbouringRow <= row + 1; neighbouringRow++)
-            {
-                for (int neighbouringCol = col - 1; neighbouringCol <= col + 1; neighbouringCol++)
-                {
-                    if (IsInsideBoard(neighbouringRow, neighbouringCol) && !(CheckIfHasMine(neighbouringRow, neighbouringCol)))
-                    {
-                        numberOfNeighbourMines[neighbouringRow, neighbouringCol]++;
-                    }
-                }
-            }
-        }
-
-        private void InitializeBoardForDisplay()
-        {
-            for (int row = 0; row < ROWS; row++)
-            {
-                for (int col = 0; col < COLS; col++)
-                {
-                    display[row, col] = UNREVEALED_CELL_CHAR;
-                }
-            }
-        }
-
         public bool CheckIfHasMine(int row, int col)
         {
-            for (int i = 0; i < this.mineMap.Count; i++)
+            for (int i = 0; i < this.minePositions.Count; i++)
             {
-                Mine currentMine = mineMap[i] as Mine;
-                int minePositionX = currentMine.Coordinates.row;
-                int minePositionY = currentMine.Coordinates.col;
+                Position currentMinePosition = minePositions[i];
+                int minePositionX = currentMinePosition.row;
+                int minePositionY = currentMinePosition.col;
 
                 if (minePositionX == row && minePositionY == col)
                 {
@@ -177,10 +136,13 @@
 
         public void RevealBlock(int row, int col)
         {
-            string numOfNeighbouringMinesToStr = numberOfNeighbourMines[row, col].ToString();
-            display[row, col] = Convert.ToChar(numOfNeighbouringMinesToStr);
-            RevealedCellsCount++;
-            if (display[row, col] == '0')
+            var currentCell = cellsMap[row, col];
+            this.symbolVisitor = new SymbolVisitor();
+            currentCell.Accept(symbolVisitor);
+
+            this.RevealedCellsCount++;
+
+            if (currentCell.Symbol == '0')
             {
                 for (int previousRow = -1; previousRow <= 1; previousRow++)
                 {
@@ -203,15 +165,9 @@
             {
                 for (int col = 0; col < COLS; col++)
                 {
-                    if (!IsCellRevealed(row, col))
-                    {
-                        display[row, col] = EMPTY_CELL;
-                    }
-
-                    if (CheckIfHasMine(row, col))
-                    {
-                        display[row, col] = MINE;
-                    }
+                    var currentCell = cellsMap[row, col];
+                    this.endGameVisitor = new EndGameVisitor();
+                    currentCell.Accept(this.endGameVisitor);
                 }
             }
         }
@@ -226,14 +182,14 @@
 
             //return true;
 
-            return display[row, col] != UNREVEALED_CELL_CHAR;
+            return cellsMap[row, col].IsCellRevealed;
         
         }
 
         public void PlaceFlag(int row, int col)
         {
-            // flagMap.Add(new Flag(row, col));
-            display[row, col] = 'F';
+            this.flagVisitor = new FlagVisitor();
+            cellsMap[row, col].Accept(flagVisitor);
         }
 
         public bool CheckIfGameIsWon()
@@ -247,6 +203,79 @@
 
             //return false;
             return numberOfCellsLeft == NUMBER_OF_MINES;
+        }
+
+        private void AllocateMines(Random generator)// renamed method - it was easy to mistake it for PlaceMine
+        {
+            int actualNumberOfMines = 0;
+            while (actualNumberOfMines < NUMBER_OF_MINES)
+            {
+                int currentRow = generator.Next(ROWS);// a few new variables for easier reading
+                int currentCol = generator.Next(COLS);
+                bool validPlaceForMine = CheckIfMineCanBePlaced(currentRow, currentCol);
+                if (validPlaceForMine)
+                {
+                    PlaceMine(currentRow, currentCol);
+                    actualNumberOfMines++;
+                }
+            }
+        }
+
+        private void PlaceMine(int row, int col)
+        {
+            this.minePositions.Add(new Position(row, col)); // TODO: SOLID
+            for (int neighbouringRow = row - 1; neighbouringRow <= row + 1; neighbouringRow++)
+            {
+                for (int neighbouringCol = col - 1; neighbouringCol <= col + 1; neighbouringCol++)
+                {
+                    if (IsInsideBoard(neighbouringRow, neighbouringCol) && !(CheckIfHasMine(neighbouringRow, neighbouringCol)))
+                    {
+                        var position = new Position(neighbouringRow, neighbouringCol);
+                        var numberOfNeighbouringMines = 0;
+
+                        if (numbersPositions.ContainsKey(position))
+                        {
+                            numbersPositions[position]++;
+                        }
+                        else
+                        {
+                            numberOfNeighbouringMines = 1;
+                            numbersPositions.Add(position, numberOfNeighbouringMines);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void InitializeBoardForDisplay()
+        {
+            for (int row = 0; row < ROWS; row++)
+            {
+                for (int col = 0; col < COLS; col++)
+                {
+                    if (CheckIfHasMine(row, col))
+                    {
+                        cellsMap[row, col] = new MineCell(row, col);
+                    }
+                    else
+                    {
+                        cellsMap[row, col] = new RegularCell(row, col);
+                        var currentCellPosition = cellsMap[row, col].Coordinates;
+
+                        if (CheckIfHasNeighbouringMines(currentCellPosition))
+                        {
+                            var numberOfMines = numbersPositions[currentCellPosition];
+                            this.neighbouringMinesVisitor = new NeighbouringMinesVisitor(numberOfMines);
+                            cellsMap[row, col].Accept(this.neighbouringMinesVisitor);
+                        }
+                    }
+                }
+            }
+        }
+
+        private bool CheckIfHasNeighbouringMines(Position currentPosition)
+        {
+            return numbersPositions.ContainsKey(currentPosition);
         }
     }
 }

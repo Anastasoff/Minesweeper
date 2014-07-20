@@ -4,8 +4,10 @@
 
     public interface IGameObject
     {
-        char Symbol { get; }
+        char Symbol { get; set; }
 
         Position Coordinates { get; }
+
+        bool IsCellRevealed { get; set; }
     }
 }

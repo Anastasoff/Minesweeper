@@ -1,9 +1,11 @@
-﻿using System;
-using Minesweeper.Interfaces;
-
-namespace Minesweeper.GUI
+﻿namespace Minesweeper.GUI
 {
-    class ConsoleInterface :IOInterface
+    using System;
+
+    using GameObjects;
+    using Interfaces;
+
+    class ConsoleInterface : IOInterface
     {
         public string GetUserInput(string message)
         {
@@ -55,7 +57,7 @@ namespace Minesweeper.GUI
             Console.WriteLine();
         }
 
-        private void PrintGameField(char[,] board)
+        private void PrintGameField(Cell[,] board)
         {
             int rows = board.GetLength(0);
             int cols = board.GetLength(1);
@@ -64,14 +66,14 @@ namespace Minesweeper.GUI
                 Console.Write(i + " | ");
                 for (int j = 0; j < cols; j++)
                 {
-                    Console.Write(board[i, j] + " ");
+                    Console.Write(board[i, j].Symbol + " ");
                 }
 
                 Console.WriteLine("|");
             }
         }
 
-        public void DrawBoard(char[,] board)
+        public void DrawBoard(Cell[,] board)
         {
             int rows = board.GetLength(0);
             int cols = board.GetLength(1);
@@ -89,8 +91,5 @@ namespace Minesweeper.GUI
             PrintIndentationOnTheLeft();
             PrintFieldTopAndBottomBorder(cols);
         }
-
-
-
     }
 }

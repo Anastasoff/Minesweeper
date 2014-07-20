@@ -44,9 +44,14 @@
     <Compile Include="Common\RandomGenerator.cs" />
     <Compile Include="Engine\Command.cs" />
     <Compile Include="Engine\GameEngine.cs" />
-    <Compile Include="GameObjects\Flag.cs" />
-    <Compile Include="GameObjects\Mine.cs" />
+    <Compile Include="GameObjects\Cell.cs" />
+    <Compile Include="GameObjects\EndGameVisitor.cs" />
+    <Compile Include="GameObjects\FlagVisitor.cs" />
+    <Compile Include="GameObjects\MineCell.cs" />
+    <Compile Include="GameObjects\NeighbouringMinesVisitor.cs" />
     <Compile Include="GameObjects\Position.cs" />
+    <Compile Include="GameObjects\RegularCell.cs" />
+    <Compile Include="GameObjects\SymbolVisitor.cs" />
     <Compile Include="GUI\ConsoleInterface.cs" />
     <Compile Include="Interfaces\IGameBoard.cs" />
     <Compile Include="Interfaces\IGameObject.cs" />
@@ -54,6 +59,8 @@
     <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Interfaces\IRenderer.cs" />
     <Compile Include="Interfaces\IScoreBoard.cs" />
+    <Compile Include="Interfaces\IVisitable.cs" />
+    <Compile Include="Interfaces\IVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GUI\GameBoard.cs" />
     <Compile Include="Engine\CommandProcessor.cs" />

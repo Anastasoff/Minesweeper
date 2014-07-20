@@ -1,7 +1,8 @@
 ﻿namespace Minesweeper.Engine
 {
-    using GUI;
     using System;
+
+    using GUI;
     using Interfaces;
 
     public class GameEngine

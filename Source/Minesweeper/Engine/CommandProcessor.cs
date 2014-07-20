@@ -1,9 +1,10 @@
 ﻿namespace Minesweeper.Engine
 {
-    using GUI;
     using System;
     using System.Linq;
     using System.Collections.Generic;
+
+    using GUI;
     using Interfaces;
 
     public class CommandProcessor
@@ -133,7 +134,16 @@
             int row = int.Parse(commandsArr[1]);
             int col = int.Parse(commandsArr[2]);
 
-            gameBoard.PlaceFlag(row, col);
+            if (gameBoard.IsCellRevealed(row, col))
+            {
+                userIteractor.ShowMessage("Cannot place flag on an already revealed cell! Please enter new cell coordinates!");
+                userIteractor.ShowMessage();
+            }
+            else
+            {
+                gameBoard.PlaceFlag(row, col);
+            }
+
             userIteractor.DrawBoard(gameBoard.Board);
         }
 
@@ -144,10 +154,8 @@
             userIteractor.DrawBoard(gameBoard.Board);
         }
 
-
         private void ProcessCoordinates(string[] inputCoordinates)
         {
-
             int row = int.Parse(inputCoordinates[0]);
             int col = int.Parse(inputCoordinates[1]);
 
@@ -155,13 +163,23 @@
             {
                 ShowEndGameMessage(gameBoard, scoreBoard);
                 scoreBoard.ShowHighScores();
-                gameBoard.ResetBoard(); // should call on the ClearBoard() from the RenderingEngine
+                gameBoard.ResetBoard();
                 userIteractor.ShowWelcomeScreen();
             }
             else
             {
-                gameBoard.RevealBlock(row, col);
+                // this can be extracted in a separate method since the same check is done in the PlaceFlag() but I do not how to make a delegate so that I can give another method as a parameter
+                if (gameBoard.IsCellRevealed(row, col))
+                {
+                    userIteractor.ShowMessage("This cell has already been revealed! Please enter new cell coordinates!");
+                    userIteractor.ShowMessage();
+                }
+                else
+                {
+                    gameBoard.RevealBlock(row, col);
+                }
             }
+
             userIteractor.DrawBoard(gameBoard.Board);
 
             if (gameBoard.CheckIfGameIsWon())

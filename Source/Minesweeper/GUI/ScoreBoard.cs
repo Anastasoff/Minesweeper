@@ -1,9 +1,10 @@
 ﻿namespace Minesweeper.GUI
 {
-    using Interfaces;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+
+    using Interfaces;
 
     public class Scoreboard : IScoreBoard
     {

@@ -1,7 +1,8 @@
 ﻿namespace Minesweeper
 {
-    using Interfaces;
     using System;
+
+    using Interfaces;
 
     public class Player : IPlayer
     {
