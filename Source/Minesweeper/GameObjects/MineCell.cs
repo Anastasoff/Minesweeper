@@ -6,12 +6,10 @@
 
     public class MineCell : Cell
     {
-        // had to make the field readonly in order to access it from the visitor classes
-        public const char DEFAULT_MINE_CELL_SYMBOL = '*'; 
-
         public MineCell(int row, int col)
-            :base(row, col)
+            : base(row, col)
         {
+            this.Type = CellTypes.Mine;
         }
 
         public override void Accept(IVisitor visitor)

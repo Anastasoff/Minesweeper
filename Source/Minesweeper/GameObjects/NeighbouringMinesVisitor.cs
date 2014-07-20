@@ -13,14 +13,13 @@
             this.numberOfMines = numberOfMines;
         }
 
-        public void Visit(RegularCell regularCell)
+        public void Visit(Cell regularCell)
         {
-            regularCell.SetNumberOfNeighbouringMines(numberOfMines);
-        }
-
-        public void Visit(MineCell mine)
-        {
-            throw new NotImplementedException();
+            if (regularCell is RegularCell)
+            {
+                var cell = regularCell as RegularCell;
+                cell.NumberOfNeighbouringMines = numberOfMines;
+            }
         }
     }
 }

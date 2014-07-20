@@ -15,7 +15,7 @@
         private const int COLS = 10;
         private const int TOTAL_NUMBER_OF_CELLS = ROWS * COLS;
         private const int NUMBER_OF_MINES = 15;
-        private const char DEFAULT_NUMBER_OF_NEIGHBOURING_MINES = '0';
+        private const int DEFAULT_NUMBER_OF_NEIGHBOURING_MINES = 0;
 
         private Cell[,] cellsMap;
 
@@ -26,8 +26,7 @@
 
         private IVisitor neighbouringMinesVisitor;
         private IVisitor flagVisitor;
-        private IVisitor symbolVisitor;
-        private IVisitor endGameVisitor;
+        private IVisitor cellRevealingVisitor;
 
         //private GameBoard() // private constructor
         //{
@@ -138,12 +137,13 @@
         public void RevealBlock(int row, int col)
         {
             var currentCell = cellsMap[row, col];
-            this.symbolVisitor = new SymbolVisitor();
-            currentCell.Accept(symbolVisitor);
+            this.cellRevealingVisitor = new CellRevealingVisitor();
+            currentCell.Accept(cellRevealingVisitor);
+            var regularCell = currentCell as RegularCell;
 
             this.RevealedCellsCount++;
 
-            if (currentCell.Symbol == DEFAULT_NUMBER_OF_NEIGHBOURING_MINES)
+            if (regularCell.NumberOfNeighbouringMines == DEFAULT_NUMBER_OF_NEIGHBOURING_MINES)
             {
                 for (int previousRow = -1; previousRow <= 1; previousRow++)
                 {
@@ -167,8 +167,28 @@
                 for (int col = 0; col < COLS; col++)
                 {
                     var currentCell = cellsMap[row, col];
-                    this.endGameVisitor = new EndGameVisitor();
-                    currentCell.Accept(this.endGameVisitor);
+                    var cellType = currentCell.Type;
+
+                    switch (cellType)
+                    {
+                        case CellTypes.Regular:
+                            if (!currentCell.IsCellRevealed)
+                            {
+                                currentCell.Type = CellTypes.Unrevealed_Regular_Cell;
+                            }
+                            break;
+                        case CellTypes.Mine:
+                            currentCell.IsCellRevealed = true;
+                            break;
+                        case CellTypes.Flag:
+                            if (currentCell is RegularCell)
+                            {
+                                currentCell.Type = CellTypes.Unrevealed_Regular_Cell;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
         }

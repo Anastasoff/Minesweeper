@@ -83,7 +83,11 @@
         public void ShowEndGameMessage(GameBoard board, Scoreboard scoreboard) // this parameters may not be needed
         {
             board.RevealWholeBoard();
+
+            userIteractor.ClearScreen();
+            userIteractor.ShowWelcomeScreen();
             userIteractor.DrawBoard(gameBoard.Board);
+
             userIteractor.ShowMessage("Booooom! You were killed by a mine. You revealed " + board.RevealedCellsCount + " cells without mines.");
             userIteractor.ShowMessage();
 
@@ -93,9 +97,13 @@
             }
         }
 
+        // TODO: the logic of the method is the same as the logic of ShowEndGameMessage() -> extract in a separate private method
         public void ShowGameWonMessage(GameBoard board, Scoreboard scoreboard) // this parameters may not be needed
         {
             board.RevealWholeBoard();
+
+            userIteractor.ClearScreen();
+            userIteractor.ShowWelcomeScreen();
             userIteractor.DrawBoard(gameBoard.Board);
 
             userIteractor.ShowMessage("Congratulations! You have escaped all the mines and WON the game!");
@@ -160,12 +168,15 @@
             var cellHandler = new CellHandler(gameBoard.PlaceFlag);
             CheckIfCellIsRevealed(cellHandler, row, col);
 
+            userIteractor.ClearScreen();
+            userIteractor.ShowWelcomeScreen();
             userIteractor.DrawBoard(gameBoard.Board);
         }
 
         private void ProcessRestartCommand()
         {
             gameBoard.ResetBoard();
+            userIteractor.ClearScreen();
             userIteractor.ShowWelcomeScreen();
             userIteractor.DrawBoard(gameBoard.Board);
         }
@@ -178,8 +189,9 @@
             if (gameBoard.CheckIfHasMine(row, col))
             {
                 ShowEndGameMessage(gameBoard, scoreBoard);
-                scoreBoard.ShowHighScores();
                 gameBoard.ResetBoard();
+                userIteractor.ClearScreen();
+                scoreBoard.ShowHighScores(); // TODO: issue -> for some reason does not display the high scores but it's working properly when entering "top" from the console
                 userIteractor.ShowWelcomeScreen();
             }
             else
@@ -188,6 +200,8 @@
                 CheckIfCellIsRevealed(cellHandler, row, col);
             }
 
+            userIteractor.ClearScreen();
+            userIteractor.ShowWelcomeScreen();
             userIteractor.DrawBoard(gameBoard.Board);
 
             if (gameBoard.CheckIfGameIsWon())

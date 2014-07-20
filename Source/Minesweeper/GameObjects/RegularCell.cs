@@ -14,21 +14,20 @@
             : base(row, col)
         {
             this.NumberOfNeighbouringMines = INITIAL_MINES_COUNT;
+            this.Type = CellTypes.Regular;
         }
 
         public int NumberOfNeighbouringMines 
         {
-            get { return this.numberOfNeighbouringMines; }
+            get 
+            {
+                return this.numberOfNeighbouringMines; 
+            }
 
-            private set
+            set
             {
                 this.numberOfNeighbouringMines = value;
             }
-        }
-
-        public void SetNumberOfNeighbouringMines(int numberOfMines)
-        {
-            this.NumberOfNeighbouringMines = numberOfMines;
         }
 
         public override void Accept(IVisitor visitor)

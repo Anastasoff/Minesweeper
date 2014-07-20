@@ -7,6 +7,11 @@
 
     class ConsoleInterface : IOInterface
     {
+        private const char DEFAULT_FLAG_SYMBOL = 'F';
+        private const char DEFAULT_MINE_CELL_SYMBOL = '*';
+        private const char DEFAULT_REGULAR_CELL_SYMBOL = '-';
+        private const char DEFAULT_UNREVEALED_CELL_SYMBOL = '?';
+
         public string GetUserInput(string message)
         {
             Console.Write(message);
@@ -22,6 +27,7 @@
         {
             Console.WriteLine();
         }
+
         public void ShowWelcomeScreen()
         {
             Console.WriteLine("Welcome to the game “Minesweeper”. Try to reveal all cells without mines.");
@@ -32,9 +38,28 @@
         public void ClearScreen()
         {
             // TODO: Implement this method
-            throw new NotImplementedException();
+            Console.Clear();
         }
 
+        public void DrawBoard(Cell[,] board)
+        {
+            int rows = board.GetLength(0);
+            int cols = board.GetLength(1);
+
+            // print first row
+            PrintIndentationOnTheLeft();
+            PrintFieldsNumberOfColumns(cols);
+
+            // print second row
+            PrintIndentationOnTheLeft();
+            PrintFieldTopAndBottomBorder(cols);
+
+            PrintGameField(board);
+
+            // print last row
+            PrintIndentationOnTheLeft();
+            PrintFieldTopAndBottomBorder(cols);
+        }
 
         // I've extracted the logic from the Display() into several methods
         private void PrintIndentationOnTheLeft()
@@ -61,35 +86,55 @@
         {
             int rows = board.GetLength(0);
             int cols = board.GetLength(1);
-            for (int i = 0; i < rows; i++)
+            for (int row = 0; row < rows; row++)
             {
-                Console.Write(i + " | ");
-                for (int j = 0; j < cols; j++)
+                Console.Write(row + " | ");
+                for (int col = 0; col < cols; col++)
                 {
-                    Console.Write(board[i, j].Symbol + " ");
+                    var currentCell = board[row, col];
+                    SetCellSymbol(currentCell);
                 }
 
                 Console.WriteLine("|");
             }
         }
 
-        public void DrawBoard(Cell[,] board)
+        private void SetCellSymbol(Cell currentCell)
         {
-            int rows = board.GetLength(0);
-            int cols = board.GetLength(1);
-            // print first row
-            PrintIndentationOnTheLeft();
-            PrintFieldsNumberOfColumns(cols);
+            var cellType = currentCell.Type;
 
-            // print second row
-            PrintIndentationOnTheLeft();
-            PrintFieldTopAndBottomBorder(cols);
+            switch (cellType)
+            {
+                case CellTypes.Regular:
+                    var cell = currentCell as RegularCell;
+                    var numberOfNeighbouringMinesToStr = cell.NumberOfNeighbouringMines.ToString();
+                    var cellSymbol = Convert.ToChar(numberOfNeighbouringMinesToStr);
+                    SetRegularAndMineCellsSymbol(currentCell, cellSymbol, DEFAULT_UNREVEALED_CELL_SYMBOL);
+                    break;
+                case CellTypes.Mine:
+                    SetRegularAndMineCellsSymbol(currentCell, DEFAULT_MINE_CELL_SYMBOL, DEFAULT_UNREVEALED_CELL_SYMBOL);
+                    break;
+                case CellTypes.Flag:
+                    Console.Write(DEFAULT_FLAG_SYMBOL + " ");
+                    break;
+                case CellTypes.Unrevealed_Regular_Cell:
+                    Console.Write(DEFAULT_REGULAR_CELL_SYMBOL + " ");
+                    break;
+                default:
+                    break;
+            }
+        }
 
-            PrintGameField(board);
-
-            // print last row
-            PrintIndentationOnTheLeft();
-            PrintFieldTopAndBottomBorder(cols);
+        private void SetRegularAndMineCellsSymbol(Cell currentCell, char revealedCellSymbol, char unrevealedCellSymbol)
+        {
+            if (currentCell.IsCellRevealed)
+            {
+                Console.Write(revealedCellSymbol + " ");
+            }
+            else
+            {
+                Console.Write(unrevealedCellSymbol + " ");
+            }
         }
     }
 }
