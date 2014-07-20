@@ -18,7 +18,7 @@
 
         public void Visit(MineCell mine)
         {
-            mine.Symbol = mine.DEFAULT_MINE_CELL_SYMBOL;
+            mine.Symbol = MineCell.DEFAULT_MINE_CELL_SYMBOL;
         }
     }
 }

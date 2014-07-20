@@ -15,6 +15,7 @@
         private const int COLS = 10;
         private const int TOTAL_NUMBER_OF_CELLS = ROWS * COLS;
         private const int NUMBER_OF_MINES = 15;
+        private const char DEFAULT_NUMBER_OF_NEIGHBOURING_MINES = '0';
 
         private Cell[,] cellsMap;
 
@@ -142,7 +143,7 @@
 
             this.RevealedCellsCount++;
 
-            if (currentCell.Symbol == '0')
+            if (currentCell.Symbol == DEFAULT_NUMBER_OF_NEIGHBOURING_MINES)
             {
                 for (int previousRow = -1; previousRow <= 1; previousRow++)
                 {

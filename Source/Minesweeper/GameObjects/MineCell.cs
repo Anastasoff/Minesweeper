@@ -7,7 +7,7 @@
     public class MineCell : Cell
     {
         // had to make the field readonly in order to access it from the visitor classes
-        public readonly char DEFAULT_MINE_CELL_SYMBOL = '*'; 
+        public const char DEFAULT_MINE_CELL_SYMBOL = '*'; 
 
         public MineCell(int row, int col)
             :base(row, col)

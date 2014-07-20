@@ -13,6 +13,7 @@
         private GameBoard gameBoard;
         private Scoreboard scoreBoard;
         private IOInterface userIteractor;
+        private delegate void CellHandler(int row, int col);
 
         public CommandProcessor(GameBoard board, Scoreboard score, IOInterface userIteractor)
         {
@@ -24,7 +25,6 @@
             this.commands.Add("top", Command.Top);
             this.commands.Add("restart", Command.Restart);
             this.commands.Add("flag", Command.Flag);
-
         }
 
         public GameBoard GameBoard
@@ -51,6 +51,57 @@
             {
                 this.scoreBoard = value;
             }
+        }
+
+        public void ExecuteCommand(string input)
+        {
+            string[] commandsArr = input.Split(' ');
+            Command command = ExtractCommand(commandsArr);
+            switch (command)
+            {
+                case Command.InvalidMove:
+                    userIteractor.ShowMessage("Invalid rows or cols! Try again");
+                    break;
+                case Command.Exit:
+                    userIteractor.ShowMessage("Goodbye!");
+                    Environment.Exit(0);
+                    break;
+                case Command.Top:
+                    scoreBoard.ShowHighScores();
+                    break;
+                case Command.Restart: ProcessRestartCommand();
+                    break;
+                case Command.Flag: ProcessFlagCommand(commandsArr);
+                    break;
+                case Command.InvalidInput:
+                    userIteractor.ShowMessage("Invalid input! Please try again!");
+                    break;
+                default: ProcessCoordinates(commandsArr);
+                    break;
+            }
+        }
+        public void ShowEndGameMessage(GameBoard board, Scoreboard scoreboard) // this parameters may not be needed
+        {
+            board.RevealWholeBoard();
+            userIteractor.DrawBoard(gameBoard.Board);
+            userIteractor.ShowMessage("Booooom! You were killed by a mine. You revealed " + board.RevealedCellsCount + " cells without mines.");
+            userIteractor.ShowMessage();
+
+            if (board.RevealedCellsCount > scoreboard.MinInTop5() || scoreboard.Count() < 5)
+            {
+                scoreboard.AddPlayer(board.RevealedCellsCount);
+            }
+        }
+
+        public void ShowGameWonMessage(GameBoard board, Scoreboard scoreboard) // this parameters may not be needed
+        {
+            board.RevealWholeBoard();
+            userIteractor.DrawBoard(gameBoard.Board);
+
+            userIteractor.ShowMessage("Congratulations! You have escaped all the mines and WON the game!");
+            userIteractor.ShowMessage();
+
+            scoreboard.AddPlayer(board.RevealedCellsCount);
         }
 
         private Command ExtractCommand(string[] inputCommands)
@@ -101,48 +152,13 @@
             }
         }
 
-        public void ExecuteCommand(string input)
-        {
-            string[] commandsArr = input.Split(' ');
-            Command command = ExtractCommand(commandsArr);
-            switch (command)
-            {
-                case Command.InvalidMove:
-                    userIteractor.ShowMessage("Invalid rows or cols! Try again");
-                    break;
-                case Command.Exit:
-                    userIteractor.ShowMessage("Goodbye!");
-                    Environment.Exit(0);
-                    break;
-                case Command.Top:
-                    scoreBoard.ShowHighScores();
-                    break;
-                case Command.Restart: ProcessRestartCommand();
-                    break;
-                case Command.Flag: ProcessFlagCommand(commandsArr);
-                    break;
-                case Command.InvalidInput:
-                    userIteractor.ShowMessage("Invalid input! Please try again!");
-                    break;
-                default: ProcessCoordinates(commandsArr);
-                    break;
-            }
-        }
-
         private void ProcessFlagCommand(string[] commandsArr)
         {
             int row = int.Parse(commandsArr[1]);
             int col = int.Parse(commandsArr[2]);
 
-            if (gameBoard.IsCellRevealed(row, col))
-            {
-                userIteractor.ShowMessage("Cannot place flag on an already revealed cell! Please enter new cell coordinates!");
-                userIteractor.ShowMessage();
-            }
-            else
-            {
-                gameBoard.PlaceFlag(row, col);
-            }
+            var cellHandler = new CellHandler(gameBoard.PlaceFlag);
+            CheckIfCellIsRevealed(cellHandler, row, col);
 
             userIteractor.DrawBoard(gameBoard.Board);
         }
@@ -168,16 +184,8 @@
             }
             else
             {
-                // this can be extracted in a separate method since the same check is done in the PlaceFlag() but I do not how to make a delegate so that I can give another method as a parameter
-                if (gameBoard.IsCellRevealed(row, col))
-                {
-                    userIteractor.ShowMessage("This cell has already been revealed! Please enter new cell coordinates!");
-                    userIteractor.ShowMessage();
-                }
-                else
-                {
-                    gameBoard.RevealBlock(row, col);
-                }
+                var cellHandler = new CellHandler(gameBoard.RevealBlock);
+                CheckIfCellIsRevealed(cellHandler, row, col);
             }
 
             userIteractor.DrawBoard(gameBoard.Board);
@@ -188,28 +196,17 @@
             }
         }
 
-        public void ShowEndGameMessage(GameBoard board, Scoreboard scoreboard) // this parameters may not be needed
+        private void CheckIfCellIsRevealed(CellHandler cellAction, int row, int col)
         {
-            board.RevealWholeBoard();
-            userIteractor.DrawBoard(gameBoard.Board);
-            userIteractor.ShowMessage("Booooom! You were killed by a mine. You revealed " + board.RevealedCellsCount + " cells without mines.");
-            userIteractor.ShowMessage();
-
-            if (board.RevealedCellsCount > scoreboard.MinInTop5() || scoreboard.Count() < 5)
+            if (gameBoard.IsCellRevealed(row, col))
             {
-                scoreboard.AddPlayer(board.RevealedCellsCount);
+                userIteractor.ShowMessage("This cell has already been revealed! Please enter new cell coordinates!");
+                userIteractor.ShowMessage();
             }
-        }
-
-        public void ShowGameWonMessage(GameBoard board, Scoreboard scoreboard) // this parameters may not be needed
-        {
-            board.RevealWholeBoard();
-            userIteractor.DrawBoard(gameBoard.Board);
-
-            userIteractor.ShowMessage("Congratulations! You have escaped all the mines and WON the game!");
-            userIteractor.ShowMessage();
-
-            scoreboard.AddPlayer(board.RevealedCellsCount);
+            else
+            {
+                cellAction(row, col);
+            }
         }
     }
 }
