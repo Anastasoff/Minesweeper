@@ -12,9 +12,10 @@
         public static void Main()
         {
             // TODO: Add instance of the GameRenderingEngine and call that instance when creating the game engine
-            Scoreboard scoreboard = Scoreboard.GetInstance;
-            GameBoard gameBoard = GameBoard.GetInstance;
             IOInterface userInterractor = new ConsoleInterface();
+            Scoreboard scoreboard = Scoreboard.GetInstance;
+            scoreboard.SetIOInterface(userInterractor);
+            GameBoard gameBoard = GameBoard.GetInstance;
             CommandProcessor commandProcessor = new CommandProcessor(gameBoard, scoreboard, userInterractor);
             GameEngine engine = new GameEngine(commandProcessor, userInterractor, gameBoard);
             engine.Play();

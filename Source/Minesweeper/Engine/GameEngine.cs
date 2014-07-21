@@ -22,7 +22,6 @@
         {
             userIterractor.ShowWelcomeScreen();
             userIterractor.DrawBoard(board.Board);
-//            this.commandProcessor.GameBoard.Display();
             while (true)
             {
                 string input = userIterractor.GetUserInput("Enter row and column: ");
