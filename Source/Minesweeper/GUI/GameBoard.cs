@@ -226,6 +226,12 @@
             return numberOfCellsLeft == NUMBER_OF_MINES;
         }
 
+        public bool CheckIfFlagCell(int row, int col)
+        {
+            var currentCell = cellsMap[row, col];
+            return currentCell.Type == CellTypes.Flag;
+        }
+
         private void AllocateMines(Random generator)// renamed method - it was easy to mistake it for PlaceMine
         {
             int actualNumberOfMines = 0;
