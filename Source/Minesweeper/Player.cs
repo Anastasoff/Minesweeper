@@ -1,8 +1,7 @@
 ﻿namespace Minesweeper
 {
-    using System;
-
     using Interfaces;
+    using System;
 
     public class Player : IPlayer
     {
@@ -25,21 +24,19 @@
 
             set
             {
-                if (value.Length <= MaxNameLength)
+                if (string.IsNullOrWhiteSpace(value))
                 {
-                    if (string.IsNullOrWhiteSpace(value))
-                    {
-                        this.name = "Unnamed player";
-                    }
-                    else
-                    {
-                        this.name = value;
-                    }
+                    this.name = "Unnamed player";
+                }
+                else if (value.Length > MaxNameLength)
+                {
+                    // TODO: this exception must be caught
+                    string message = string.Format("Name must be no longer than {0} characters.", MaxNameLength);
+                    throw new ArgumentOutOfRangeException(message);
                 }
                 else
                 {
-                    string message = string.Format("Name must be no longer than {0} characters.", MaxNameLength);
-                    throw new ArgumentOutOfRangeException(message);
+                    this.name = value;
                 }
             }
         }
