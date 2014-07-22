@@ -30,9 +30,9 @@
                 return instance;
             }
         }
-        public void SetIOInterface(IOInterface iface)
+        public void SetIOInterface(IOInterface userInterractor)
         {
-            iface = iface;
+            iface = userInterractor;
         }
 
         public int MinInTop5()

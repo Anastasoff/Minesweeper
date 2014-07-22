@@ -1,7 +1,6 @@
 ﻿namespace Minesweeper.Engine
 {
     using System;
-    using System.Linq;
     using System.Collections.Generic;
 
     using GUI;
@@ -9,10 +8,11 @@
 
     public class CommandProcessor
     {
-        Dictionary<string, Command> commands = new Dictionary<string, Command>();
+        private Dictionary<string, Command> commands = new Dictionary<string, Command>();
         private GameBoard gameBoard;
         private Scoreboard scoreBoard;
         private IOInterface userIteractor;
+
         private delegate void CellHandler(int row, int col);
 
         public CommandProcessor(GameBoard board, Scoreboard score, IOInterface userIteractor)
@@ -62,24 +62,31 @@
                 case Command.InvalidMove:
                     userIteractor.ShowMessage("Invalid rows or cols! Try again");
                     break;
+
                 case Command.Exit:
                     userIteractor.ShowMessage("Goodbye!");
                     Environment.Exit(0);
                     break;
+
                 case Command.Top:
                     scoreBoard.ShowHighScores();
                     break;
+
                 case Command.Restart: ProcessRestartCommand();
                     break;
+
                 case Command.Flag: ProcessFlagCommand(commandsArr);
                     break;
+
                 case Command.InvalidInput:
                     userIteractor.ShowMessage("Invalid input! Please try again!");
                     break;
+
                 default: ProcessCoordinates(commandsArr);
                     break;
             }
         }
+
         public void ShowEndGameMessage(GameBoard board, Scoreboard scoreboard) // this parameters may not be needed
         {
             board.RevealWholeBoard();
@@ -136,26 +143,32 @@
 
         private bool IsCommandValid(string[] commandElements)
         {
+            bool commandResult;
+
             switch (commandElements.Length)
             {
                 case 1:
-                    return (commands.ContainsKey(commandElements[0].ToLower())) && (commandElements[0].ToLower() != "flag");
+                    commandResult = (commands.ContainsKey(commandElements[0].ToLower())) && (commandElements[0].ToLower() != "flag");
                     break;
+
                 case 2:
                     int row = -1;
                     int col = -1;
                     bool isValidCoords = int.TryParse(commandElements[0], out row);
-                    isValidCoords = isValidCoords && int.TryParse(commandElements[1], out col);
-                    return isValidCoords;
+                    commandResult = isValidCoords && int.TryParse(commandElements[1], out col);
                     break;
+
                 case 3:
                     string[] coords = new string[2] { commandElements[1], commandElements[2] };
-                    return (commandElements[0].ToLower() == "flag") && IsCommandValid(coords);
+                    commandResult = (commandElements[0].ToLower() == "flag") && IsCommandValid(coords);
                     break;
+
                 default:
-                    return false;
+                    commandResult = false;
                     break;
             }
+
+            return commandResult;
         }
 
         private void ProcessFlagCommand(string[] commandsArr)
@@ -182,11 +195,11 @@
             int col = int.Parse(inputCoordinates[1]);
 
             if (gameBoard.CheckIfHasMine(row, col) && !gameBoard.CheckIfFlagCell(row, col))
-            { 
+            {
                 ShowEndGameMessage(gameBoard, scoreBoard);
                 gameBoard.ResetBoard();
                 SetConsole();
-            //    scoreBoard.ShowHighScores();
+                //    scoreBoard.ShowHighScores();
                 userIteractor.DrawBoard(gameBoard.Board);
             }
             else if (gameBoard.CheckIfHasMine(row, col) && gameBoard.CheckIfFlagCell(row, col))
