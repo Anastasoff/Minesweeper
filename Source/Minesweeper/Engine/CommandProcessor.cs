@@ -84,8 +84,7 @@
         {
             board.RevealWholeBoard();
 
-            userIteractor.ClearScreen();
-            userIteractor.ShowWelcomeScreen();
+            SetConsole();
             userIteractor.DrawBoard(gameBoard.Board);
 
             userIteractor.ShowMessage("Booooom! You were killed by a mine. You revealed " + board.RevealedCellsCount + " cells without mines.");
@@ -102,8 +101,7 @@
         {
             board.RevealWholeBoard();
 
-            userIteractor.ClearScreen();
-            userIteractor.ShowWelcomeScreen();
+            SetConsole();
             userIteractor.DrawBoard(gameBoard.Board);
 
             userIteractor.ShowMessage("Congratulations! You have escaped all the mines and WON the game!");
@@ -165,19 +163,16 @@
             int row = int.Parse(commandsArr[1]);
             int col = int.Parse(commandsArr[2]);
 
+            SetConsole();
+
             var cellHandler = new CellHandler(gameBoard.PlaceFlag);
             CheckIfCellIsRevealed(cellHandler, row, col);
-
-            userIteractor.ClearScreen();
-            userIteractor.ShowWelcomeScreen();
-            userIteractor.DrawBoard(gameBoard.Board);
         }
 
         private void ProcessRestartCommand()
         {
             gameBoard.ResetBoard();
-            userIteractor.ClearScreen();
-            userIteractor.ShowWelcomeScreen();
+            SetConsole();
             userIteractor.DrawBoard(gameBoard.Board);
         }
 
@@ -186,23 +181,25 @@
             int row = int.Parse(inputCoordinates[0]);
             int col = int.Parse(inputCoordinates[1]);
 
-            if (gameBoard.CheckIfHasMine(row, col))
-            {
+            if (gameBoard.CheckIfHasMine(row, col) && !gameBoard.CheckIfFlagCell(row, col))
+            { 
                 ShowEndGameMessage(gameBoard, scoreBoard);
                 gameBoard.ResetBoard();
-                userIteractor.ClearScreen();
-                scoreBoard.ShowHighScores(); // TODO: issue -> for some reason does not display the high scores but it's working properly when entering "top" from the console
-                userIteractor.ShowWelcomeScreen();
+                SetConsole();
+            //    scoreBoard.ShowHighScores();
+                userIteractor.DrawBoard(gameBoard.Board);
+            }
+            else if (gameBoard.CheckIfHasMine(row, col) && gameBoard.CheckIfFlagCell(row, col))
+            {
+                SetConsole();
+                PrintUsedCellMessage("You've already placed flag at these coordinates! Please enter new cell coordinates!");
             }
             else
             {
+                SetConsole();
                 var cellHandler = new CellHandler(gameBoard.RevealBlock);
                 CheckIfCellIsRevealed(cellHandler, row, col);
             }
-
-            userIteractor.ClearScreen();
-            userIteractor.ShowWelcomeScreen();
-            userIteractor.DrawBoard(gameBoard.Board);
 
             if (gameBoard.CheckIfGameIsWon())
             {
@@ -214,13 +211,30 @@
         {
             if (gameBoard.IsCellRevealed(row, col))
             {
-                userIteractor.ShowMessage("This cell has already been revealed! Please enter new cell coordinates!");
-                userIteractor.ShowMessage();
+                PrintUsedCellMessage("This cell has already been revealed! Please enter new cell coordinates!");
+            }
+            else if (gameBoard.CheckIfFlagCell(row, col))
+            {
+                PrintUsedCellMessage("You've already placed flag at these coordinates! Please enter new cell coordinates!");
             }
             else
             {
                 cellAction(row, col);
+                userIteractor.DrawBoard(gameBoard.Board);
             }
+        }
+
+        private void SetConsole()
+        {
+            userIteractor.ClearScreen();
+            userIteractor.ShowWelcomeScreen();
+        }
+
+        private void PrintUsedCellMessage(string message)
+        {
+            userIteractor.DrawBoard(gameBoard.Board);
+            userIteractor.ShowMessage(message);
+            userIteractor.ShowMessage();
         }
     }
 }

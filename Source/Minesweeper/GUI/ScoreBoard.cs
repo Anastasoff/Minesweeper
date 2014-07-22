@@ -10,6 +10,7 @@
     {
         private ICollection<IPlayer> allPlayers;
         private static Scoreboard instance;
+        private static IOInterface iface;
 
         private Scoreboard()
         {
@@ -23,10 +24,15 @@
                 if (instance == null)
                 {
                     instance = new Scoreboard();
+                    iface = new ConsoleInterface();
                 }
 
                 return instance;
             }
+        }
+        public void SetIOInterface(IOInterface iface)
+        {
+            iface = iface;
         }
 
         public int MinInTop5()
@@ -41,8 +47,7 @@
 
         public void AddPlayer(int score)
         {
-            Console.Write("Please enter your name for the top scoreboard: ");
-            string name = Console.ReadLine();
+            string name = iface.GetUserInput("Please enter your name for the top scoreboard: ");
             allPlayers.Add(new Player(name, score));
         }
 
@@ -61,10 +66,10 @@
         {
             int counter = 1;
             var sortedPlayers = SortPlayersDescendingByScore(this.allPlayers);
-            Console.WriteLine("Scoreboard:");
+            iface.ShowMessage("Scoreboard:");
             foreach (var player in sortedPlayers)
             {
-                Console.WriteLine(counter + ". " + player.Name + " --> " + player.Score + " cells");
+                iface.ShowMessage(counter + ". " + player.Name + " --> " + player.Score + " cells");
                 counter++;
             }
 
