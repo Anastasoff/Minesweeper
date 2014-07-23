@@ -4,6 +4,7 @@
 
     using GameObjects;
     using Interfaces;
+    using GUI.ConsoleSkins;
 
     class ConsoleInterface : IOInterface
     {
@@ -16,7 +17,8 @@
 
         public ConsoleInterface()
         {
-            
+            // Sets a default skin
+            this.Skin = new AllWhiteSkin();
         }
 
         public ConsoleInterface(IConsoleSkin skin)
