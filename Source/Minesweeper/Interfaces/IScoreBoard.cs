@@ -1,6 +1,6 @@
 ﻿namespace Minesweeper.Interfaces
 {
-    interface IScoreBoard
+    public interface IScoreBoard
     {
 
     }
