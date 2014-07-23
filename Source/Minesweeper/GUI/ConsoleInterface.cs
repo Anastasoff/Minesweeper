@@ -4,6 +4,7 @@
 
     using GameObjects;
     using Interfaces;
+    using GUI.ConsoleSkins;
 
     class ConsoleInterface : IOInterface
     {
@@ -11,6 +12,19 @@
         private const char DEFAULT_MINE_CELL_SYMBOL = '*';
         private const char DEFAULT_REGULAR_CELL_SYMBOL = '-';
         private const char DEFAULT_UNREVEALED_CELL_SYMBOL = '?';
+
+        private IConsoleSkin Skin { get; set; }
+
+        public ConsoleInterface()
+        {
+            // Sets a default skin
+            this.Skin = new AllWhiteSkin();
+        }
+
+        public ConsoleInterface(IConsoleSkin skin)
+        {
+            this.Skin = skin;
+        }
 
         public string GetUserInput(string message)
         {
@@ -127,6 +141,12 @@
 
         private void SetRegularAndMineCellsSymbol(Cell currentCell, char revealedCellSymbol, char unrevealedCellSymbol)
         {
+            if (this.Skin.ColorScheme.ContainsKey(revealedCellSymbol) &&
+                currentCell.IsCellRevealed)
+            {
+                Console.ForegroundColor = this.Skin.ColorScheme[revealedCellSymbol];
+            }
+
             if (currentCell.IsCellRevealed)
             {
                 Console.Write(revealedCellSymbol + " ");
@@ -135,6 +155,8 @@
             {
                 Console.Write(unrevealedCellSymbol + " ");
             }
+
+            Console.ResetColor();
         }
     }
 }
