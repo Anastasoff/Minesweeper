@@ -53,6 +53,8 @@
     <Compile Include="GameObjects\RegularCell.cs" />
     <Compile Include="GameObjects\CellRevealingVisitor.cs" />
     <Compile Include="GUI\ConsoleInterface.cs" />
+    <Compile Include="GUI\ConsoleSkins\BrightSkin.cs" />
+    <Compile Include="Interfaces\IConsoleSkin.cs" />
     <Compile Include="Interfaces\IGameBoard.cs" />
     <Compile Include="Interfaces\IGameObject.cs" />
     <Compile Include="Interfaces\IOInterface.cs" />
