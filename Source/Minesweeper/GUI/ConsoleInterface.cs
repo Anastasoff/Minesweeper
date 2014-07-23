@@ -141,6 +141,12 @@
 
         private void SetRegularAndMineCellsSymbol(Cell currentCell, char revealedCellSymbol, char unrevealedCellSymbol)
         {
+            if (this.Skin.ColorScheme.ContainsKey(revealedCellSymbol) &&
+                currentCell.IsCellRevealed)
+            {
+                Console.ForegroundColor = this.Skin.ColorScheme[revealedCellSymbol];
+            }
+
             if (currentCell.IsCellRevealed)
             {
                 Console.Write(revealedCellSymbol + " ");
@@ -149,6 +155,8 @@
             {
                 Console.Write(unrevealedCellSymbol + " ");
             }
+
+            Console.ResetColor();
         }
     }
 }
