@@ -12,6 +12,18 @@
         private const char DEFAULT_REGULAR_CELL_SYMBOL = '-';
         private const char DEFAULT_UNREVEALED_CELL_SYMBOL = '?';
 
+        private IConsoleSkin Skin { get; set; }
+
+        public ConsoleInterface()
+        {
+            
+        }
+
+        public ConsoleInterface(IConsoleSkin skin)
+        {
+            this.Skin = skin;
+        }
+
         public string GetUserInput(string message)
         {
             Console.Write(message);
