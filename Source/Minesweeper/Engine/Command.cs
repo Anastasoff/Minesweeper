@@ -8,6 +8,7 @@
         Top,
         ValidMove,
         InvalidInput,
-        Flag
+        Flag,
+        System
     }
 }

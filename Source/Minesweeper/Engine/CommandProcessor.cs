@@ -28,6 +28,7 @@
             this.commands.Add("top", Command.Top);
             this.commands.Add("restart", Command.Restart);
             this.commands.Add("flag", Command.Flag);
+            this.commands.Add("system", Command.System);
         }
 
         public GameBoard GameBoard
@@ -84,6 +85,9 @@
                 case Command.InvalidInput:
                     userIteractor.ShowMessage("Invalid input! Please try again!");
                     break;
+                case Command.System:
+                    break;
+
 
                 default: ProcessCoordinates(commandsArr);
                     break;

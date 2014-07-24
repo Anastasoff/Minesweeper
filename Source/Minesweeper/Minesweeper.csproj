@@ -34,6 +34,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Speech" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -57,9 +58,12 @@
     <Compile Include="GUI\ConsoleInterface.cs" />
     <Compile Include="GUI\ConsoleSkins\AllWhiteSkin.cs" />
     <Compile Include="GUI\ConsoleSkins\BrightSkin.cs" />
+    <Compile Include="GUI\KeyboardInput.cs" />
+    <Compile Include="GUI\SpeechInput.cs" />
     <Compile Include="Interfaces\IConsoleSkin.cs" />
     <Compile Include="Interfaces\IGameBoard.cs" />
     <Compile Include="Interfaces\IGameObject.cs" />
+    <Compile Include="Interfaces\IInputDevice.cs" />
     <Compile Include="Interfaces\IOInterface.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Interfaces\IScoreBoard.cs" />

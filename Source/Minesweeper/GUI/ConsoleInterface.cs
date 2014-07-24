@@ -12,6 +12,8 @@
         private const char DEFAULT_MINE_CELL_SYMBOL = '*';
         private const char DEFAULT_REGULAR_CELL_SYMBOL = '-';
         private const char DEFAULT_UNREVEALED_CELL_SYMBOL = '?';
+        private IInputDevice inputDevice = new KeyboardInput();
+
 
         private IConsoleSkin Skin { get; set; }
 
@@ -26,11 +28,38 @@
             this.Skin = skin;
         }
 
+        public void ChangeInput(IInputDevice device)
+        {
+            this.inputDevice = device;
+        }
+
         public string GetUserInput(string message)
         {
             Console.Write(message);
-            return Console.ReadLine().Trim();
+            var input = inputDevice.GetInput();
+            switch (input)
+            {
+                case "keyboard":
+                    inputDevice = null;
+                    inputDevice = new KeyboardInput();
+                    Console.WriteLine("Switching to keyboard input");
+                    input = "system";
+                    break;
+                case "voice":
+                    inputDevice = null;
+                    inputDevice = new SpeechInput();
+                    Console.WriteLine("Switching to voice command");
+                    input = "system";
+                    break;
+                case "hiscore":
+                    input = "top";
+                    break;
+                default:
+                    break;
+            }
+            return input.Trim();
         }
+
 
         public void ShowMessage(string message)
         {
