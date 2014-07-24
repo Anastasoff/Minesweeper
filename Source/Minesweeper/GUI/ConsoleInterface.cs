@@ -124,19 +124,13 @@
         private char GetCellSymbol(Cell currentCell)
         {
             var cellType = currentCell.Type;
-            char symbolToPrint;
 
             switch (cellType)
             {
-                case CellTypes.Regular:
-                    var cell = currentCell as RegularCell;
-                    var numberOfNeighbouringMinesToStr = cell.NumberOfNeighbouringMines.ToString();
-                    var cellSymbol = Convert.ToChar(numberOfNeighbouringMinesToStr);
-                    symbolToPrint = GetRegularAndMineCellsSymbol(currentCell, cellSymbol, DEFAULT_UNREVEALED_CELL_SYMBOL);
-                    return symbolToPrint;
+                case CellTypes.Regular:                    
+                    return GetRegularAndMineCellsSymbol(currentCell);
                 case CellTypes.Mine:
-                    symbolToPrint = GetRegularAndMineCellsSymbol(currentCell, DEFAULT_MINE_CELL_SYMBOL, DEFAULT_UNREVEALED_CELL_SYMBOL);
-                    return symbolToPrint;
+                    return GetRegularAndMineCellsSymbol(currentCell);
                 case CellTypes.Flag:
                     return DEFAULT_FLAG_SYMBOL;
                 case CellTypes.Unrevealed_Regular_Cell:
@@ -146,15 +140,27 @@
             }
         }
 
-        private char GetRegularAndMineCellsSymbol(Cell currentCell, char revealedCellSymbol, char unrevealedCellSymbol)
+        private char GetRegularAndMineCellsSymbol(Cell currentCell)
         {
-            if (currentCell.IsCellRevealed)
+            char cellSymbol;
+            if (currentCell.Type == CellTypes.Mine)
             {
-                return revealedCellSymbol;
+                cellSymbol = DEFAULT_MINE_CELL_SYMBOL;
             }
             else
             {
-                return unrevealedCellSymbol;
+                var cell = currentCell as RegularCell;
+                var numberOfNeighbouringMinesToStr = cell.NumberOfNeighbouringMines.ToString();
+                cellSymbol = Convert.ToChar(numberOfNeighbouringMinesToStr);
+            }            
+
+            if (currentCell.IsCellRevealed)
+            {
+                return cellSymbol;
+            }
+            else
+            {
+                return DEFAULT_UNREVEALED_CELL_SYMBOL;
             }            
         }
     }
