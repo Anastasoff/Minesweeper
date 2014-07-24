@@ -106,16 +106,25 @@
                 for (int col = 0; col < cols; col++)
                 {
                     var currentCell = board[row, col];
-                    SetCellSymbol(currentCell);
+                    var symbolToPrint = GetCellSymbol(currentCell);
+                    if (this.Skin.ColorScheme.ContainsKey(symbolToPrint) &&
+                        currentCell.IsCellRevealed)
+                    {
+                        Console.ForegroundColor = this.Skin.ColorScheme[symbolToPrint];
+                    }
+
+                    Console.Write(symbolToPrint + " ");
+                    Console.ResetColor();
                 }
 
                 Console.WriteLine("|");
             }
         }
 
-        private void SetCellSymbol(Cell currentCell)
+        private char GetCellSymbol(Cell currentCell)
         {
             var cellType = currentCell.Type;
+            char symbolToPrint;
 
             switch (cellType)
             {
@@ -123,40 +132,30 @@
                     var cell = currentCell as RegularCell;
                     var numberOfNeighbouringMinesToStr = cell.NumberOfNeighbouringMines.ToString();
                     var cellSymbol = Convert.ToChar(numberOfNeighbouringMinesToStr);
-                    SetRegularAndMineCellsSymbol(currentCell, cellSymbol, DEFAULT_UNREVEALED_CELL_SYMBOL);
-                    break;
+                    symbolToPrint = GetRegularAndMineCellsSymbol(currentCell, cellSymbol, DEFAULT_UNREVEALED_CELL_SYMBOL);
+                    return symbolToPrint;
                 case CellTypes.Mine:
-                    SetRegularAndMineCellsSymbol(currentCell, DEFAULT_MINE_CELL_SYMBOL, DEFAULT_UNREVEALED_CELL_SYMBOL);
-                    break;
+                    symbolToPrint = GetRegularAndMineCellsSymbol(currentCell, DEFAULT_MINE_CELL_SYMBOL, DEFAULT_UNREVEALED_CELL_SYMBOL);
+                    return symbolToPrint;
                 case CellTypes.Flag:
-                    Console.Write(DEFAULT_FLAG_SYMBOL + " ");
-                    break;
+                    return DEFAULT_FLAG_SYMBOL;
                 case CellTypes.Unrevealed_Regular_Cell:
-                    Console.Write(DEFAULT_REGULAR_CELL_SYMBOL + " ");
-                    break;
+                    return DEFAULT_REGULAR_CELL_SYMBOL;
                 default:
-                    break;
+                    return new Char();
             }
         }
 
-        private void SetRegularAndMineCellsSymbol(Cell currentCell, char revealedCellSymbol, char unrevealedCellSymbol)
+        private char GetRegularAndMineCellsSymbol(Cell currentCell, char revealedCellSymbol, char unrevealedCellSymbol)
         {
-            if (this.Skin.ColorScheme.ContainsKey(revealedCellSymbol) &&
-                currentCell.IsCellRevealed)
-            {
-                Console.ForegroundColor = this.Skin.ColorScheme[revealedCellSymbol];
-            }
-
             if (currentCell.IsCellRevealed)
             {
-                Console.Write(revealedCellSymbol + " ");
+                return revealedCellSymbol;
             }
             else
             {
-                Console.Write(unrevealedCellSymbol + " ");
-            }
-
-            Console.ResetColor();
+                return unrevealedCellSymbol;
+            }            
         }
     }
 }
