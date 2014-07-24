@@ -6,6 +6,7 @@
     using Common;
     using GameObjects;
     using Interfaces;
+    using Engine;
 
     public class GameBoard
     {
@@ -63,8 +64,7 @@
             get 
             { 
                 return cellsMap; 
-            }
-            
+            }            
         }
         public static GameBoard GetInstance // property to access singleton instance of board. Instance
         {
@@ -230,6 +230,16 @@
         {
             var currentCell = cellsMap[row, col];
             return currentCell.Type == CellTypes.Flag;
+        }
+
+        public Memento SaveMemento()
+        {
+            return new Memento(this.Board);
+        }
+
+        public void RestoreMemento(Memento memento)
+        {
+            this.cellsMap = memento.CurrentBoard;
         }
 
         private void AllocateMines(Random generator)// renamed method - it was easy to mistake it for PlaceMine
