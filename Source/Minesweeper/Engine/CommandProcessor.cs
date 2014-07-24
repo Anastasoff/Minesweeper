@@ -12,6 +12,8 @@
         private GameBoard gameBoard;
         private Scoreboard scoreBoard;
         private IOInterface userIteractor;
+        private int remainingLives = 1;
+        private GameBoardMemory currentBoardState = new GameBoardMemory();
 
         private delegate void CellHandler(int row, int col);
 
@@ -20,6 +22,7 @@
             this.GameBoard = board;
             this.Score = score;
             this.userIteractor = userIteractor;
+            this.currentBoardState.Memento = board.SaveMemento();
 
             this.commands.Add("exit", Command.Exit);
             this.commands.Add("top", Command.Top);
@@ -196,6 +199,16 @@
 
             if (gameBoard.CheckIfHasMine(row, col) && !gameBoard.CheckIfFlagCell(row, col))
             {
+                //Memento logic
+                if (this.remainingLives > 0)
+                {
+                    bool reverting = AskUserToRevert();
+                    if (reverting == true)
+                    {
+                        gameBoard.RestoreMemento(currentBoardState.Memento);
+                        return;
+                    }
+                }
                 ShowEndGameMessage(gameBoard, scoreBoard);
                 gameBoard.ResetBoard();
                 SetConsole();
@@ -212,12 +225,31 @@
                 SetConsole();
                 var cellHandler = new CellHandler(gameBoard.RevealBlock);
                 CheckIfCellIsRevealed(cellHandler, row, col);
+                this.currentBoardState.Memento = gameBoard.SaveMemento();
             }
 
             if (gameBoard.CheckIfGameIsWon())
             {
                 ShowGameWonMessage(gameBoard, scoreBoard);
             }
+        }
+
+        private bool AskUserToRevert()
+        {
+            string userInput = userIteractor.GetUserInput("You have one more live. Do you want to revert the board to the previous state?[yes/no]");
+            while (userInput != "yes" && userInput != "no")
+            {
+                
+                userInput = userIteractor.GetUserInput("Invalid input! Please enter [yes/no]! ");
+            }
+
+            if (userInput == "yes")
+            {
+                this.remainingLives--;
+                return true;
+            }
+
+            return false;
         }
 
         private void CheckIfCellIsRevealed(CellHandler cellAction, int row, int col)
