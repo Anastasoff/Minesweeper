@@ -18,7 +18,7 @@
             Scoreboard scoreboard = Scoreboard.GetInstance;
             scoreboard.SetIOInterface(userInterractor);
             GameBoard gameBoard = GameBoard.GetInstance;
-            CommandProcessor commandProcessor = new CommandProcessor(gameBoard, scoreboard, userInterractor);
+            CommandProcessor commandProcessor = new CommandProcessor(gameBoard, scoreboard, userInterractor, new CommandParser());
             GameEngine engine = new GameEngine(commandProcessor, userInterractor, gameBoard);
             engine.Play();
         }
