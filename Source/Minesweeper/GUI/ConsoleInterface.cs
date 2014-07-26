@@ -1,32 +1,30 @@
 ﻿namespace Minesweeper.GUI
 {
     using System;
-
     using GameObjects;
     using Interfaces;
     using GUI.ConsoleSkins;
 
-    class ConsoleInterface : IOInterface
+    public class ConsoleInterface : IOInterface
     {
         private const char DEFAULT_FLAG_SYMBOL = 'F';
         private const char DEFAULT_MINE_CELL_SYMBOL = '*';
         private const char DEFAULT_REGULAR_CELL_SYMBOL = '-';
         private const char DEFAULT_UNREVEALED_CELL_SYMBOL = '?';
         private IInputDevice inputDevice = new KeyboardInput();
-
-
-        private IConsoleSkin Skin { get; set; }
+        private IConsoleSkin skin;
 
         public ConsoleInterface()
         {
             // Sets a default skin
-            this.Skin = new AllWhiteSkin();
+            this.skin = new AllWhiteSkin();
         }
 
         public ConsoleInterface(IConsoleSkin skin)
         {
-            this.Skin = skin;
+            this.skin = skin;
         }
+
 
         public void ChangeInput(IInputDevice device)
         {
@@ -57,38 +55,51 @@
                 default:
                     break;
             }
+            
             return input.Trim();
         }
 
-
+        /// <summary>
+        /// Prints a message to the console or an empty line if none.
+        /// </summary>
+        /// <param name="message">The message to be printed.</param>
         public void ShowMessage(string message)
         {
             if (string.IsNullOrEmpty(message))
             {
                 Console.WriteLine();
             }
-
-            Console.WriteLine(message);
+            else
+            {
+                Console.WriteLine(message);
+            }
         }
 
         public void ShowWelcomeScreen()
         {
-            Console.WriteLine("Welcome to the game “Minesweeper”. Try to reveal all cells without mines.");
-            Console.WriteLine("Use 'top' to view the scoreboard, 'restart' to start a new game and 'exit' to quit the game.");
+            string welcomeMessage = "Welcome to the game “Minesweeper”. Try to reveal all cells without mines.";
+            Console.WriteLine(welcomeMessage);
+            string instructionMessage = "Use 'top' to view the scoreboard, 'restart' to start a new game and 'exit' to quit the game.";
+            Console.WriteLine(instructionMessage);
             Console.WriteLine();
         }
 
+        /// <summary>
+        /// Clears the console.
+        /// </summary>
         public void ClearScreen()
         {
-            // TODO: Implement this method
             Console.Clear();
         }
 
+        /// <summary>
+        /// Draws the game board on the console.
+        /// </summary>
+        /// <param name="board">The game board to be drawn.</param>
         public void DrawBoard(Cell[,] board)
         {
             SetConsole();
 
-            int rows = board.GetLength(0);
             int cols = board.GetLength(1);
 
             // print first row
@@ -112,7 +123,6 @@
             ShowWelcomeScreen();
         }
 
-        // I've extracted the logic from the Display() into several methods
         private void PrintIndentationOnTheLeft()
         {
             Console.Write(new string(' ', 4));
@@ -144,10 +154,10 @@
                 {
                     var currentCell = board[row, col];
                     var symbolToPrint = GetCellSymbol(currentCell);
-                    if (this.Skin.ColorScheme.ContainsKey(symbolToPrint) &&
+                    if (this.skin.ColorScheme.ContainsKey(symbolToPrint) &&
                         currentCell.IsCellRevealed)
                     {
-                        Console.ForegroundColor = this.Skin.ColorScheme[symbolToPrint];
+                        Console.ForegroundColor = this.skin.ColorScheme[symbolToPrint];
                     }
 
                     Console.Write(symbolToPrint + " ");
@@ -164,7 +174,7 @@
 
             switch (cellType)
             {
-                case CellTypes.Regular:                    
+                case CellTypes.Regular:
                     return GetRegularAndMineCellsSymbol(currentCell);
                 case CellTypes.Mine:
                     return GetRegularAndMineCellsSymbol(currentCell);
@@ -189,7 +199,7 @@
                 var cell = currentCell as RegularCell;
                 var numberOfNeighbouringMinesToStr = cell.NumberOfNeighbouringMines.ToString();
                 cellSymbol = Convert.ToChar(numberOfNeighbouringMinesToStr);
-            }            
+            }
 
             if (currentCell.IsCellRevealed)
             {
@@ -198,7 +208,7 @@
             else
             {
                 return DEFAULT_UNREVEALED_CELL_SYMBOL;
-            }            
+            }
         }
     }
 }
