@@ -77,7 +77,7 @@
             UserIteractor.DrawBoard(GameBoard.Board);
 
             UserIteractor.ShowMessage(message);
-            UserIteractor.ShowMessage();
+            UserIteractor.ShowMessage(string.Empty);
         }
 
         private void ShowEndGameMessage()
@@ -194,7 +194,7 @@
         {
             UserIteractor.DrawBoard(GameBoard.Board);
             UserIteractor.ShowMessage(message);
-            UserIteractor.ShowMessage();
+            UserIteractor.ShowMessage(string.Empty);
         }
     }
 }

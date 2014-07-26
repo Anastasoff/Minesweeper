@@ -63,12 +63,12 @@
 
         public void ShowMessage(string message)
         {
-            Console.WriteLine(message);
-        }
+            if (string.IsNullOrEmpty(message))
+            {
+                Console.WriteLine();
+            }
 
-        public void ShowMessage()
-        {
-            Console.WriteLine();
+            Console.WriteLine(message);
         }
 
         public void ShowWelcomeScreen()
