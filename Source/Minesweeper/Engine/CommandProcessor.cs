@@ -22,7 +22,7 @@
             this.GameBoard = board;
             this.Score = score;
             this.userIteractor = userIteractor;
-            this.currentBoardState.Memento = board.SaveMemento();          
+            this.currentBoardState.Memento = board.SaveMemento();
             this.commandParser = commandParser;
         }
 
@@ -89,37 +89,37 @@
             }
         }
 
-        public void ShowEndGameMessage(GameBoard board, Scoreboard scoreboard) // this parameters may not be needed
+        private void ShowMessage(string message)
         {
-            board.RevealWholeBoard();
+            this.gameBoard.RevealWholeBoard();
 
             SetConsole();
             userIteractor.DrawBoard(gameBoard.Board);
 
-            userIteractor.ShowMessage("Booooom! You were killed by a mine. You revealed " + board.RevealedCellsCount + " cells without mines.");
+            userIteractor.ShowMessage(message);
             userIteractor.ShowMessage();
+        }
 
-            if (board.RevealedCellsCount > scoreboard.MinInTop5() || scoreboard.Count() < 5)
+        public void ShowEndGameMessage()
+        {
+            string message = "Booooom! You were killed by a mine. You revealed " + this.gameBoard.RevealedCellsCount + " cells without mines.";
+            ShowMessage(message);
+
+            if (this.gameBoard.RevealedCellsCount > this.scoreBoard.MinInTop5() || this.scoreBoard.Count() < 5)
             {
-                scoreboard.AddPlayer(board.RevealedCellsCount);
+                this.scoreBoard.AddPlayer(this.gameBoard.RevealedCellsCount);
             }
         }
 
-        // TODO: the logic of the method is the same as the logic of ShowEndGameMessage() -> extract in a separate private method
-        public void ShowGameWonMessage(GameBoard board, Scoreboard scoreboard) // this parameters may not be needed
+        public void ShowGameWonMessage()
         {
-            board.RevealWholeBoard();
+            string message = "Congratulations! You have escaped all the mines and WON the game!";
+            ShowMessage(message);
 
-            SetConsole();
-            userIteractor.DrawBoard(gameBoard.Board);
+            this.scoreBoard.AddPlayer(this.gameBoard.RevealedCellsCount);
+        }
 
-            userIteractor.ShowMessage("Congratulations! You have escaped all the mines and WON the game!");
-            userIteractor.ShowMessage();
 
-            scoreboard.AddPlayer(board.RevealedCellsCount);
-        }        
-
-        
 
         private void ProcessFlagCommand(string[] commandsArr)
         {
@@ -156,7 +156,7 @@
                         return;
                     }
                 }
-                ShowEndGameMessage(gameBoard, scoreBoard);
+                ShowEndGameMessage();
                 gameBoard.ResetBoard();
                 SetConsole();
                 //    scoreBoard.ShowHighScores();
@@ -177,7 +177,7 @@
 
             if (gameBoard.CheckIfGameIsWon())
             {
-                ShowGameWonMessage(gameBoard, scoreBoard);
+                ShowGameWonMessage();
             }
         }
 
@@ -186,7 +186,7 @@
             string userInput = userIteractor.GetUserInput("You have one more live. Do you want to revert the board to the previous state?[yes/no]");
             while (userInput != "yes" && userInput != "no")
             {
-                
+
                 userInput = userIteractor.GetUserInput("Invalid input! Please enter [yes/no]! ");
             }
 
