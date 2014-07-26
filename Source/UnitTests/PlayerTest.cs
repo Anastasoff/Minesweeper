@@ -1,11 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-
-using Minesweeper;
-using Minesweeper.Interfaces;
-
-namespace UnitTests
+﻿namespace UnitTests
 {
+    using System;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Minesweeper;
+    using Minesweeper.Interfaces;
+
     [TestClass]
     public class PlayerTest
     {

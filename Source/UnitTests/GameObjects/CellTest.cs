@@ -1,11 +1,11 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Minesweeper.GameObjects;
-using Moq;
-using Minesweeper.Interfaces;
-
-namespace UnitTests
+﻿namespace UnitTests
 {
+    using System;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Minesweeper.GameObjects;
+    using Minesweeper.Interfaces;
+    using Moq;
+
     [TestClass]
     public class CellTest
     {
