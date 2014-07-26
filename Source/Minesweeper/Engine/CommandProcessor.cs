@@ -36,29 +36,29 @@
         public void ExecuteCommand(string input)
         {
             string[] commandsArr = input.Split(' ');
-            Command command = this.commandParser.ExtractCommand(commandsArr, this.gameBoard);
+            CommandType command = this.commandParser.ExtractCommand(commandsArr, this.gameBoard);
             switch (command)
             {
-                case Command.InvalidMove:
+                case CommandType.InvalidMove:
                     userIteractor.ShowMessage("Invalid rows or cols! Try again");
                     break;
-                case Command.Exit:
+                case CommandType.Exit:
                     userIteractor.ShowMessage("Goodbye!");
                     Environment.Exit(0);
                     break;
-                case Command.Top:
+                case CommandType.Top:
                     scoreBoard.ShowHighScores();
                     break;
-                case Command.Restart:
+                case CommandType.Restart:
                     ProcessRestartCommand();
                     break;
-                case Command.Flag:
+                case CommandType.Flag:
                     ProcessFlagCommand(commandsArr);
                     break;
-                case Command.InvalidInput:
+                case CommandType.InvalidInput:
                     userIteractor.ShowMessage("Invalid input! Please try again!");
                     break;
-                case Command.System:
+                case CommandType.System:
                     break;
                 default:
                     ProcessCoordinates(commandsArr);
