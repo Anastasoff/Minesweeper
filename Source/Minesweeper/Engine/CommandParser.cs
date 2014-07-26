@@ -9,25 +9,25 @@
 
     public class CommandParser
     {
-        private Dictionary<string, Command> commands = new Dictionary<string, Command>();
+        private Dictionary<string, CommandType> commands = new Dictionary<string, CommandType>();
 
         public CommandParser()
         {
-            this.commands.Add("exit", Command.Exit);
-            this.commands.Add("top", Command.Top);
-            this.commands.Add("restart", Command.Restart);
-            this.commands.Add("flag", Command.Flag);
-            this.commands.Add("system", Command.System);
+            this.commands.Add("exit", CommandType.Exit);
+            this.commands.Add("top", CommandType.Top);
+            this.commands.Add("restart", CommandType.Restart);
+            this.commands.Add("flag", CommandType.Flag);
+            this.commands.Add("system", CommandType.System);
         }
 
-        public Command ExtractCommand(string[] inputCommands, GameBoard gameBoard)
+        public CommandType ExtractCommand(string[] inputCommands, GameBoard gameBoard)
         {
             if (!IsCommandValid(inputCommands))
             {
-                return Command.InvalidInput;
+                return CommandType.InvalidInput;
             }
 
-            Command command = Command.ValidMove;
+            CommandType command = CommandType.ValidMove;
 
             if (inputCommands.Length == 1 || inputCommands.Length == 3)
             {
@@ -37,7 +37,7 @@
             {
                 if (!gameBoard.IsInsideBoard(int.Parse(inputCommands[0]), int.Parse(inputCommands[1])))
                 {
-                    command = Command.InvalidMove;
+                    command = CommandType.InvalidMove;
                 }
             }
 
