@@ -54,6 +54,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Common\RandomGeneratorTest.cs" />
+    <Compile Include="Common\CellCreatorTest.cs" />
     <Compile Include="Engine\CommandParserTest.cs" />
     <Compile Include="GUI\ConsoleSkins\AllWhiteSkinTest.cs" />
     <Compile Include="GUI\ConsoleSkins\BrightSkinTest.cs" />
