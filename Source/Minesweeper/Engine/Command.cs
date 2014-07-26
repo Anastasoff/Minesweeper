@@ -4,9 +4,6 @@
 
     public class Command
     {
-        private CommandType commandType;
-        private Position coordinates;
-
         public Command(CommandType commandType)
             : this(commandType, new Position(0, 0))
         {
@@ -14,8 +11,12 @@
 
         public Command(CommandType commandType, Position coordinates)
         {
-            this.commandType = commandType;
-            this.coordinates = coordinates;
+            this.CommandType = commandType;
+            this.Coordinates = coordinates;
         }
+
+        public CommandType CommandType { get; private set; }
+
+        public Position Coordinates { get; private set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace Minesweeper.Engine
 {
     using GUI;
+    using GameObjects;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -20,27 +21,58 @@
             this.commands.Add("system", CommandType.System);
         }
 
-        public CommandType ExtractCommand(string[] inputCommands, GameBoard gameBoard)
+        public Command ExtractCommand(string input, GameBoard gameBoard)
         {
+            Command command;
+            CommandType cmdType;
+            Position coordinates;
+
+            string[] inputCommands = input.Split(' ');
             if (!IsCommandValid(inputCommands))
             {
-                return CommandType.InvalidInput;
+                cmdType =  CommandType.InvalidInput;
             }
-
-            CommandType command = CommandType.ValidMove;
+            else
+            {
+                cmdType = CommandType.ValidMove;
+            }
 
             if (inputCommands.Length == 1 || inputCommands.Length == 3)
             {
-                command = commands[inputCommands[0]];
+                cmdType = commands[inputCommands[0]];
             }
             else
             {
                 if (!gameBoard.IsInsideBoard(int.Parse(inputCommands[0]), int.Parse(inputCommands[1])))
                 {
-                    command = CommandType.InvalidMove;
+                    cmdType = CommandType.InvalidMove;
                 }
             }
 
+            int row;
+            int col;
+            if (cmdType == CommandType.Flag)
+            {
+                row = int.Parse(inputCommands[1]);
+                col = int.Parse(inputCommands[2]);
+                coordinates = new Position(row, col);
+            }
+            else
+            {
+                try
+                {
+                    row = int.Parse(inputCommands[0]);
+                    col = int.Parse(inputCommands[1]);  
+                    coordinates = new Position(row, col);
+                }
+                catch (Exception)
+                {
+                    coordinates = new Position(0, 0);
+                }
+            }            
+            
+            
+            command = new Command(cmdType, coordinates);
             return command;
         }
 

@@ -1,8 +1,9 @@
 ﻿namespace Minesweeper.Engine
 {
     using GUI;
-    using Interfaces;
-    using System;
+using Interfaces;
+using GameObjects;
+using System;
 
     /// <summary>
     /// Contains the main logic behind commands execution 
@@ -35,9 +36,9 @@
         /// <param name="input">The command string.</param>
         public void ExecuteCommand(string input)
         {
-            string[] commandsArr = input.Split(' ');
-            CommandType command = this.commandParser.ExtractCommand(commandsArr, this.gameBoard);
-            switch (command)
+            
+            Command cmd = this.commandParser.ExtractCommand(input, this.gameBoard);
+            switch (cmd.CommandType)
             {
                 case CommandType.InvalidMove:
                     userIteractor.ShowMessage("Invalid rows or cols! Try again");
@@ -53,7 +54,7 @@
                     ProcessRestartCommand();
                     break;
                 case CommandType.Flag:
-                    ProcessFlagCommand(commandsArr);
+                    ProcessFlagCommand(cmd.Coordinates);
                     break;
                 case CommandType.InvalidInput:
                     userIteractor.ShowMessage("Invalid input! Please try again!");
@@ -61,7 +62,7 @@
                 case CommandType.System:
                     break;
                 default:
-                    ProcessCoordinates(commandsArr);
+                    ProcessCoordinates(cmd.Coordinates);
                     break;
             }
         }
@@ -95,10 +96,10 @@
             this.scoreBoard.AddPlayer(this.gameBoard.RevealedCellsCount);
         }
 
-        private void ProcessFlagCommand(string[] commandsArr)
+        private void ProcessFlagCommand(Position coordinates)
         {
-            int row = int.Parse(commandsArr[1]);
-            int col = int.Parse(commandsArr[2]);
+            int row = coordinates.row;
+            int col = coordinates.col;
 
             var cellHandler = new CellHandler(gameBoard.PlaceFlag);
             CheckIfCellIsRevealed(cellHandler, row, col);
@@ -116,10 +117,10 @@
             this.remainingLives = 1;
         }
 
-        private void ProcessCoordinates(string[] inputCoordinates)
+        private void ProcessCoordinates(Position coordinates)
         {
-            int row = int.Parse(inputCoordinates[0]);
-            int col = int.Parse(inputCoordinates[1]);
+            int row = coordinates.row;
+            int col = coordinates.col;
 
             if (gameBoard.CheckIfHasMine(row, col) && !gameBoard.CheckIfFlagCell(row, col))
             {
