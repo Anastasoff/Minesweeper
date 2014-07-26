@@ -144,6 +144,8 @@
                     return CommandType.Exit;
                 case "top":
                     return CommandType.Top;
+                case "system":
+                    return CommandType.System;
                 default:
                     return ValidateIfCommandIsValid(inputCommands[0]);
             }
