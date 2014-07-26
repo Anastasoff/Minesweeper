@@ -1,9 +1,9 @@
 ﻿namespace Minesweeper.Engine
 {
     using GUI;
-using Interfaces;
-using GameObjects;
-using System;
+    using Interfaces;
+    using GameObjects;
+    using System;
 
     /// <summary>
     /// Contains the main logic behind commands execution 
@@ -16,7 +16,7 @@ using System;
         private Scoreboard scoreBoard;
         private IOInterface userIteractor;
         private int remainingLives;
-        private GameBoardMemory currentBoardState;        
+        private GameBoardMemory currentBoardState;
         private delegate void CellHandler(Position pos);
 
         public CommandProcessor(GameBoard board, Scoreboard score, IOInterface userIteractor, CommandParser commandParser)
@@ -36,7 +36,7 @@ using System;
         /// <param name="input">The command string.</param>
         public void ExecuteCommand(string input)
         {
-            
+
             Command cmd = this.commandParser.ExtractCommand(input, this.gameBoard);
             switch (cmd.CommandType)
             {
@@ -116,9 +116,6 @@ using System;
 
         private void ProcessCoordinates(Position coordinates)
         {
-//            int row = coordinates.row;
-//            int col = coordinates.col;
-
             if (gameBoard.CheckIfHasMine(coordinates) && !gameBoard.CheckIfFlagCell(coordinates))
             {
                 //Memento logic

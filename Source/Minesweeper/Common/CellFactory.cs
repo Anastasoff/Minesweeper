@@ -14,7 +14,7 @@
         /// <param name="row">takes integer parameter for the row of the cell</param>
         /// <param name="col">takes integer parameter for the col of the cell</param>
         /// <returns>returns an instance of the MineCell class</returns>
-        public abstract Cell CreateMineCell(int row, int col);
+        public abstract Cell CreateMineCell(Position pos);
 
         /// <summary>
         /// creates an instance of the class SafeCell
@@ -22,6 +22,6 @@
         /// <param name="row">takes integer parameter for the row of the cell</param>
         /// <param name="col">takes integer parameter for the col of the cell</param>
         /// <returns>returns an instance of the SafeCell class</returns>
-        public abstract Cell CreateSafeCell(int row, int col);
+        public abstract Cell CreateSafeCell(Position pos);
     }
 }

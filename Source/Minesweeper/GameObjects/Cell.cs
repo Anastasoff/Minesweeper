@@ -17,10 +17,10 @@
         /// </summary>
         /// <param name="row">Takes one integer parameter for the row of the cell.</param>
         /// <param name="col">Takes one integer parameter for the col of the cell.</param>
-        protected Cell(int row, int col)
+        protected Cell(Position pos)
         {
             this.isCellRevealed = false;
-            this.Coordinates = new Position(row, col);
+            this.Coordinates = new Position(pos.row, pos.col);
         }
 
         /// <summary>
@@ -40,7 +40,8 @@
                     throw new ArgumentOutOfRangeException("The position parameters must be positive values!");
                 }
 
-                this.coordinates = value;
+                this.coordinates.row = value.row;
+                this.coordinates.col = value.col;
             }
         }
         

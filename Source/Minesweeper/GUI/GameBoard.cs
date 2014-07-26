@@ -68,13 +68,28 @@
         /// <summary>
         /// Return one cell from cells map.
         /// </summary>
-        /// <param name="pos">cell position</param>
+        /// <param name="pos">Cell position</param>
         /// <returns>Cell</returns>
         public Cell GetCell(Position pos)
         {
             return cellsMap[pos.row, pos.col];
         }
 
+        public int GetMaxRows
+        {
+            get
+            {
+                return ROWS;
+            }
+        }
+
+        public int GetMaxCols
+        {
+            get
+            {
+                return COLS;
+            }
+        }
 
         /// <summary>
         /// Gets the value of the number of revealed cells
@@ -119,8 +134,7 @@
         /// <summary>
         /// Check if the specified position is inside the board.
         /// </summary>
-        /// <param name="row">Takes one integer parameter for the row to be checked.</param>
-        /// <param name="col">Takes one integer parameter for the col to be checked.</param> 
+        /// <param name="pos">Takes one Cell parameter - cell to be checked.</param>
         /// <returns>Return boolean value.</returns>
         public bool IsInsideBoard(Position pos)
         {
@@ -132,8 +146,7 @@
         /// <summary>
         /// Check if the cell at that position is of type Mine.
         /// </summary>
-        /// <param name="row">Takes one integer parameter for the row to be checked.</param>
-        /// <param name="col">Takes one integer parameter for the col to be checked.</param> 
+        /// <param name="pos">Takes one Cell parameter - cell to be checked.</param>
         /// <returns>Return boolean value.</returns>
         public bool CheckIfHasMine(Position pos)
         {
@@ -151,8 +164,7 @@
         /// <summary>
         /// Changes the state of the cell at the specified position and changes its state. Attempts to reveal a block of cells.
         /// </summary>
-        /// <param name="row">Takes one integer parameter for the row to be checked.</param>
-        /// <param name="col">Takes one integer parameter for the col to be checked.</param> 
+        /// <param name="pos">Takes one Cell parameter - cell to be revealed.</param>
         public void RevealBlock(Position pos)
         {
             var currentCell = this.GetCell(pos);
@@ -219,8 +231,7 @@
         /// <summary>
         /// Checks if the cell at the specified position has been revealed.
         /// </summary>
-        /// <param name="row">Takes one integer parameter for the row to be checked.</param>
-        /// <param name="col">Takes one integer parameter for the col to be checked.</param> 
+        /// <param name="pos">Takes one Cell parameter - cell to be checked.</param>
         /// <returns>Returns a boolean value.</returns>
         public bool IsCellRevealed(Position pos)
         {
@@ -230,8 +241,7 @@
         /// <summary>
         /// Changes the type of the cell at the specified position.
         /// </summary>
-        /// <param name="row">Takes one integer parameter for the row for the cell which type would be changed to Flag.</param>
-        /// <param name="col">Takes one integer parameter for the col for the cell which type would be changed to Flag.</param> 
+        /// <param name="pos">Takes one Cell parameter - cell to where falg be placed.</param>
         public void PlaceFlag(Position pos)
         {
             this.flagVisitor = new FlagVisitor();
@@ -251,8 +261,7 @@
         /// <summary>
         /// Checks if the cell at the specified position is of type Flag.
         /// </summary>
-        /// <param name="row">Takes one integer parameter for the row to be checked.</param>
-        /// <param name="col">Takes one integer parameter for the col to be checked.</param> 
+        /// <param name="pos">Takes one Cell parameter - cell to be checked.</param>
         /// <returns>Returns a boolean value.</returns>
         public bool CheckIfFlagCell(Position pos)
         {
@@ -292,7 +301,6 @@
                 if (validPlaceForMine)
                 {
                     this.minePositions.Add(newMinePos);
-//                    this.minePositions.Add(new Position(newMinePos.row, newMinePos.col));
                     this.AllocateNeighbouringMines(newMinePos);
                     actualNumberOfMines++;
                 }
@@ -302,8 +310,7 @@
         /// <summary>
         /// Counts the number of neighbouring mines for the specified position
         /// </summary>
-        /// <param name="row">Takes one integer parameter for the row to be checked.</param>
-        /// <param name="col">Takes one integer parameter for the col to be checked.</param> 
+        /// <param name="pos">Takes one Cell parameter - cell to be counted.</param>
         private void AllocateNeighbouringMines(Position pos)
         {
             for (int neighbouringRow = pos.row - 1; neighbouringRow <= pos.row + 1; neighbouringRow++)
@@ -338,20 +345,21 @@
             {
                 for (int col = 0; col < COLS; col++)
                 {
-                    if (this.CheckIfHasMine(new Position(row, col)))
+                    var pos = new Position(row, col);
+                    if (this.CheckIfHasMine(pos))
                     {
-                        this.cellsMap[row, col] = this.cellCreator.CreateMineCell(row, col);
+                        this.cellsMap[row, col] = this.cellCreator.CreateMineCell(pos);
                     }
                     else
                     {
-                        this.cellsMap[row, col] = this.cellCreator.CreateSafeCell(row, col);
-                        var currentCellPosition = this.cellsMap[row, col].Coordinates;
+                        this.cellsMap[row, col] = this.cellCreator.CreateSafeCell(pos);
+                        var currentCellPosition = this.GetCell(pos).Coordinates;
 
                         if (this.CheckIfHasNeighbouringMines(currentCellPosition))
                         {
                             var numberOfMines = this.numbersPositions[currentCellPosition];
                             this.neighbouringMinesVisitor = new NeighbouringMinesVisitor(numberOfMines);
-                            this.cellsMap[row, col].Accept(this.neighbouringMinesVisitor);
+                            this.GetCell(pos).Accept(this.neighbouringMinesVisitor);
                         }
                     }
                 }

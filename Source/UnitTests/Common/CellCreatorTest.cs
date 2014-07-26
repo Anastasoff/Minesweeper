@@ -13,7 +13,7 @@
         public void TestCellCreatorCreateMineCell()
         {
             CellFactory factory = new CellCreator();
-            IGameObject cell = factory.CreateMineCell(1, 1);
+            IGameObject cell = factory.CreateMineCell(new Position(1, 1));
             Assert.IsInstanceOfType(cell, typeof(MineCell));
         }
 
@@ -21,7 +21,7 @@
         public void TestCellCreatorCreateSafeCell()
         {
             CellFactory factory = new CellCreator();
-            IGameObject cell = factory.CreateSafeCell(1, 1);
+            IGameObject cell = factory.CreateSafeCell(new Position(1, 1));
             Assert.IsInstanceOfType(cell, typeof(SafeCell));
         }
 
@@ -30,7 +30,7 @@
         public void TestCellCreatorCreateMineCellWithNegativePosition()
         {
             CellFactory factory = new CellCreator();
-            IGameObject cell = factory.CreateMineCell(-1, 5);
+            IGameObject cell = factory.CreateMineCell(new Position(-1, 5));
         }
     }
 }

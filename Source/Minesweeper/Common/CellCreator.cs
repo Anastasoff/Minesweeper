@@ -15,9 +15,9 @@
         /// <param name="row">takes integer parameter for the row of the cell</param>
         /// <param name="col">takes integer parameter for the col of the cell</param>
         /// <returns>returns an instance of the MineCell class</returns>
-        public override Cell CreateMineCell(int row, int col)
+        public override Cell CreateMineCell(Position pos)
         {
-            var mineCell = new MineCell(row, col);
+            var mineCell = new MineCell(pos);
 
             return mineCell;
         }
@@ -28,9 +28,9 @@
         /// <param name="row">takes integer parameter for the row of the cell</param>
         /// <param name="col">takes integer parameter for the col of the cell</param>
         /// <returns>returns an instance of the SafeCell class</returns>
-        public override Cell CreateSafeCell(int row, int col)
+        public override Cell CreateSafeCell(Position pos)
         {
-            var safeCell = new SafeCell(row, col);
+            var safeCell = new SafeCell(pos);
 
             return safeCell;
         }

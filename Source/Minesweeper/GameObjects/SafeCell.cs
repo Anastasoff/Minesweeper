@@ -17,8 +17,8 @@
         /// </summary>
         /// <param name="row">Takes one integer parameter for the row of the cell.</param>
         /// <param name="col">Takes one integer parameter for the col of the cell.</param>
-        public SafeCell(int row, int col)
-            : base(row, col)
+        public SafeCell(Position pos)
+            : base(pos)
         {
             this.NumberOfNeighbouringMines = INITIAL_MINES_COUNT;
             this.Type = CellTypes.Safe;
