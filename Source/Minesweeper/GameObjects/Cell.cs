@@ -3,18 +3,29 @@
     using System;
     using Interfaces;
 
+    /// <summary>
+    /// Abstract class for the Cell, it implements both the IGameObject and IVisitable interfaces.
+    /// </summary>
     public abstract class Cell : IGameObject, IVisitable
     {
         private Position coordinates;
         private bool isCellRevealed;
         private CellTypes type;
 
+        /// <summary>
+        /// The constructor can be used by the inheriting classes.
+        /// </summary>
+        /// <param name="row">Takes one integer parameter for the row of the cell.</param>
+        /// <param name="col">Takes one integer parameter for the col of the cell.</param>
         protected Cell(int row, int col)
         {
             this.isCellRevealed = false;
             this.Coordinates = new Position(row, col);
         }
 
+        /// <summary>
+        /// Gets or sets a value for the position of the cell.
+        /// </summary>
         public Position Coordinates
         {
             get 
@@ -33,6 +44,9 @@
             }
         }
         
+        /// <summary>
+        /// Gets or sets a value indicating whether the state of the cell has been changed.
+        /// </summary>
         public bool IsCellRevealed
         {
             get 
@@ -46,6 +60,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the type of the cell.
+        /// </summary>
         public CellTypes Type
         {
             get 
@@ -59,6 +76,9 @@
             }
         }
 
+        /// <summary>
+        /// The method changes the state of the cell and from unrevealed marks it as revealed.
+        /// </summary>
         public void RevealCell()
         { 
             if (!this.IsCellRevealed)                        
@@ -67,6 +87,10 @@
             }
         }
 
+        /// <summary>
+        /// Accepts a visitor and allows it to make changes to the properties of the class.
+        /// </summary>
+        /// <param name="visitor">Takes one parameter of implementing the interface IVisitor.</param>
         public abstract void Accept(IVisitor visitor);
     }
 }
