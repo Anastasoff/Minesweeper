@@ -139,7 +139,7 @@
             var currentCell = cellsMap[row, col];
             this.cellRevealingVisitor = new CellRevealingVisitor();
             currentCell.Accept(cellRevealingVisitor);
-            var regularCell = currentCell as RegularCell;
+            var regularCell = currentCell as SafeCell;
 
             this.RevealedCellsCount++;
 
@@ -181,7 +181,7 @@
                             currentCell.IsCellRevealed = true;
                             break;
                         case CellTypes.Flag:
-                            if (currentCell is RegularCell)
+                            if (currentCell is SafeCell)
                             {
                                 currentCell.Type = CellTypes.Unrevealed_Regular_Cell;
                             }
@@ -296,7 +296,7 @@
                     }
                     else
                     {
-                        cellsMap[row, col] = new RegularCell(row, col);
+                        cellsMap[row, col] = new SafeCell(row, col);
                         var currentCellPosition = cellsMap[row, col].Coordinates;
 
                         if (CheckIfHasNeighbouringMines(currentCellPosition))

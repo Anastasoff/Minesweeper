@@ -48,14 +48,14 @@ namespace UnitTests
         [TestMethod]
         public void TestRegularCellType()
         {
-            Cell cell = new RegularCell(1, 1);
+            Cell cell = new SafeCell(1, 1);
             Assert.AreEqual(CellTypes.Regular, cell.Type);
         }
 
         [TestMethod]
         public void TestRegularCellDefaultNeighboringMines()
         {
-            RegularCell cell = new RegularCell(1, 1);
+            SafeCell cell = new SafeCell(1, 1);
             Assert.AreEqual(0, cell.NumberOfNeighbouringMines);
         }
 
@@ -74,7 +74,7 @@ namespace UnitTests
         {
             var visitorMock = new Mock<IVisitor>();
             visitorMock.Setup(v => v.Visit(It.IsAny<Cell>())).Verifiable();
-            RegularCell cell = new RegularCell(1, 1);
+            SafeCell cell = new SafeCell(1, 1);
             cell.Accept(visitorMock.Object);
             visitorMock.Verify();
         }

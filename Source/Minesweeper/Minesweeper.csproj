@@ -54,7 +54,7 @@
     <Compile Include="GameObjects\MineCell.cs" />
     <Compile Include="GameObjects\NeighbouringMinesVisitor.cs" />
     <Compile Include="GameObjects\Position.cs" />
-    <Compile Include="GameObjects\RegularCell.cs" />
+    <Compile Include="GameObjects\SafeCell.cs" />
     <Compile Include="GameObjects\CellRevealingVisitor.cs" />
     <Compile Include="GUI\ConsoleInterface.cs" />
     <Compile Include="GUI\ConsoleSkins\AllWhiteSkin.cs" />

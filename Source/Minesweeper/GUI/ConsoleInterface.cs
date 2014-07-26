@@ -196,7 +196,7 @@
             }
             else
             {
-                var cell = currentCell as RegularCell;
+                var cell = currentCell as SafeCell;
                 var numberOfNeighbouringMinesToStr = cell.NumberOfNeighbouringMines.ToString();
                 cellSymbol = Convert.ToChar(numberOfNeighbouringMinesToStr);
             }

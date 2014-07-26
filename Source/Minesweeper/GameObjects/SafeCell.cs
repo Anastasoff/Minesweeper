@@ -4,13 +4,13 @@
 
     using Interfaces;
 
-    public class RegularCell : Cell
+    public class SafeCell : Cell
     {
         private const int INITIAL_MINES_COUNT = 0;
 
         private int numberOfNeighbouringMines;
 
-        public RegularCell(int row, int col)
+        public SafeCell(int row, int col)
             : base(row, col)
         {
             this.NumberOfNeighbouringMines = INITIAL_MINES_COUNT;

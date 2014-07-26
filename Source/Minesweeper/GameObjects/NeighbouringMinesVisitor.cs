@@ -15,9 +15,9 @@
 
         public void Visit(Cell regularCell)
         {
-            if (regularCell is RegularCell)
+            if (regularCell is SafeCell)
             {
-                var cell = regularCell as RegularCell;
+                var cell = regularCell as SafeCell;
                 cell.NumberOfNeighbouringMines = numberOfMines;
             }
         }

@@ -40,7 +40,7 @@
         [TestMethod]
         public void TestNeighbouringMinesVisitorSettingCorrectNumberOfMines()
         {
-            var cell = new RegularCell(1, 1);
+            var cell = new SafeCell(1, 1);
             IVisitor visitor = new NeighbouringMinesVisitor(5);
             cell.Accept(visitor);
             Assert.AreEqual(5, cell.NumberOfNeighbouringMines);
