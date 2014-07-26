@@ -7,7 +7,7 @@
         string GetUserInput(string message);
         void ShowMessage(string message);
         void ClearScreen();
-        void DrawBoard(Cell[,] board);
+        void DrawBoard(IGameObject[,] board);
         void ShowWelcomeScreen();
     }
 }

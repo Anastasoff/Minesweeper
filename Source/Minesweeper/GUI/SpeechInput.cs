@@ -1,11 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Speech.Recognition;
-using Minesweeper.Interfaces;
-
-
-namespace Minesweeper.GUI
+﻿namespace Minesweeper.GUI
 {
+    using System;
+    using System.Linq;
+    using System.Speech.Recognition;
+    using Interfaces;
+
     class SpeechInput : IInputDevice
     {
         private string phrase = "";

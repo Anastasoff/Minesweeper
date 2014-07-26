@@ -96,7 +96,7 @@
         /// Draws the game board on the console.
         /// </summary>
         /// <param name="board">The game board to be drawn.</param>
-        public void DrawBoard(Cell[,] board)
+        public void DrawBoard(IGameObject[,] board)
         {
             SetConsole();
 
@@ -143,7 +143,7 @@
             Console.WriteLine();
         }
 
-        private void PrintGameField(Cell[,] board)
+        private void PrintGameField(IGameObject[,] board)
         {
             int rows = board.GetLength(0);
             int cols = board.GetLength(1);
@@ -168,7 +168,7 @@
             }
         }
 
-        private char GetCellSymbol(Cell currentCell)
+        private char GetCellSymbol(IGameObject currentCell)
         {
             var cellType = currentCell.Type;
 
@@ -187,7 +187,7 @@
             }
         }
 
-        private char GetRegularAndMineCellsSymbol(Cell currentCell)
+        private char GetRegularAndMineCellsSymbol(IGameObject currentCell)
         {
             char cellSymbol;
             if (currentCell.Type == CellTypes.Mine)

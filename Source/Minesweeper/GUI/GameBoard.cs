@@ -24,25 +24,11 @@
 
         private IList<Position> minePositions;
         private Dictionary<Position, int> numbersPositions;
+        private CellFactory cellCreator;
 
         private IVisitor neighbouringMinesVisitor;
         private IVisitor flagVisitor;
         private IVisitor cellRevealingVisitor;
-
-        //private GameBoard() // private constructor
-        //{
-        //    display = new char[ROWS, COLS];
-        //    this.mineMap = new List<IGameObject>();
-        //    this.flagMap = new List<IGameObject>();
-        //    numberOfNeighbourMines = new int[ROWS, COLS];
-        //    InitializeBoardForDisplay();
-        //    AllocateMines(RandomGenerator.GetInstance);
-        //}
-
-        //public static void ResetBoard() // I don't think that it's a best implementation. If any have better idea ...
-        //{
-        //    board = new GameBoard();
-        //}
 
         private GameBoard() // private constructor
         {
@@ -55,6 +41,7 @@
             this.numbersPositions = new Dictionary<Position, int>();
             this.cellsMap = new Cell[ROWS, COLS];
             this.RevealedCellsCount = 0;
+            this.cellCreator = new CellCreator();
             AllocateMines(RandomGenerator.GetInstance);
             InitializeBoardForDisplay();
         }
@@ -292,11 +279,11 @@
                 {
                     if (CheckIfHasMine(row, col))
                     {
-                        cellsMap[row, col] = new MineCell(row, col);
+                        cellsMap[row, col] = cellCreator.CreateMineCell(row, col);
                     }
                     else
                     {
-                        cellsMap[row, col] = new SafeCell(row, col);
+                        cellsMap[row, col] = cellCreator.CreateSafeCell(row, col);
                         var currentCellPosition = cellsMap[row, col].Coordinates;
 
                         if (CheckIfHasNeighbouringMines(currentCellPosition))

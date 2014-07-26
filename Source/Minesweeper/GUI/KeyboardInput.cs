@@ -1,10 +1,10 @@
-﻿using System;
-using System.Linq;
-using Minesweeper.Interfaces;
-
-namespace Minesweeper.GUI
+﻿namespace Minesweeper.GUI
 {
-    public class KeyboardInput:IInputDevice
+    using System;
+    using System.Linq;
+    using Interfaces;
+
+    public class KeyboardInput: IInputDevice
     {
         public string GetInput()
         {
