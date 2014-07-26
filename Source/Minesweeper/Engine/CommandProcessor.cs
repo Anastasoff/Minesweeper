@@ -17,7 +17,7 @@ using System;
         private IOInterface userIteractor;
         private int remainingLives;
         private GameBoardMemory currentBoardState;        
-        private delegate void CellHandler(int row, int col);
+        private delegate void CellHandler(Position pos);
 
         public CommandProcessor(GameBoard board, Scoreboard score, IOInterface userIteractor, CommandParser commandParser)
         {
@@ -98,11 +98,8 @@ using System;
 
         private void ProcessFlagCommand(Position coordinates)
         {
-            int row = coordinates.row;
-            int col = coordinates.col;
-
             var cellHandler = new CellHandler(gameBoard.PlaceFlag);
-            CheckIfCellIsRevealed(cellHandler, row, col);
+            CheckIfCellIsRevealed(cellHandler, coordinates);
         }
 
         private void ProcessRestartCommand()
@@ -119,10 +116,10 @@ using System;
 
         private void ProcessCoordinates(Position coordinates)
         {
-            int row = coordinates.row;
-            int col = coordinates.col;
+//            int row = coordinates.row;
+//            int col = coordinates.col;
 
-            if (gameBoard.CheckIfHasMine(row, col) && !gameBoard.CheckIfFlagCell(row, col))
+            if (gameBoard.CheckIfHasMine(coordinates) && !gameBoard.CheckIfFlagCell(coordinates))
             {
                 //Memento logic
                 if (this.remainingLives > 0)
@@ -139,14 +136,14 @@ using System;
                 this.ResetLives();
                 userIteractor.DrawBoard(gameBoard.Board);
             }
-            else if (gameBoard.CheckIfHasMine(row, col) && gameBoard.CheckIfFlagCell(row, col))
+            else if (gameBoard.CheckIfHasMine(coordinates) && gameBoard.CheckIfFlagCell(coordinates))
             {
                 PrintUsedCellMessage("You've already placed flag at these coordinates! Please enter new cell coordinates!");
             }
             else
             {
                 var cellHandler = new CellHandler(gameBoard.RevealBlock);
-                CheckIfCellIsRevealed(cellHandler, row, col);
+                CheckIfCellIsRevealed(cellHandler, coordinates);
                 this.currentBoardState.Memento = gameBoard.SaveMemento();
             }
 
@@ -173,19 +170,19 @@ using System;
             return false;
         }
 
-        private void CheckIfCellIsRevealed(CellHandler cellAction, int row, int col)
+        private void CheckIfCellIsRevealed(CellHandler cellAction, Position pos)
         {
-            if (gameBoard.IsCellRevealed(row, col))
+            if (gameBoard.IsCellRevealed(pos))
             {
                 PrintUsedCellMessage("This cell has already been revealed! Please enter new cell coordinates!");
             }
-            else if (gameBoard.CheckIfFlagCell(row, col))
+            else if (gameBoard.CheckIfFlagCell(pos))
             {
                 PrintUsedCellMessage("You've already placed flag at these coordinates! Please enter new cell coordinates!");
             }
             else
             {
-                cellAction(row, col);
+                cellAction(pos);
                 userIteractor.DrawBoard(gameBoard.Board);
             }
         }

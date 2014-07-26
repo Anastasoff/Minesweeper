@@ -12,23 +12,23 @@
 
         void ResetBoard();
 
-        bool CheckIfMineCanBePlaced(int row, int col);
+        bool CheckIfMineCanBePlaced(Position pos);
 
-        bool IsInsideBoard(int row, int col);
+        bool IsInsideBoard(Position pos);
 
-        bool CheckIfHasMine(int row, int col);
+        bool CheckIfHasMine(Position pos);
 
-        void RevealBlock(int row, int col);
+        void RevealBlock(Position pos);
 
         void RevealWholeBoard();
 
-        bool IsCellRevealed(int row, int col);
+        bool IsCellRevealed(Position pos);
 
-        void PlaceFlag(int row, int col);
+        void PlaceFlag(Position pos);
 
         bool CheckIfGameIsWon();
 
-        bool CheckIfFlagCell(int row, int col);
+        bool CheckIfFlagCell(Position pos);
 
         Memento SaveMemento();
 

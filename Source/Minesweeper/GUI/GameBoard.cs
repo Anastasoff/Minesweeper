@@ -66,6 +66,17 @@
         }
 
         /// <summary>
+        /// Return one cell from cells map.
+        /// </summary>
+        /// <param name="pos">cell position</param>
+        /// <returns>Cell</returns>
+        public Cell GetCell(Position pos)
+        {
+            return cellsMap[pos.row, pos.col];
+        }
+
+
+        /// <summary>
         /// Gets the value of the number of revealed cells
         /// </summary>
         public int RevealedCellsCount
@@ -98,12 +109,11 @@
         /// <summary>
         /// Check if the specified position is inside the board and if the cell at that position is of type Mine.
         /// </summary>
-        /// <param name="row">Takes one integer parameter for the row to be checked.</param>
-        /// <param name="col">Takes one integer parameter for the col to be checked.</param> 
-        /// <returns>Return boolean value.</returns>
-        public bool CheckIfMineCanBePlaced(int row, int col)
+        /// <param name="pos">Takes one parameter for the cell position to be checked.</param>
+        /// <returns>Return true if is a mine ot that position.</returns>
+        public bool CheckIfMineCanBePlaced(Position pos)
         {
-            return this.IsInsideBoard(row, col) && !this.CheckIfHasMine(row, col);
+            return this.IsInsideBoard(pos) && !this.CheckIfHasMine(pos);
         }
 
         /// <summary>
@@ -112,10 +122,10 @@
         /// <param name="row">Takes one integer parameter for the row to be checked.</param>
         /// <param name="col">Takes one integer parameter for the col to be checked.</param> 
         /// <returns>Return boolean value.</returns>
-        public bool IsInsideBoard(int row, int col)
+        public bool IsInsideBoard(Position pos)
         {
-            bool isInHorizontalLimits = 0 <= row && row < ROWS;
-            bool isInVerticalLimits = 0 <= col && col < COLS;
+            bool isInHorizontalLimits = 0 <= pos.row && pos.row < ROWS;
+            bool isInVerticalLimits = 0 <= pos.col && pos.col < COLS;
             return isInHorizontalLimits && isInVerticalLimits;
         }
 
@@ -125,15 +135,11 @@
         /// <param name="row">Takes one integer parameter for the row to be checked.</param>
         /// <param name="col">Takes one integer parameter for the col to be checked.</param> 
         /// <returns>Return boolean value.</returns>
-        public bool CheckIfHasMine(int row, int col)
+        public bool CheckIfHasMine(Position pos)
         {
             for (int i = 0; i < this.minePositions.Count; i++)
             {
-                Position currentMinePosition = this.minePositions[i];
-                int minePositionX = currentMinePosition.row;
-                int minePositionY = currentMinePosition.col;
-
-                if (minePositionX == row && minePositionY == col)
+                if (this.minePositions[i].IsEqual(pos))
                 {
                     return true;
                 }
@@ -147,9 +153,9 @@
         /// </summary>
         /// <param name="row">Takes one integer parameter for the row to be checked.</param>
         /// <param name="col">Takes one integer parameter for the col to be checked.</param> 
-        public void RevealBlock(int row, int col)
+        public void RevealBlock(Position pos)
         {
-            var currentCell = this.cellsMap[row, col];
+            var currentCell = this.GetCell(pos);
             this.cellRevealingVisitor = new CellRevealingVisitor();
             currentCell.Accept(this.cellRevealingVisitor);
             var regularCell = currentCell as SafeCell;
@@ -162,11 +168,10 @@
                 {
                     for (int previousCol = -1; previousCol <= 1; previousCol++)
                     {
-                        int newRow = row + previousRow;
-                        int newCol = col + previousCol;
-                        if (this.IsInsideBoard(newRow, newCol) && this.IsCellRevealed(newRow, newCol) == false)
+                        Position newPos = new Position(pos.row + previousRow, pos.col + previousCol);
+                        if (this.IsInsideBoard(newPos) && !this.IsCellRevealed(newPos))
                         {
-                            this.RevealBlock(newRow, newCol);
+                            this.RevealBlock(newPos);
                         }
                     }
                 }
@@ -217,9 +222,9 @@
         /// <param name="row">Takes one integer parameter for the row to be checked.</param>
         /// <param name="col">Takes one integer parameter for the col to be checked.</param> 
         /// <returns>Returns a boolean value.</returns>
-        public bool IsCellRevealed(int row, int col)
+        public bool IsCellRevealed(Position pos)
         {
-            return this.cellsMap[row, col].IsCellRevealed;
+            return this.GetCell(pos).IsCellRevealed;
         }
 
         /// <summary>
@@ -227,10 +232,10 @@
         /// </summary>
         /// <param name="row">Takes one integer parameter for the row for the cell which type would be changed to Flag.</param>
         /// <param name="col">Takes one integer parameter for the col for the cell which type would be changed to Flag.</param> 
-        public void PlaceFlag(int row, int col)
+        public void PlaceFlag(Position pos)
         {
             this.flagVisitor = new FlagVisitor();
-            this.cellsMap[row, col].Accept(this.flagVisitor);
+            this.cellsMap[pos.row, pos.col].Accept(this.flagVisitor);
         }
 
         /// <summary>
@@ -249,9 +254,9 @@
         /// <param name="row">Takes one integer parameter for the row to be checked.</param>
         /// <param name="col">Takes one integer parameter for the col to be checked.</param> 
         /// <returns>Returns a boolean value.</returns>
-        public bool CheckIfFlagCell(int row, int col)
+        public bool CheckIfFlagCell(Position pos)
         {
-            var currentCell = this.cellsMap[row, col];
+            var currentCell = this.GetCell(pos);
             return currentCell.Type == CellTypes.Flag;
         }
 
@@ -282,13 +287,13 @@
             int actualNumberOfMines = 0;
             while (actualNumberOfMines < NUMBER_OF_MINES)
             {
-                int currentRow = generator.Next(ROWS);
-                int currentCol = generator.Next(COLS);
-                bool validPlaceForMine = this.CheckIfMineCanBePlaced(currentRow, currentCol);
+                Position newMinePos = new Position(generator.Next(ROWS), generator.Next(COLS));
+                bool validPlaceForMine = this.CheckIfMineCanBePlaced(newMinePos);
                 if (validPlaceForMine)
                 {
-                    this.minePositions.Add(new Position(currentRow, currentCol));
-                    this.AllocateNeighbouringMines(currentRow, currentCol);
+                    this.minePositions.Add(newMinePos);
+//                    this.minePositions.Add(new Position(newMinePos.row, newMinePos.col));
+                    this.AllocateNeighbouringMines(newMinePos);
                     actualNumberOfMines++;
                 }
             }
@@ -299,15 +304,15 @@
         /// </summary>
         /// <param name="row">Takes one integer parameter for the row to be checked.</param>
         /// <param name="col">Takes one integer parameter for the col to be checked.</param> 
-        private void AllocateNeighbouringMines(int row, int col)
+        private void AllocateNeighbouringMines(Position pos)
         {
-            for (int neighbouringRow = row - 1; neighbouringRow <= row + 1; neighbouringRow++)
+            for (int neighbouringRow = pos.row - 1; neighbouringRow <= pos.row + 1; neighbouringRow++)
             {
-                for (int neighbouringCol = col - 1; neighbouringCol <= col + 1; neighbouringCol++)
+                for (int neighbouringCol = pos.col - 1; neighbouringCol <= pos.col + 1; neighbouringCol++)
                 {
-                    if (this.IsInsideBoard(neighbouringRow, neighbouringCol) && !this.CheckIfHasMine(neighbouringRow, neighbouringCol))
+                    var position = new Position(neighbouringRow, neighbouringCol);
+                    if (CheckIfMineCanBePlaced(position))
                     {
-                        var position = new Position(neighbouringRow, neighbouringCol);
                         var numberOfNeighbouringMines = 0;
 
                         if (this.numbersPositions.ContainsKey(position))
@@ -333,7 +338,7 @@
             {
                 for (int col = 0; col < COLS; col++)
                 {
-                    if (this.CheckIfHasMine(row, col))
+                    if (this.CheckIfHasMine(new Position(row, col)))
                     {
                         this.cellsMap[row, col] = this.cellCreator.CreateMineCell(row, col);
                     }

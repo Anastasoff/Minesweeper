@@ -10,5 +10,10 @@
             this.row = inputRow;
             this.col = inputCol;
         }
+
+        public bool IsEqual(Position other)
+        {
+            return (this.row == other.row) && (this.col == other.col);
+        }
     }
 }
