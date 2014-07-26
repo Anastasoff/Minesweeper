@@ -49,7 +49,7 @@ namespace UnitTests
         public void TestRegularCellType()
         {
             Cell cell = new SafeCell(1, 1);
-            Assert.AreEqual(CellTypes.Regular, cell.Type);
+            Assert.AreEqual(CellTypes.Safe, cell.Type);
         }
 
         [TestMethod]

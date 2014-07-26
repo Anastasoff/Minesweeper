@@ -174,7 +174,7 @@
 
             switch (cellType)
             {
-                case CellTypes.Regular:
+                case CellTypes.Safe:
                     return GetRegularAndMineCellsSymbol(currentCell);
                 case CellTypes.Mine:
                     return GetRegularAndMineCellsSymbol(currentCell);

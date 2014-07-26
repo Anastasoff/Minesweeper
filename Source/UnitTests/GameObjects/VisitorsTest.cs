@@ -25,7 +25,7 @@
             IVisitor visitor = new FlagVisitor();
             cell.IsCellRevealed = true;
             cell.Accept(visitor);
-            Assert.AreNotEqual(cell.Type, CellTypes.Regular);
+            Assert.AreNotEqual(cell.Type, CellTypes.Safe);
         }
 
         [TestMethod]

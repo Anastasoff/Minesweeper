@@ -171,7 +171,7 @@
 
                     switch (cellType)
                     {
-                        case CellTypes.Regular:
+                        case CellTypes.Safe:
                             if (!currentCell.IsCellRevealed)
                             {
                                 currentCell.Type = CellTypes.Unrevealed_Regular_Cell;

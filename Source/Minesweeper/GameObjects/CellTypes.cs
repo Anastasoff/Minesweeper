@@ -2,7 +2,7 @@
 {
     public enum CellTypes
     {
-        Regular,
+        Safe,
         Mine,
         Flag,
         Unrevealed_Regular_Cell

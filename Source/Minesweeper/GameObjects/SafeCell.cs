@@ -14,7 +14,7 @@
             : base(row, col)
         {
             this.NumberOfNeighbouringMines = INITIAL_MINES_COUNT;
-            this.Type = CellTypes.Regular;
+            this.Type = CellTypes.Safe;
         }
 
         public int NumberOfNeighbouringMines 
