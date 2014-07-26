@@ -4,6 +4,9 @@
     using Interfaces;
     using System;
 
+    /// <summary>
+    /// Contains the main logic behind commands execution 
+    /// </summary>
     public class CommandProcessor
     {
         private const int INITIAL_LIVES = 1;
@@ -20,12 +23,16 @@
             this.GameBoard = board;
             this.ScoreBoard = score;
             this.UserIteractor = userIteractor;
+            this.CurrentBoardState = new GameBoardMemory();
             this.CurrentBoardState.Memento = board.SaveMemento();
             this.CommandParser = commandParser;
             this.RemainingLives = INITIAL_LIVES;
-            this.CurrentBoardState = new GameBoardMemory();
         }        
 
+        /// <summary>
+        /// Handles the execution of all valid commands.
+        /// </summary>
+        /// <param name="input">The command string.</param>
         public void ExecuteCommand(string input)
         {
             string[] commandsArr = input.Split(' ');
@@ -54,9 +61,9 @@
                 case Command.InvalidInput:
                     UserIteractor.ShowMessage("Invalid input! Please try again!");
                     break;
+
                 case Command.System:
                     break;
-
 
                 default: ProcessCoordinates(commandsArr);
                     break;
@@ -74,7 +81,7 @@
             UserIteractor.ShowMessage();
         }
 
-        public void ShowEndGameMessage()
+        private void ShowEndGameMessage()
         {
             string message = "Booooom! You were killed by a mine. You revealed " + this.GameBoard.RevealedCellsCount + " cells without mines.";
             ShowMessage(message);
@@ -85,15 +92,13 @@
             }
         }
 
-        public void ShowGameWonMessage()
+        private void ShowGameWonMessage()
         {
             string message = "Congratulations! You have escaped all the mines and WON the game!";
             ShowMessage(message);
 
             this.ScoreBoard.AddPlayer(this.GameBoard.RevealedCellsCount);
         }
-
-
 
         private void ProcessFlagCommand(string[] commandsArr)
         {
@@ -133,7 +138,6 @@
                 ShowEndGameMessage();
                 GameBoard.ResetBoard();
                 SetConsole();
-                //    scoreBoard.ShowHighScores();
                 UserIteractor.DrawBoard(GameBoard.Board);
             }
             else if (GameBoard.CheckIfHasMine(row, col) && GameBoard.CheckIfFlagCell(row, col))
