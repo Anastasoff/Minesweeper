@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\RandomGenerator.cs" />
+    <Compile Include="Engine\Command.cs" />
     <Compile Include="Engine\CommandType.cs" />
     <Compile Include="Engine\CommandParser.cs" />
     <Compile Include="Engine\GameBoardMemory.cs" />
