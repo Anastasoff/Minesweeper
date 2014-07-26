@@ -107,7 +107,13 @@
         private void ProcessRestartCommand()
         {
             gameBoard.ResetBoard();
+            this.ResetLives();
             userIteractor.DrawBoard(gameBoard.Board);
+        }
+
+        private void ResetLives()
+        {
+            this.remainingLives = 1;
         }
 
         private void ProcessCoordinates(string[] inputCoordinates)
@@ -129,6 +135,7 @@
                 }
                 ShowEndGameMessage();
                 gameBoard.ResetBoard();
+                this.ResetLives();
                 userIteractor.DrawBoard(gameBoard.Board);
             }
             else if (gameBoard.CheckIfHasMine(row, col) && gameBoard.CheckIfFlagCell(row, col))
