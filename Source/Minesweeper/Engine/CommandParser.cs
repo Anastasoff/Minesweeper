@@ -30,7 +30,7 @@
             string[] inputCommands = input.Split(' ');
             if (!IsCommandValid(inputCommands))
             {
-                cmdType =  CommandType.InvalidInput;
+                cmdType = CommandType.InvalidInput;
             }
             else
             {
@@ -39,7 +39,15 @@
 
             if (inputCommands.Length == 1 || inputCommands.Length == 3)
             {
-                cmdType = commands[inputCommands[0]];
+                try
+                {
+                    cmdType = commands[inputCommands[0]];
+                }
+                catch (Exception)
+                {
+                    cmdType = CommandType.InvalidInput;
+                    return command = new Command(cmdType, new Position(0,0));
+                }
             }
             else
             {
@@ -56,22 +64,26 @@
                 row = int.Parse(inputCommands[1]);
                 col = int.Parse(inputCommands[2]);
                 coordinates = new Position(row, col);
+                if (!gameBoard.IsInsideBoard(row, col))
+                {
+                    cmdType = CommandType.InvalidMove;
+                }
             }
             else
             {
                 try
                 {
                     row = int.Parse(inputCommands[0]);
-                    col = int.Parse(inputCommands[1]);  
+                    col = int.Parse(inputCommands[1]);
                     coordinates = new Position(row, col);
                 }
                 catch (Exception)
                 {
                     coordinates = new Position(0, 0);
                 }
-            }            
-            
-            
+            }
+
+
             command = new Command(cmdType, coordinates);
             return command;
         }
