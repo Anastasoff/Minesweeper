@@ -86,6 +86,8 @@
 
         public void DrawBoard(Cell[,] board)
         {
+            SetConsole();
+
             int rows = board.GetLength(0);
             int cols = board.GetLength(1);
 
@@ -102,6 +104,12 @@
             // print last row
             PrintIndentationOnTheLeft();
             PrintFieldTopAndBottomBorder(cols);
+        }
+
+        private void SetConsole()
+        {
+            ClearScreen();
+            ShowWelcomeScreen();
         }
 
         // I've extracted the logic from the Display() into several methods

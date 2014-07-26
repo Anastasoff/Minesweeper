@@ -74,7 +74,6 @@
         {
             this.GameBoard.RevealWholeBoard();
 
-            SetConsole();
             UserIteractor.DrawBoard(GameBoard.Board);
 
             UserIteractor.ShowMessage(message);
@@ -105,7 +104,6 @@
             int row = int.Parse(commandsArr[1]);
             int col = int.Parse(commandsArr[2]);
 
-            SetConsole();
 
             var cellHandler = new CellHandler(GameBoard.PlaceFlag);
             CheckIfCellIsRevealed(cellHandler, row, col);
@@ -114,7 +112,6 @@
         private void ProcessRestartCommand()
         {
             GameBoard.ResetBoard();
-            SetConsole();
             UserIteractor.DrawBoard(GameBoard.Board);
         }
 
@@ -137,17 +134,14 @@
                 }
                 ShowEndGameMessage();
                 GameBoard.ResetBoard();
-                SetConsole();
                 UserIteractor.DrawBoard(GameBoard.Board);
             }
             else if (GameBoard.CheckIfHasMine(row, col) && GameBoard.CheckIfFlagCell(row, col))
             {
-                SetConsole();
                 PrintUsedCellMessage("You've already placed flag at these coordinates! Please enter new cell coordinates!");
             }
             else
             {
-                SetConsole();
                 var cellHandler = new CellHandler(GameBoard.RevealBlock);
                 CheckIfCellIsRevealed(cellHandler, row, col);
                 this.CurrentBoardState.Memento = GameBoard.SaveMemento();
@@ -194,11 +188,7 @@
             }
         }
 
-        private void SetConsole()
-        {
-            UserIteractor.ClearScreen();
-            UserIteractor.ShowWelcomeScreen();
-        }
+        
 
         private void PrintUsedCellMessage(string message)
         {
