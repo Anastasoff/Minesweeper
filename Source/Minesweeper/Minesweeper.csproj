@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Common\RandomGenerator.cs" />
     <Compile Include="Engine\Command.cs" />
+    <Compile Include="Engine\CommandParser.cs" />
     <Compile Include="Engine\GameBoardMemory.cs" />
     <Compile Include="Engine\GameEngine.cs" />
     <Compile Include="Engine\Memento.cs" />
