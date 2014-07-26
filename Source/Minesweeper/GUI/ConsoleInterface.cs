@@ -9,7 +9,7 @@
     {
         private const char DEFAULT_FLAG_SYMBOL = 'F';
         private const char DEFAULT_MINE_CELL_SYMBOL = '*';
-        private const char DEFAULT_REGULAR_CELL_SYMBOL = '-';
+        private const char DEFAULT_SAFE_CELL_SYMBOL = '-';
         private const char DEFAULT_UNREVEALED_CELL_SYMBOL = '?';
         private IInputDevice inputDevice = new KeyboardInput();
         private IConsoleSkin skin;
@@ -181,7 +181,7 @@
                 case CellTypes.Flag:
                     return DEFAULT_FLAG_SYMBOL;
                 case CellTypes.Unrevealed_Regular_Cell:
-                    return DEFAULT_REGULAR_CELL_SYMBOL;
+                    return DEFAULT_SAFE_CELL_SYMBOL;
                 default:
                     return new Char();
             }
