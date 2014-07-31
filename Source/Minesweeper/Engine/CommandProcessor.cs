@@ -9,7 +9,6 @@
     /// <summary>
     /// Contains the main logic behind commands execution 
     /// </summary>
-    [ExcludeFromCodeCoverage]
     public class CommandProcessor
     {
         private const int INITIAL_LIVES = 1;
@@ -83,11 +82,7 @@
         {
             string message = "Booooom! You were killed by a mine. You revealed " + this.gameBoard.RevealedCellsCount + " cells without mines.";
             this.ShowMessage(message);
-
-            if (this.gameBoard.RevealedCellsCount > this.scoreBoard.MinInTop5() || this.scoreBoard.Count() < 5)
-            {
-                this.scoreBoard.AddPlayer(this.gameBoard.RevealedCellsCount);
-            }
+            this.scoreBoard.AddPlayer(this.gameBoard.RevealedCellsCount);
         }
 
         private void ShowGameWonMessage()
