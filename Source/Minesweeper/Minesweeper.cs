@@ -1,10 +1,10 @@
 ﻿namespace Minesweeper
 {
+    using System.Diagnostics.CodeAnalysis;
     using Engine;
     using GUI;
-    using Interfaces;
     using GUI.ConsoleSkins;
-    using System.Diagnostics.CodeAnalysis;
+    using Interfaces;
 
     public class Minesweeper
     {

@@ -3,8 +3,8 @@
     using System;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Minesweeper.Common;
-    using Minesweeper.Interfaces;
     using Minesweeper.GameObjects;
+    using Minesweeper.Interfaces;
 
     [TestClass]
     public class CellCreatorTest

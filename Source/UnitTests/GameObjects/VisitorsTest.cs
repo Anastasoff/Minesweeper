@@ -12,12 +12,12 @@
         [TestMethod]
         public void TestFlagVisitorIsChangingState()
         {
-            Cell cell = new MineCell(new Position(1,1));
+            Cell cell = new MineCell(new Position(1, 1));
             IVisitor visitor = new FlagVisitor();
             visitor.Visit(cell);
             Assert.AreEqual(cell.Type, CellTypes.Flag);
         }
-
+        
         [TestMethod]
         public void TestFlagVisitorIsKeepingStateWhenCellIsRevealled()
         {

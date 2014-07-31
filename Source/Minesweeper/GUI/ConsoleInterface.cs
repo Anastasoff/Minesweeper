@@ -20,8 +20,7 @@
         /// <summary>
         /// Constructor for the ConsoleInterface class
         /// </summary>
-        public ConsoleInterface()
-            : this(new AllWhiteSkin())
+        public ConsoleInterface() : this(new AllWhiteSkin())
         {
         }
 
@@ -199,9 +198,9 @@
                 case CellTypes.Mine:
                     return this.GetRegularAndMineCellsSymbol(currentCell);
                 case CellTypes.Flag:
-                    return this.DEFAULT_FLAG_SYMBOL;
+                    return DEFAULT_FLAG_SYMBOL;
                 case CellTypes.Unrevealed_Regular_Cell:
-                    return this.DEFAULT_SAFE_CELL_SYMBOL;
+                    return DEFAULT_SAFE_CELL_SYMBOL;
                 default:
                     return new char();
             }

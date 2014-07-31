@@ -13,7 +13,7 @@
         private static GameBoard board;
         private static Cell[,] cellMatrix = new Cell[,] { { new MineCell(new Position(0, 0)), new SafeCell(new Position(0, 1)) }, { new MineCell(new Position(1, 0)), new SafeCell(new Position(1, 1)) } };
 
-        [ClassInitialize()]
+        [ClassInitialize]
         public static void GameBoardInit(TestContext context)
         {
             board = GameBoard.GetInstance;
@@ -55,8 +55,8 @@
             Assert.IsFalse(board.IsInsideBoard(pos));
         }
 
-       [TestMethod]
-       public void TestIfCheckForMineReturnsTrueWhenThereIsMine()
+        [TestMethod]
+        public void TestIfCheckForMineReturnsTrueWhenThereIsMine()
         {
             var moq = new Mock<IGameBoard>();
             moq.SetupGet(b => b.Board).Returns(cellMatrix);
@@ -76,6 +76,5 @@
 
             Assert.IsFalse(moq.Object.CheckIfHasMine(pos));
         }
-        
     }
 }

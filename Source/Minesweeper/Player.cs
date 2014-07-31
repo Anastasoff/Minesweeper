@@ -1,7 +1,7 @@
 ﻿namespace Minesweeper
 {
-    using Interfaces;
     using System;
+    using Interfaces;
 
     /// <summary>
     /// Allows creation and manipualtion of a player

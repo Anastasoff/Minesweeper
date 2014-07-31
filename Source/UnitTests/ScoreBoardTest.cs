@@ -14,7 +14,7 @@
         [TestMethod]
         public void TestScoreBoardInitialPlayersCount()
         {
-            Assert.AreEqual(0, board.Count());
+            Assert.AreEqual(0, this.board.Count());
         }
 
         [TestMethod]
@@ -23,17 +23,17 @@
             var consoleInterface = new Mock<IOInterface>();
             consoleInterface.Setup(x => x.GetUserInput(It.IsAny<string>())).Returns("Test");
 
-            board.SetIOInterface(consoleInterface.Object);
-            board.AddPlayer(5);
-            board.AddPlayer(1);
+            this.board.SetIOInterface(consoleInterface.Object);
+            this.board.AddPlayer(5);
+            this.board.AddPlayer(1);
 
-            Assert.AreEqual(2, board.Count());
+            Assert.AreEqual(2, this.board.Count());
         }
 
         [TestMethod]
         public void TestScoreBoardInstance()
         {
-            Assert.IsInstanceOfType(board, typeof(Scoreboard));
+            Assert.IsInstanceOfType(this.board, typeof(Scoreboard));
         }
 
         [TestMethod]

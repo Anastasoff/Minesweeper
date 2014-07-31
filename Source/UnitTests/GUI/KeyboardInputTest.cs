@@ -1,11 +1,10 @@
 ﻿namespace UnitTests.GUI
 {
     using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Minesweeper.Interfaces;
-    using Minesweeper.GUI;
-    using Moq;
     using System.IO;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Minesweeper.GUI;
+    using Minesweeper.Interfaces;
 
     [TestClass]
     public class KeyboardInputTest
