@@ -1,12 +1,11 @@
 ﻿namespace Minesweeper.GUI
 {
-    using System;
-    using System.Collections.Generic;
-
     using Common;
     using Engine;
     using GameObjects;
     using Interfaces;
+    using System;
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
@@ -160,7 +159,7 @@
         {
             for (int i = 0; i < this.minePositions.Count; i++)
             {
-                if (this.minePositions[i].IsEqual(pos))
+                if (IsPositionsAreEqual(this.minePositions[i], pos))
                 {
                     return true;
                 }
@@ -387,6 +386,17 @@
         private bool CheckIfHasNeighbouringMines(Position currentPosition)
         {
             return this.numbersPositions.ContainsKey(currentPosition);
+        }
+
+        /// <summary>
+        /// Checks if the to positions are equal.
+        /// </summary>
+        /// <param name="firstPos"></param>
+        /// <param name="secondPos"></param>
+        /// <returns></returns>
+        private bool IsPositionsAreEqual(Position firstPos, Position secondPos)
+        {
+            return (firstPos.Row == secondPos.Row) && (firstPos.Col == secondPos.Col);
         }
     }
 }

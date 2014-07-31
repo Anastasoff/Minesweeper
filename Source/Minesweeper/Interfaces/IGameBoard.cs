@@ -3,6 +3,9 @@
     using Engine;
     using GameObjects;
 
+    /// <summary>
+    /// Defines the functionality of a gameboard
+    /// </summary>
     public interface IGameBoard
     {
         Cell[,] Board { get; }

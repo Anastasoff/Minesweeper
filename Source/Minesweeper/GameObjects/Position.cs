@@ -18,10 +18,5 @@
             this.Row = inputRow;
             this.Col = inputCol;
         }
-
-        public bool IsEqual(Position other)
-        {
-            return (this.Row == other.Row) && (this.Col == other.Col);
-        }
     }
 }
