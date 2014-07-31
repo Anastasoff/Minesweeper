@@ -6,13 +6,11 @@
     using GUI.ConsoleSkins;
     using System.Diagnostics.CodeAnalysis;
 
-
     public class Minesweeper
     {
         /// <summary>
         /// The main entry point for the application.
-        /// </summary>
-        
+        /// </summary>        
         [ExcludeFromCodeCoverage]
         public static void Main()
         {
