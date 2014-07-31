@@ -2,6 +2,9 @@
 {
     using GameObjects;
 
+    /// <summary>
+    /// Defines properties and methods of a game object
+    /// </summary>
     public interface IGameObject
     {
         Position Coordinates { get; }
