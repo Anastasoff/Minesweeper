@@ -14,17 +14,14 @@
         private IInputDevice inputDevice = new KeyboardInput();
         private IConsoleSkin skin;
 
-        public ConsoleInterface()
+        public ConsoleInterface() : this(new AllWhiteSkin())
         {
-            // Sets a default skin
-            this.skin = new AllWhiteSkin();
         }
 
         public ConsoleInterface(IConsoleSkin skin)
         {
             this.skin = skin;
         }
-
 
         public void ChangeInput(IInputDevice device)
         {
@@ -85,14 +82,6 @@
         }
 
         /// <summary>
-        /// Clears the console.
-        /// </summary>
-        public void ClearScreen()
-        {
-            Console.Clear();
-        }
-
-        /// <summary>
         /// Draws the game board on the console.
         /// </summary>
         /// <param name="board">The game board to be drawn.</param>
@@ -115,6 +104,14 @@
             // print last row
             PrintIndentationOnTheLeft();
             PrintFieldTopAndBottomBorder(cols);
+        }
+
+        /// <summary>
+        /// Clears the console.
+        /// </summary>
+        private void ClearScreen()
+        {
+            Console.Clear();
         }
 
         private void SetConsole()

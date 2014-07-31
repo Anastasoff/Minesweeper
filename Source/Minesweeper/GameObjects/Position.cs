@@ -2,18 +2,18 @@
 {
     public struct Position
     {
-        public int row;
-        public int col;
+        public int Row;
+        public int Col;
 
         public Position(int inputRow, int inputCol)
         {
-            this.row = inputRow;
-            this.col = inputCol;
+            this.Row = inputRow;
+            this.Col = inputCol;
         }
 
         public bool IsEqual(Position other)
         {
-            return (this.row == other.row) && (this.col == other.col);
+            return (this.Row == other.Row) && (this.Col == other.Col);
         }
     }
 }

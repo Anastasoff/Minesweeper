@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+
     using Common;
     using Engine;
     using GameObjects;
@@ -22,7 +23,7 @@
 
         private Cell[,] cellsMap;
         private IList<Position> minePositions;
-        private Dictionary<Position, int> numbersPositions;
+        private IDictionary<Position, int> numbersPositions;
         private CellFactory cellCreator;
         private int revealedCellsCount;
 
@@ -128,10 +129,20 @@
         }
 
         /// <summary>
+        /// Return one cell from cells map.
+        /// </summary>
+        /// <param name="pos">Cell position</param>
+        /// <returns>Cell</returns>
+        public Cell GetCell(Position pos)
+        {
+            return this.cellsMap[pos.Row, pos.Col];
+        }
+
+        /// <summary>
         /// Check if the specified position is inside the board and if the cell at that position is of type Mine.
         /// </summary>
         /// <param name="pos">Takes one parameter for the cell position to be checked.</param>
-        /// <returns>Return true if is a mine ot that position.</returns>
+        /// <returns>Return true if is a mine to that position.</returns>
         public bool CheckIfMineCanBePlaced(Position pos)
         {
             return this.IsInsideBoard(pos) && !this.CheckIfHasMine(pos);
@@ -144,8 +155,8 @@
         /// <returns>Return boolean value.</returns>
         public bool IsInsideBoard(Position pos)
         {
-            bool isInHorizontalLimits = 0 <= pos.row && pos.row < ROWS;
-            bool isInVerticalLimits = 0 <= pos.col && pos.col < COLS;
+            bool isInHorizontalLimits = 0 <= pos.Row && pos.Row < ROWS;
+            bool isInVerticalLimits = 0 <= pos.Col && pos.Col < COLS;
             return isInHorizontalLimits && isInVerticalLimits;
         }
 
@@ -186,7 +197,7 @@
                 {
                     for (int previousCol = -1; previousCol <= 1; previousCol++)
                     {
-                        Position newPos = new Position(pos.row + previousRow, pos.col + previousCol);
+                        Position newPos = new Position(pos.Row + previousRow, pos.Col + previousCol);
                         if (this.IsInsideBoard(newPos) && !this.IsCellRevealed(newPos))
                         {
                             this.RevealBlock(newPos);
@@ -217,9 +228,11 @@
                             }
 
                             break;
+
                         case CellTypes.Mine:
                             currentCell.IsCellRevealed = true;
                             break;
+
                         case CellTypes.Flag:
                             if (currentCell is SafeCell)
                             {
@@ -227,6 +240,7 @@
                             }
 
                             break;
+
                         default:
                             break;
                     }
@@ -251,7 +265,7 @@
         public void PlaceFlag(Position pos)
         {
             this.flagVisitor = new FlagVisitor();
-            this.cellsMap[pos.row, pos.col].Accept(this.flagVisitor);
+            this.cellsMap[pos.Row, pos.Col].Accept(this.flagVisitor);
         }
 
         /// <summary>
@@ -314,17 +328,17 @@
         }
 
         /// <summary>
-        /// Counts the number of neighbouring mines for the specified position
+        /// Counts the number of neighboring mines for the specified position
         /// </summary>
         /// <param name="pos">Takes one Cell parameter - cell to be counted.</param>
         private void AllocateNeighbouringMines(Position pos)
         {
-            for (int neighbouringRow = pos.row - 1; neighbouringRow <= pos.row + 1; neighbouringRow++)
+            for (int neighbouringRow = pos.Row - 1; neighbouringRow <= pos.Row + 1; neighbouringRow++)
             {
-                for (int neighbouringCol = pos.col - 1; neighbouringCol <= pos.col + 1; neighbouringCol++)
+                for (int neighbouringCol = pos.Col - 1; neighbouringCol <= pos.Col + 1; neighbouringCol++)
                 {
                     var position = new Position(neighbouringRow, neighbouringCol);
-                    if (CheckIfMineCanBePlaced(position))
+                    if (this.CheckIfMineCanBePlaced(position))
                     {
                         var numberOfNeighbouringMines = 0;
 
