@@ -1,12 +1,12 @@
 ﻿namespace Minesweeper.GUI
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using Common;
     using Engine;
     using GameObjects;
     using Interfaces;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Implements the IGameBoard interface
