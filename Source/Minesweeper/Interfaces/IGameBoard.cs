@@ -1,6 +1,5 @@
 ﻿namespace Minesweeper.Interfaces
 {
-    using System;
     using Engine;
     using GameObjects;
 
@@ -33,6 +32,5 @@
         Memento SaveMemento();
 
         void RestoreMemento(Memento memento);
-
     }
 }

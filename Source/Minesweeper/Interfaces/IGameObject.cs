@@ -8,7 +8,7 @@
 
         bool IsCellRevealed { get; set; }
 
-        CellTypes Type { get; set;}
+        CellTypes Type { get; set; }
 
         void RevealCell();
     }
