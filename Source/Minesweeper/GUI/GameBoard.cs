@@ -111,7 +111,7 @@
         /// <returns>Cell</returns>
         public Cell GetCell(Position pos)
         {
-            return cellsMap[pos.Row, pos.Col];
+            return this.cellsMap[pos.Row, pos.Col];
         }
 
         /// <summary>
@@ -159,7 +159,7 @@
         {
             for (int i = 0; i < this.minePositions.Count; i++)
             {
-                if (IsPositionsAreEqual(this.minePositions[i], pos))
+                if (this.IsPositionsAreEqual(this.minePositions[i], pos))
                 {
                     return true;
                 }
@@ -220,11 +220,9 @@
                             }
 
                             break;
-
                         case CellTypes.Mine:
                             currentCell.IsCellRevealed = true;
                             break;
-
                         case CellTypes.Flag:
                             if (currentCell is SafeCell)
                             {
@@ -232,7 +230,6 @@
                             }
 
                             break;
-
                         default:
                             break;
                     }

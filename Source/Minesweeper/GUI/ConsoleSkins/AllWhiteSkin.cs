@@ -1,9 +1,9 @@
-﻿using Minesweeper.Interfaces;
-using System;
-using System.Collections.Generic;
-
-namespace Minesweeper.GUI.ConsoleSkins
+﻿namespace Minesweeper.GUI.ConsoleSkins
 {
+    using System;
+    using System.Collections.Generic;
+    using Interfaces;
+    
     /// <summary>
     /// This skin doesn't change any colors
     /// </summary>

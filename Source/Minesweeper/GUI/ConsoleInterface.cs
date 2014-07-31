@@ -2,8 +2,8 @@
 {
     using System;
     using GameObjects;
-    using Interfaces;
     using GUI.ConsoleSkins;
+    using Interfaces;
 
     /// <summary>
     /// Handles input/output to the console
@@ -51,18 +51,18 @@
         public string GetUserInput(string message)
         {
             Console.Write(message);
-            var input = inputDevice.GetInput();
+            var input = this.inputDevice.GetInput();
             switch (input)
             {
                 case "keyboard":
-                    inputDevice = null;
-                    inputDevice = new KeyboardInput();
+                    this.inputDevice = null;
+                    this.inputDevice = new KeyboardInput();
                     Console.WriteLine("Switching to keyboard input");
                     input = "system";
                     break;
                 case "voice":
-                    inputDevice = null;
-                    inputDevice = new SpeechInput();
+                    this.inputDevice = null;
+                    this.inputDevice = new SpeechInput();
                     Console.WriteLine("Switching to voice command");
                     input = "system";
                     break;
@@ -110,23 +110,23 @@
         /// <param name="board">The game board to be drawn.</param>
         public void DrawBoard(IGameObject[,] board)
         {
-            SetConsole();
+            this.SetConsole();
 
             int cols = board.GetLength(1);
 
             // print first row
-            PrintIndentationOnTheLeft();
-            PrintFieldsNumberOfColumns(cols);
+            this.PrintIndentationOnTheLeft();
+            this.PrintFieldsNumberOfColumns(cols);
 
             // print second row
-            PrintIndentationOnTheLeft();
-            PrintFieldTopAndBottomBorder(cols);
+            this.PrintIndentationOnTheLeft();
+            this.PrintFieldTopAndBottomBorder(cols);
 
-            PrintGameField(board);
+            this.PrintGameField(board);
 
             // print last row
-            PrintIndentationOnTheLeft();
-            PrintFieldTopAndBottomBorder(cols);
+            this.PrintIndentationOnTheLeft();
+            this.PrintFieldTopAndBottomBorder(cols);
         }
 
         /// <summary>
@@ -139,8 +139,8 @@
 
         private void SetConsole()
         {
-            ClearScreen();
-            ShowWelcomeScreen();
+            this.ClearScreen();
+            this.ShowWelcomeScreen();
         }
 
         private void PrintIndentationOnTheLeft()
@@ -173,7 +173,7 @@
                 for (int col = 0; col < cols; col++)
                 {
                     var currentCell = board[row, col];
-                    var symbolToPrint = GetCellSymbol(currentCell);
+                    var symbolToPrint = this.GetCellSymbol(currentCell);
                     if (this.skin.ColorScheme.ContainsKey(symbolToPrint) &&
                         currentCell.IsCellRevealed)
                     {
@@ -195,15 +195,15 @@
             switch (cellType)
             {
                 case CellTypes.Safe:
-                    return GetRegularAndMineCellsSymbol(currentCell);
+                    return this.GetRegularAndMineCellsSymbol(currentCell);
                 case CellTypes.Mine:
-                    return GetRegularAndMineCellsSymbol(currentCell);
+                    return this.GetRegularAndMineCellsSymbol(currentCell);
                 case CellTypes.Flag:
-                    return DEFAULT_FLAG_SYMBOL;
+                    return this.DEFAULT_FLAG_SYMBOL;
                 case CellTypes.Unrevealed_Regular_Cell:
-                    return DEFAULT_SAFE_CELL_SYMBOL;
+                    return this.DEFAULT_SAFE_CELL_SYMBOL;
                 default:
-                    return new Char();
+                    return new char();
             }
         }
 

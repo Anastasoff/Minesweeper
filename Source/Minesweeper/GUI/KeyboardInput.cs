@@ -4,7 +4,7 @@
     using System.Linq;
     using Interfaces;
 
-    public class KeyboardInput: IInputDevice
+    public class KeyboardInput : IInputDevice
     {
         public string GetInput()
         {
