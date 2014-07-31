@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Minesweeper.Interfaces
+﻿namespace Minesweeper.Interfaces
 {
+    using System;
+    using System.Collections.Generic;
+
     public interface IConsoleSkin
     {
         Dictionary<char, ConsoleColor> ColorScheme { get; }
