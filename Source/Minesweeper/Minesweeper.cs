@@ -6,6 +6,7 @@
     using GUI.ConsoleSkins;
     using System.Diagnostics.CodeAnalysis;
 
+
     public class Minesweeper
     {
         /// <summary>
