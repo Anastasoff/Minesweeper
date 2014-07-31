@@ -4,12 +4,9 @@
     using Engine;
     using GameObjects;
     using Interfaces;
-<<<<<<< HEAD
     using System;
     using System.Collections.Generic;
-=======
     using System.Diagnostics.CodeAnalysis;
->>>>>>> edf200060d40ffb31775514eee227ce8b7ebb235
 
     /// <summary>
     /// Implements the IGameBoard interface
