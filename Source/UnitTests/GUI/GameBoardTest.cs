@@ -11,23 +11,13 @@
     public class GameBoardTest
     {
         private static GameBoard board;
+        private static Cell[,] cellMatrix = new Cell[,] { { new MineCell(new Position(0, 0)), new SafeCell(new Position(0, 1)) }, { new MineCell(new Position(1, 0)), new SafeCell(new Position(1, 1)) } };
 
         [ClassInitialize()]
         public static void GameBoardInit(TestContext context)
         {
             board = GameBoard.GetInstance;
         }
-
-     //  [TestMethod]
-     //  public void TestIfGetCellMethodReturnsCellOfTheCorrectType()
-     //  {
-     //      var moq = new Mock<GameBoard>();
-     //      moq.SetupGet(b => b.Board).Returns(new Cell[,] { {new MineCell(new Position(0, 0)), new //SafeCell(new Position(0, 1))}, {new MineCell(new Position(1, 0)), new SafeCell(new /Position(1,/ 1))}});
-     //      Position pos = new Position(0, 0);
-     //      var cell = board.GetCell(pos);
-     //
-     //      Assert.IsInstanceOfType(cell, typeof(MineCell));
-     //  }
 
         [TestMethod]
 
@@ -65,6 +55,34 @@
             Assert.IsFalse(board.IsInsideBoard(pos));
         }
 
+       [TestMethod]
+       public void TestIfCheckForMineReturnsTrueWhenThereIsMine()
+        {
+            var moq = new Mock<IGameBoard>();
+            moq.SetupGet(b => b.Board).Returns(cellMatrix);
+            Position pos = new Position(0, 0);
+            moq.Setup(x => x.CheckIfHasMine(pos)).Returns(cellMatrix[pos.Row, pos.Col] is MineCell);
 
+            Assert.IsTrue(moq.Object.CheckIfHasMine(pos));
+        }
+
+        [TestMethod]
+        public void TestIfCheckForMineReturnsFalseWhenThereIsSafeCell()
+        {
+            var moq = new Mock<IGameBoard>();
+            moq.SetupGet(b => b.Board).Returns(cellMatrix);
+            Position pos = new Position(0, 1);
+            moq.Setup(x => x.CheckIfHasMine(pos)).Returns(cellMatrix[pos.Row, pos.Col] is MineCell);
+
+            Assert.IsFalse(moq.Object.CheckIfHasMine(pos));
+        }
+
+    //    [TestMethod]
+    //    public void TestIfCheckIfFlagReturnsTrueWhenTypeOfCellIsFlag()
+    //    {
+    //        var moq = new Mock<IGameBoard>();
+    //        moq.SetupGet(b => b.Board).Returns(cellMatrix);
+    //    }
+        
     }
 }
