@@ -111,7 +111,7 @@
         /// <returns>Cell</returns>
         public Cell GetCell(Position pos)
         {
-            return cellsMap[pos.row, pos.col];
+            return cellsMap[pos.Row, pos.Col];
         }
 
         /// <summary>
@@ -126,16 +126,6 @@
             this.cellCreator = new CellCreator();
             this.AllocateMines(RandomGenerator.GetInstance);
             this.InitializeBoardForDisplay();
-        }
-
-        /// <summary>
-        /// Return one cell from cells map.
-        /// </summary>
-        /// <param name="pos">Cell position</param>
-        /// <returns>Cell</returns>
-        public Cell GetCell(Position pos)
-        {
-            return this.cellsMap[pos.Row, pos.Col];
         }
 
         /// <summary>
