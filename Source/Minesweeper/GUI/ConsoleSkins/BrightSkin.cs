@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace Minesweeper.GUI.ConsoleSkins
 {
+    /// <summary>
+    /// This skin changes some of the colors of the digits and make them appear brighter
+    /// </summary>
     public class BrightSkin : IConsoleSkin
     {
         private Dictionary<char, ConsoleColor> colorScheme = new Dictionary<char, ConsoleColor>()
