@@ -1,7 +1,6 @@
 ﻿namespace Minesweeper.Engine
 {
     using System;
-
     using GUI;
     using Interfaces;
         
