@@ -1,9 +1,9 @@
 ﻿namespace Minesweeper.Engine
 {
-    using GUI;
-    using GameObjects;
     using System;
     using System.Collections.Generic;
+    using GameObjects;
+    using GUI;
 
     public class CommandParser
     {
@@ -26,12 +26,12 @@
 
             string[] inputCommands = input.Split(' ');
 
-            cmdType = GetCommandType(inputCommands);
+            cmdType = this.GetCommandType(inputCommands);
             if (cmdType == CommandType.Flag || cmdType == CommandType.ValidMove)
             {
                 try
                 {
-                    coordinates = GetCoordinates(inputCommands, cmdType);
+                    coordinates = this.GetCoordinates(inputCommands, cmdType);
                 }
                 catch (Exception)
                 {
@@ -43,6 +43,7 @@
             {
                 return new Command(CommandType.InvalidMove);
             }
+
             command = new Command(cmdType, coordinates);
             return command;
         }
@@ -82,7 +83,7 @@
                 case "system":
                     return CommandType.System;
                 default:
-                    return ValidateIfCommandIsValid(inputCommands[0]);
+                    return this.ValidateIfCommandIsValid(inputCommands[0]);
             }
         }
 
