@@ -8,8 +8,7 @@
         /// Creates an instance of the Command type
         /// </summary>
         /// <param name="commandType">The type of the command</param>
-        public Command(CommandType commandType)
-            : this(commandType, new Position(0, 0))
+        public Command(CommandType commandType) : this(commandType, new Position(0, 0))
         {
         }
 

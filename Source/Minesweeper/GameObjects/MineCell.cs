@@ -13,8 +13,7 @@
         /// </summary>
         /// <param name="row">Takes one integer parameter for the row of the cell.</param>
         /// <param name="col">Takes one integer parameter for the col of the cell.</param>
-        public MineCell(Position pos)
-            : base(pos)
+        public MineCell(Position pos) : base(pos)
         {
             this.Type = CellTypes.Mine;
         }
