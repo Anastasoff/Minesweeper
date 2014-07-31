@@ -10,13 +10,13 @@
     public class ScoreBoardTest
     {
         private Scoreboard board = Scoreboard.GetInstance;
-        
+
         [TestMethod]
         public void TestScoreBoardInitialPlayersCount()
         {
             Assert.AreEqual(0, board.Count());
         }
-        
+
         [TestMethod]
         public void TestScoreBoardAddPlayer()
         {

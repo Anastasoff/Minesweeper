@@ -4,7 +4,6 @@
     using GameObjects;
     using GUI;
     using Interfaces;
-    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Contains the main logic behind commands execution 

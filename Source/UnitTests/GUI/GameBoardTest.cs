@@ -76,13 +76,6 @@
 
             Assert.IsFalse(moq.Object.CheckIfHasMine(pos));
         }
-
-    //    [TestMethod]
-    //    public void TestIfCheckIfFlagReturnsTrueWhenTypeOfCellIsFlag()
-    //    {
-    //        var moq = new Mock<IGameBoard>();
-    //        moq.SetupGet(b => b.Board).Returns(cellMatrix);
-    //    }
         
     }
 }
