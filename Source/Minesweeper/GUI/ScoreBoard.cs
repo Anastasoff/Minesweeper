@@ -35,16 +35,6 @@
             iface = userInterractor;
         }
 
-        public int MinInTop5()
-        {
-            if (this.allPlayers.Count > 0)
-            {
-                return this.allPlayers.Last().Score;
-            }
-
-            return -1;
-        }
-
         public void AddPlayer(int score)
         {
             string name = iface.GetUserInput("Please enter your name for the top scoreboard: ");
@@ -55,8 +45,10 @@
         {
             int counter = 1;
             var sortedPlayers = this.SortPlayersDescendingByScore(this.allPlayers);
+            var topFivePlayers = this.GetTop5Results(sortedPlayers);
+            
             iface.ShowMessage("Scoreboard:");
-            foreach (var player in sortedPlayers)
+            foreach (var player in topFivePlayers)
             {
                 iface.ShowMessage(counter + ". " + player.Name + " --> " + player.Score + " cells");
                 counter++;
@@ -76,9 +68,9 @@
             return sortedPlayers;
         }
 
-        private ICollection<IPlayer> GetTop5Results()
+        private ICollection<IPlayer> GetTop5Results(ICollection<IPlayer> players)
         {
-            return this.allPlayers.Take(5).ToList();
+            return players.Take(5).ToList();
         }
     }
 }
