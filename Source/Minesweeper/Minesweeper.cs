@@ -4,6 +4,7 @@
     using GUI;
     using Interfaces;
     using GUI.ConsoleSkins;
+    using System.Diagnostics.CodeAnalysis;
 
 
     public class Minesweeper
@@ -11,6 +12,8 @@
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+        
+        [ExcludeFromCodeCoverage]
         public static void Main()
         {
             // TODO: Add instance of the GameRenderingEngine and call that instance when creating the game engine

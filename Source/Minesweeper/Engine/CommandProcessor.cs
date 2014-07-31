@@ -4,10 +4,12 @@
     using GameObjects;
     using GUI;
     using Interfaces;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Contains the main logic behind commands execution 
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class CommandProcessor
     {
         private const int INITIAL_LIVES = 1;
