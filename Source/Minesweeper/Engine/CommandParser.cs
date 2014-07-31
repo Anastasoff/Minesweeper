@@ -5,10 +5,16 @@
     using GameObjects;
     using GUI;
 
+    /// <summary>
+    /// Handles the parsing of strings to valid commands
+    /// </summary>
     public class CommandParser
     {
         private Dictionary<string, CommandType> commands = new Dictionary<string, CommandType>();
 
+        /// <summary>
+        /// Returns an instance of the CommandParser class
+        /// </summary>
         public CommandParser()
         {
             this.commands.Add("exit", CommandType.Exit);
@@ -18,6 +24,12 @@
             this.commands.Add("system", CommandType.System);
         }
 
+        /// <summary>
+        /// Converts a string to a valid command in the context of a game board
+        /// </summary>
+        /// <param name="input">A string to parse the command from</param>
+        /// <param name="gameBoard">The context of validation</param>
+        /// <returns></returns>
         public Command ExtractCommand(string input, GameBoard gameBoard)
         {
             Command command;
