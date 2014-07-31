@@ -58,6 +58,7 @@
     <Compile Include="Engine\CommandParserTest.cs" />
     <Compile Include="GUI\ConsoleSkins\AllWhiteSkinTest.cs" />
     <Compile Include="GUI\ConsoleSkins\BrightSkinTest.cs" />
+    <Compile Include="GUI\KeyboardInputTest.cs" />
     <Compile Include="PlayerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScoreBoardTest.cs" />
