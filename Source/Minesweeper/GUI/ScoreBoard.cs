@@ -5,6 +5,9 @@
     using System.Linq;
     using Interfaces;
 
+    /// <summary>
+    /// Contains functionality that allows the storage of scores
+    /// </summary>
     public class Scoreboard : IScoreBoard
     {
         private static Scoreboard instance;
@@ -16,6 +19,9 @@
             this.allPlayers = new List<IPlayer>();
         }
 
+        /// <summary>
+        /// Returns the instance of the Scoreboard class
+        /// </summary>
         public static Scoreboard GetInstance
         {
             get
@@ -30,17 +36,28 @@
             }
         }
 
+        /// <summary>
+        /// Sets the IO interface
+        /// </summary>
+        /// <param name="userInterractor">IOInterface instance</param>
         public void SetIOInterface(IOInterface userInterractor)
         {
             iface = userInterractor;
         }
 
+        /// <summary>
+        /// Adds a player to the scoreboard
+        /// </summary>
+        /// <param name="score">A score</param>
         public void AddPlayer(int score)
         {
             string name = iface.GetUserInput("Please enter your name for the top scoreboard: ");
             this.allPlayers.Add(new Player(name, score));
         }
 
+        /// <summary>
+        /// Prints the high scores
+        /// </summary>
         public void ShowHighScores()
         {
             int counter = 1;
@@ -57,6 +74,10 @@
             Console.WriteLine();
         }
 
+        /// <summary>
+        /// Returns the count of players in the scoreboard
+        /// </summary>
+        /// <returns>An int value</returns>
         public int Count()
         {
             return this.allPlayers.Count();
