@@ -20,7 +20,7 @@
         protected Cell(Position pos)
         {
             this.isCellRevealed = false;
-            this.Coordinates = new Position(pos.row, pos.col);
+            this.Coordinates = new Position(pos.Row, pos.Col);
         }
 
         /// <summary>
@@ -35,13 +35,13 @@
 
             protected set
             {
-                if (value.row < 0 || value.col < 0)
+                if (value.Row < 0 || value.Col < 0)
                 {
                     throw new ArgumentOutOfRangeException("The position parameters must be positive values!");
                 }
 
-                this.coordinates.row = value.row;
-                this.coordinates.col = value.col;
+                this.coordinates.Row = value.Row;
+                this.coordinates.Col = value.Col;
             }
         }
         
