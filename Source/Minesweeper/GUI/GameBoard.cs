@@ -55,7 +55,7 @@
         }
 
         /// <summary>
-        /// Gets initialized inside the class the Cell[,]
+        /// Gets the Cell[,] initialized inside the class
         /// </summary>
         public Cell[,] Board
         {
@@ -66,15 +66,8 @@
         }
 
         /// <summary>
-        /// Return one cell from cells map.
+        /// Returns the max number of rows for the gameboard
         /// </summary>
-        /// <param name="pos">Cell position</param>
-        /// <returns>Cell</returns>
-        public Cell GetCell(Position pos)
-        {
-            return cellsMap[pos.row, pos.col];
-        }
-
         public int GetMaxRows
         {
             get
@@ -83,6 +76,9 @@
             }
         }
 
+        /// <summary>
+        /// Returns the max number of cols for the gameboard
+        /// </summary>
         public int GetMaxCols
         {
             get
@@ -105,6 +101,16 @@
             {
                 this.revealedCellsCount = value;
             }
+        }
+
+        /// <summary>
+        /// Returns one cell from cells map.
+        /// </summary>
+        /// <param name="pos">Cell position</param>
+        /// <returns>Cell</returns>
+        public Cell GetCell(Position pos)
+        {
+            return cellsMap[pos.row, pos.col];
         }
 
         /// <summary>
