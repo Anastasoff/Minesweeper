@@ -5,6 +5,7 @@
     using Interfaces;
     using GUI.ConsoleSkins;
 
+
     public class Minesweeper
     {
         /// <summary>

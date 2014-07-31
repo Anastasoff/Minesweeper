@@ -4,8 +4,12 @@
     using Engine;
     using GameObjects;
     using Interfaces;
+<<<<<<< HEAD
     using System;
     using System.Collections.Generic;
+=======
+    using System.Diagnostics.CodeAnalysis;
+>>>>>>> edf200060d40ffb31775514eee227ce8b7ebb235
 
     /// <summary>
     /// Implements the IGameBoard interface
@@ -171,6 +175,7 @@
         /// Changes the state of the cell at the specified position and changes its state. Attempts to reveal a block of cells.
         /// </summary>
         /// <param name="pos">Takes one Cell parameter - cell to be revealed.</param>
+        [ExcludeFromCodeCoverage]
         public void RevealBlock(Position pos)
         {
             var currentCell = this.GetCell(pos);
@@ -199,6 +204,7 @@
         /// <summary>
         /// At the end of the game reveals the whole board and changes the type of the cells if necessary.
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public void RevealWholeBoard()
         {
             for (int row = 0; row < ROWS; row++)
