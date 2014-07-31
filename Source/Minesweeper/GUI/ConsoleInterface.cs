@@ -5,6 +5,9 @@
     using Interfaces;
     using GUI.ConsoleSkins;
 
+    /// <summary>
+    /// Handles input/output to the console
+    /// </summary>
     public class ConsoleInterface : IOInterface
     {
         private const char DEFAULT_FLAG_SYMBOL = 'F';
@@ -14,20 +17,37 @@
         private IInputDevice inputDevice = new KeyboardInput();
         private IConsoleSkin skin;
 
-        public ConsoleInterface() : this(new AllWhiteSkin())
+        /// <summary>
+        /// Constructor for the ConsoleInterface class
+        /// </summary>
+        public ConsoleInterface()
+            : this(new AllWhiteSkin())
         {
         }
 
+        /// <summary>
+        /// Constructor for the ConsoleInterface class
+        /// </summary>
+        /// <param name="skin">The skin to be applied to the console ouput</param>
         public ConsoleInterface(IConsoleSkin skin)
         {
             this.skin = skin;
         }
 
+        /// <summary>
+        /// Sets a new input device to the current instance
+        /// </summary>
+        /// <param name="device">The new input device</param>
         public void ChangeInput(IInputDevice device)
         {
             this.inputDevice = device;
         }
 
+        /// <summary>
+        /// Gets the input of the user from the current input device
+        /// </summary>
+        /// <param name="message">The input</param>
+        /// <returns>String with the correct value</returns>
         public string GetUserInput(string message)
         {
             Console.Write(message);
@@ -52,7 +72,7 @@
                 default:
                     break;
             }
-            
+
             return input.Trim();
         }
 
@@ -72,6 +92,9 @@
             }
         }
 
+        /// <summary>
+        /// Prints the welcome screen on the console
+        /// </summary>
         public void ShowWelcomeScreen()
         {
             string welcomeMessage = "Welcome to the game “Minesweeper”. Try to reveal all cells without mines.";
