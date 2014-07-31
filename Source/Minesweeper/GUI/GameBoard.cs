@@ -72,7 +72,7 @@
         /// <returns>Cell</returns>
         public Cell GetCell(Position pos)
         {
-            return cellsMap[pos.row, pos.col];
+            return cellsMap[pos.Row, pos.Col];
         }
 
         public int GetMaxRows
@@ -138,8 +138,8 @@
         /// <returns>Return boolean value.</returns>
         public bool IsInsideBoard(Position pos)
         {
-            bool isInHorizontalLimits = 0 <= pos.row && pos.row < ROWS;
-            bool isInVerticalLimits = 0 <= pos.col && pos.col < COLS;
+            bool isInHorizontalLimits = 0 <= pos.Row && pos.Row < ROWS;
+            bool isInVerticalLimits = 0 <= pos.Col && pos.Col < COLS;
             return isInHorizontalLimits && isInVerticalLimits;
         }
 
@@ -180,7 +180,7 @@
                 {
                     for (int previousCol = -1; previousCol <= 1; previousCol++)
                     {
-                        Position newPos = new Position(pos.row + previousRow, pos.col + previousCol);
+                        Position newPos = new Position(pos.Row + previousRow, pos.Col + previousCol);
                         if (this.IsInsideBoard(newPos) && !this.IsCellRevealed(newPos))
                         {
                             this.RevealBlock(newPos);
@@ -245,7 +245,7 @@
         public void PlaceFlag(Position pos)
         {
             this.flagVisitor = new FlagVisitor();
-            this.cellsMap[pos.row, pos.col].Accept(this.flagVisitor);
+            this.cellsMap[pos.Row, pos.Col].Accept(this.flagVisitor);
         }
 
         /// <summary>
@@ -313,9 +313,9 @@
         /// <param name="pos">Takes one Cell parameter - cell to be counted.</param>
         private void AllocateNeighbouringMines(Position pos)
         {
-            for (int neighbouringRow = pos.row - 1; neighbouringRow <= pos.row + 1; neighbouringRow++)
+            for (int neighbouringRow = pos.Row - 1; neighbouringRow <= pos.Row + 1; neighbouringRow++)
             {
-                for (int neighbouringCol = pos.col - 1; neighbouringCol <= pos.col + 1; neighbouringCol++)
+                for (int neighbouringCol = pos.Col - 1; neighbouringCol <= pos.Col + 1; neighbouringCol++)
                 {
                     var position = new Position(neighbouringRow, neighbouringCol);
                     if (CheckIfMineCanBePlaced(position))

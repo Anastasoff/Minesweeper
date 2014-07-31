@@ -1,9 +1,9 @@
 ﻿namespace Minesweeper.Engine
 {
+    using System;
+    using GameObjects;
     using GUI;
     using Interfaces;
-    using GameObjects;
-    using System;
 
     /// <summary>
     /// Contains the main logic behind commands execution 
@@ -17,7 +17,6 @@
         private IOInterface userIteractor;
         private int remainingLives;
         private GameBoardMemory currentBoardState;
-        private delegate void CellHandler(Position pos);
 
         public CommandProcessor(GameBoard board, Scoreboard score, IOInterface userIteractor, CommandParser commandParser)
         {
@@ -30,39 +29,40 @@
             this.remainingLives = INITIAL_LIVES;
         }
 
+        private delegate void CellHandler(Position pos);
+
         /// <summary>
         /// Handles the execution of all valid commands.
         /// </summary>
         /// <param name="input">The command string.</param>
         public void ExecuteCommand(string input)
         {
-
             Command cmd = this.commandParser.ExtractCommand(input, this.gameBoard);
             switch (cmd.CommandType)
             {
                 case CommandType.InvalidMove:
-                    userIteractor.ShowMessage("Invalid rows or cols! Try again");
+                    this.userIteractor.ShowMessage("Invalid rows or cols! Try again");
                     break;
                 case CommandType.Exit:
-                    userIteractor.ShowMessage("Goodbye!");
+                    this.userIteractor.ShowMessage("Goodbye!");
                     Environment.Exit(0);
                     break;
                 case CommandType.Top:
-                    scoreBoard.ShowHighScores();
+                    this.scoreBoard.ShowHighScores();
                     break;
                 case CommandType.Restart:
-                    ProcessRestartCommand();
+                    this.ProcessRestartCommand();
                     break;
                 case CommandType.Flag:
-                    ProcessFlagCommand(cmd.Coordinates);
+                    this.ProcessFlagCommand(cmd.Coordinates);
                     break;
                 case CommandType.InvalidInput:
-                    userIteractor.ShowMessage("Invalid input! Please try again!");
+                    this.userIteractor.ShowMessage("Invalid input! Please try again!");
                     break;
                 case CommandType.System:
                     break;
                 default:
-                    ProcessCoordinates(cmd.Coordinates);
+                    this.ProcessCoordinates(cmd.Coordinates);
                     break;
             }
         }
@@ -71,16 +71,16 @@
         {
             this.gameBoard.RevealWholeBoard();
 
-            userIteractor.DrawBoard(gameBoard.Board);
+            this.userIteractor.DrawBoard(this.gameBoard.Board);
 
-            userIteractor.ShowMessage(message);
-            userIteractor.ShowMessage(string.Empty);
+            this.userIteractor.ShowMessage(message);
+            this.userIteractor.ShowMessage(string.Empty);
         }
 
         private void ShowEndGameMessage()
         {
             string message = "Booooom! You were killed by a mine. You revealed " + this.gameBoard.RevealedCellsCount + " cells without mines.";
-            ShowMessage(message);
+            this.ShowMessage(message);
 
             if (this.gameBoard.RevealedCellsCount > this.scoreBoard.MinInTop5() || this.scoreBoard.Count() < 5)
             {
@@ -91,22 +91,22 @@
         private void ShowGameWonMessage()
         {
             string message = "Congratulations! You have escaped all the mines and WON the game!";
-            ShowMessage(message);
+            this.ShowMessage(message);
 
             this.scoreBoard.AddPlayer(this.gameBoard.RevealedCellsCount);
         }
 
         private void ProcessFlagCommand(Position coordinates)
         {
-            var cellHandler = new CellHandler(gameBoard.PlaceFlag);
-            CheckIfCellIsRevealed(cellHandler, coordinates);
+            var cellHandler = new CellHandler(this.gameBoard.PlaceFlag);
+            this.CheckIfCellIsRevealed(cellHandler, coordinates);
         }
 
         private void ProcessRestartCommand()
         {
-            gameBoard.ResetBoard();
+            this.gameBoard.ResetBoard();
             this.ResetLives();
-            userIteractor.DrawBoard(gameBoard.Board);
+            this.userIteractor.DrawBoard(this.gameBoard.Board);
         }
 
         private void ResetLives()
@@ -116,46 +116,47 @@
 
         private void ProcessCoordinates(Position coordinates)
         {
-            if (gameBoard.CheckIfHasMine(coordinates) && !gameBoard.CheckIfFlagCell(coordinates))
+            if (this.gameBoard.CheckIfHasMine(coordinates) && !this.gameBoard.CheckIfFlagCell(coordinates))
             {
-                //Memento logic
+                // Memento logic
                 if (this.remainingLives > 0)
                 {
-                    bool reverting = AskUserToRevert();
+                    bool reverting = this.AskUserToRevert();
                     if (reverting == true)
                     {
-                        gameBoard.RestoreMemento(currentBoardState.Memento);
+                        this.gameBoard.RestoreMemento(this.currentBoardState.Memento);
                         return;
                     }
                 }
-                ShowEndGameMessage();
-                gameBoard.ResetBoard();
+
+                this.ShowEndGameMessage();
+                this.gameBoard.ResetBoard();
                 this.ResetLives();
-                userIteractor.DrawBoard(gameBoard.Board);
+                this.userIteractor.DrawBoard(this.gameBoard.Board);
             }
-            else if (gameBoard.CheckIfHasMine(coordinates) && gameBoard.CheckIfFlagCell(coordinates))
+            else if (this.gameBoard.CheckIfHasMine(coordinates) && this.gameBoard.CheckIfFlagCell(coordinates))
             {
-                PrintUsedCellMessage("You've already placed flag at these coordinates! Please enter new cell coordinates!");
+                this.PrintUsedCellMessage("You've already placed flag at these coordinates! Please enter new cell coordinates!");
             }
             else
             {
-                var cellHandler = new CellHandler(gameBoard.RevealBlock);
-                CheckIfCellIsRevealed(cellHandler, coordinates);
-                this.currentBoardState.Memento = gameBoard.SaveMemento();
+                var cellHandler = new CellHandler(this.gameBoard.RevealBlock);
+                this.CheckIfCellIsRevealed(cellHandler, coordinates);
+                this.currentBoardState.Memento = this.gameBoard.SaveMemento();
             }
 
-            if (gameBoard.CheckIfGameIsWon())
+            if (this.gameBoard.CheckIfGameIsWon())
             {
-                ShowGameWonMessage();
+                this.ShowGameWonMessage();
             }
         }
 
         private bool AskUserToRevert()
         {
-            string userInput = userIteractor.GetUserInput("You have one more live. Do you want to revert the board to the previous state?[yes/no]");
+            string userInput = this.userIteractor.GetUserInput("You have one more live. Do you want to revert the board to the previous state?[yes/no]");
             while (userInput != "yes" && userInput != "no")
             {
-                userInput = userIteractor.GetUserInput("Invalid input! Please enter [yes/no]! ");
+                userInput = this.userIteractor.GetUserInput("Invalid input! Please enter [yes/no]! ");
             }
 
             if (userInput == "yes")
@@ -169,26 +170,26 @@
 
         private void CheckIfCellIsRevealed(CellHandler cellAction, Position pos)
         {
-            if (gameBoard.IsCellRevealed(pos))
+            if (this.gameBoard.IsCellRevealed(pos))
             {
-                PrintUsedCellMessage("This cell has already been revealed! Please enter new cell coordinates!");
+                this.PrintUsedCellMessage("This cell has already been revealed! Please enter new cell coordinates!");
             }
-            else if (gameBoard.CheckIfFlagCell(pos))
+            else if (this.gameBoard.CheckIfFlagCell(pos))
             {
-                PrintUsedCellMessage("You've already placed flag at these coordinates! Please enter new cell coordinates!");
+                this.PrintUsedCellMessage("You've already placed flag at these coordinates! Please enter new cell coordinates!");
             }
             else
             {
                 cellAction(pos);
-                userIteractor.DrawBoard(gameBoard.Board);
+                this.userIteractor.DrawBoard(this.gameBoard.Board);
             }
         }
 
         private void PrintUsedCellMessage(string message)
         {
-            userIteractor.DrawBoard(gameBoard.Board);
-            userIteractor.ShowMessage(message);
-            userIteractor.ShowMessage(string.Empty);
+            this.userIteractor.DrawBoard(this.gameBoard.Board);
+            this.userIteractor.ShowMessage(message);
+            this.userIteractor.ShowMessage(string.Empty);
         }
     }
 }
