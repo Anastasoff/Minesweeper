@@ -20,12 +20,12 @@
 
         public void Play()
         {
-            userIterractor.ShowWelcomeScreen();
-            userIterractor.DrawBoard(board.Board);
+            this.userIterractor.ShowWelcomeScreen();
+            this.userIterractor.DrawBoard(this.board.Board);
             while (true)
             {
-                string input = userIterractor.GetUserInput("Enter row and column: ");
-                commandProcessor.ExecuteCommand(input);
+                string input = this.userIterractor.GetUserInput("Enter row and column: ");
+                this.commandProcessor.ExecuteCommand(input);
             }
         }
     }
